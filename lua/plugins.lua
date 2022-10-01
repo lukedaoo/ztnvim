@@ -70,6 +70,12 @@ return packer.startup(function(use)
         config = "require('gitsigns').setup({})"
     }
 
+    use {
+        "folke/zen-mode.nvim",
+        config = "require('plug-config/zen')"
+
+    }
+
     -- file finder
     use { "nvim-telescope/telescope.nvim", config = "require('plug-config/telescope')" }
     -- snippets

@@ -2,3 +2,4 @@
 
 .luacache_chunks
 .luacache_modpaths
+plugin/*

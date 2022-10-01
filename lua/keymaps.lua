@@ -9,8 +9,8 @@ map("n", "<C-a>", "ggVG") -- select all
 map("v", "<Tab>", ">gv") -- intent forward 1 tab
 map("v", "<S-Tab>", "<gv") -- intent backward 1 tab
 map("v", "w", "iw") -- select exactly a word in visual mode
-map({"n", "v", "o"}, "H", "^") -- jump to first non-blank character of the line
-map({"n", "v", "o"}, "L", "$") -- jump to last non-blank character of the line
+map({ "n", "v", "o" }, "H", "^") -- jump to first non-blank character of the line
+map({ "n", "v", "o" }, "L", "$") -- jump to last non-blank character of the line
 map("n", ">", "<ESC>v>gv<ESC>")
 map("n", "<", "<ESC>v<gv<ESC>")
 
@@ -29,6 +29,13 @@ map("n", "<C-S-Up>", "<cmd>resize +2<CR>")
 map("n", "<C-S-Down>", "<cmd>resize -2<CR>")
 map("n", "<C-S-Left>", "<cmd>vertical resize -2<CR>")
 map("n", "<C-S-Right>", "<cmd>vertical resize +2<CR>")
+
+-- zen mode
+map("n", "Z", function()
+    require("zen-mode").toggle({
+        window = { width = .6 },
+    })
+end)
 
 -- tab
 map("n", "<leader>tn", function() -- new tab
@@ -69,13 +76,13 @@ vim.cmd [[
 
 
 -- disable anoying delete with ky motions
-map({"n", "v"}, "dh", "<Nop>")
-map({"n", "v"}, "dj", "<Nop>")
-map({"n", "v"}, "dk", "<Nop>")
-map({"n", "v"}, "dl", "<Nop>")
+map({ "n", "v" }, "dh", "<Nop>")
+map({ "n", "v" }, "dj", "<Nop>")
+map({ "n", "v" }, "dk", "<Nop>")
+map({ "n", "v" }, "dl", "<Nop>")
 
 -- delete without yank
-map({"n", "v"}, "x", '"_x', { noremap = false }) -- detele without yank
+map({ "n", "v" }, "x", '"_x', { noremap = false }) -- detele without yank
 
 -- enter othhers mode from insert mode
 map("i", "jj", "<ESC>")
@@ -94,28 +101,28 @@ vim.cmd [[
     cnoreabbrev <expr> w;    ((getcmdtype()  is# ':' && getcmdline() is# 'w;')?('w'):('w;'))
     cnoreabbrev <expr> ;w    ((getcmdtype()  is# ':' && getcmdline() is# ';w')?('w'):(';w'))
 ]]
-map({"n", "i"}, "<C-s>", "<ESC>:w<CR>")
+map({ "n", "i" }, "<C-s>", "<ESC>:w<CR>")
 
 -- easy exit
 map("n", "<C-x>", ":wq<CR>")
 map("n", "<C-c>", ":wq<CR>")
-map({"n"}, "<leader>q", ":wq<CR>")
+map({ "n" }, "<leader>q", ":wq<CR>")
 map("n", "<leader>q", function()
     require('bufdelete').bufdelete(0, true)
 end)
 
 -- disable command history modes
-map({"n", "v"}, "q:", "<nop>")
-map({"n", "v"}, "q/", "<nop>")
-map({"n", "v"}, "q?", "<nop>")
+map({ "n", "v" }, "q:", "<nop>")
+map({ "n", "v" }, "q/", "<nop>")
+map({ "n", "v" }, "q?", "<nop>")
 
 HARD_CODE_MODE = 0
 
 if HARD_CODE_MODE == 1 then
 
-    map({"n", "i"}, "<Up>", "<Nop>")
-    map({"n", "i"}, "<Down>", "<Nop>")
-    map({"n", "i"}, "<Left>", "<Nop>")
-    map({"n", "i"}, "<Right>", "<Nop>")
+    map({ "n", "i" }, "<Up>", "<Nop>")
+    map({ "n", "i" }, "<Down>", "<Nop>")
+    map({ "n", "i" }, "<Left>", "<Nop>")
+    map({ "n", "i" }, "<Right>", "<Nop>")
 
 end
