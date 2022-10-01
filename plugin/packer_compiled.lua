@@ -165,7 +165,7 @@ _G.packer_plugins = {
     url = "https://github.com/williamboman/mason.nvim"
   },
   ["nvim-cmp"] = {
-    after = { "cmp-path", "cmp_luasnip" },
+    after = { "cmp_luasnip", "cmp-path" },
     config = { "require('plug-config/cmp')" },
     load_after = {},
     loaded = true,
@@ -245,34 +245,44 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/luked/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
+  },
+  ["zen-mode.nvim"] = {
+    config = { "require('plug-config/zen')" },
+    loaded = true,
+    path = "/Users/luked/.local/share/nvim/site/pack/packer/start/zen-mode.nvim",
+    url = "https://github.com/folke/zen-mode.nvim"
   }
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: luatab.nvim
-time([[Config for luatab.nvim]], true)
-require('luatab').setup({})
-time([[Config for luatab.nvim]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-require('plug-config/treesitter')
-time([[Config for nvim-treesitter]], false)
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-require('gitsigns').setup({})
-time([[Config for gitsigns.nvim]], false)
--- Config for: nvim-tree.lua
-time([[Config for nvim-tree.lua]], true)
-require('plug-config/nvimtree')
-time([[Config for nvim-tree.lua]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
 require('plug-config/comment')
 time([[Config for Comment.nvim]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+require('gitsigns').setup({})
+time([[Config for gitsigns.nvim]], false)
+-- Config for: zen-mode.nvim
+time([[Config for zen-mode.nvim]], true)
+require('plug-config/zen')
+time([[Config for zen-mode.nvim]], false)
+-- Config for: luatab.nvim
+time([[Config for luatab.nvim]], true)
+require('luatab').setup({})
+time([[Config for luatab.nvim]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+require('plug-config/nvimtree')
+time([[Config for nvim-tree.lua]], false)
 -- Config for: telescope.nvim
 time([[Config for telescope.nvim]], true)
 require('plug-config/telescope')
 time([[Config for telescope.nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('plug-config/treesitter')
+time([[Config for nvim-treesitter]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd harpoon ]]
@@ -280,12 +290,7 @@ vim.cmd [[ packadd harpoon ]]
 -- Config for: harpoon
 require('plug-config/harpoon')
 
-vim.cmd [[ packadd nvim-dap-ui ]]
-vim.cmd [[ packadd nvim-dap ]]
-
--- Config for: nvim-dap
-require('plug-config/dap')
-
+vim.cmd [[ packadd LuaSnip ]]
 vim.cmd [[ packadd cmp-nvim-lsp ]]
 vim.cmd [[ packadd nvim-cmp ]]
 
@@ -293,13 +298,18 @@ vim.cmd [[ packadd nvim-cmp ]]
 require('plug-config/cmp')
 
 vim.cmd [[ packadd cmp-path ]]
+vim.cmd [[ packadd cmp_luasnip ]]
 vim.cmd [[ packadd mason.nvim ]]
 
 -- Config for: mason.nvim
 require('plug-config/lsp')
 
-vim.cmd [[ packadd LuaSnip ]]
-vim.cmd [[ packadd cmp_luasnip ]]
+vim.cmd [[ packadd nvim-dap-ui ]]
+vim.cmd [[ packadd nvim-dap ]]
+
+-- Config for: nvim-dap
+require('plug-config/dap')
+
 time([[Sequenced loading]], false)
 
 _G._packer.inside_compile = false
