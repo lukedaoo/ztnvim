@@ -1,0 +1,11 @@
+require("settings.cache")
+require("settings.global")
+require("settings.options")
+require("settings.colorscheme")
+require("statusline")
+
+vim.defer_fn(function()
+    require("keymaps")
+    require("autocmd")
+    require("plugins")
+end, 0)
