@@ -1,11 +1,9 @@
-require("settings.cache")
+-- require("settings.cache") -- use it only if my nvim is stable
 require("settings.global")
 require("settings.options")
 require("settings.colorscheme")
 require("statusline")
 
-vim.defer_fn(function()
-    require("keymaps")
-    require("autocmd")
-    require("plugins")
-end, 0)
+require("keymaps")
+require("autocmd")
+require("plugins")

@@ -44,6 +44,7 @@ local map = require("lib.core").map
 map("n", "<C-f>", ":Telescope")
 
 map("n", "<leader>fs", function()
+    print "WTF"
     require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ") })
 end)
 map("n", "<leader>ff", function()
@@ -60,5 +61,3 @@ end)
 map("n", "<leader>gb", function()
     require('telescope.builtin').git_branches()
 end)
-
-

@@ -1,4 +1,4 @@
--- making nvim split more obvious
+-- making nvim plit more obvious
 vim.cmd [[
 
 augroup BgHighlight
@@ -8,10 +8,8 @@ augroup BgHighlight
 augroup END
 
 ]]
-
 -- formatting after saved
 vim.cmd [[
-
 let ignore_files_type = ["java"] 
 augroup AutoSave
     autocmd!

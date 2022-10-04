@@ -1,8 +1,43 @@
+local dap_status, dap = pcall(require, "dap")
+
+if not dap_status then
+    return
+end
+
 local ok, dapui = pcall(require, "dapui")
 
 if not ok then
     return
 end
+
+local option = {
+    breakpoint = {
+        text = "",
+        texthl = "DiagnosticSignError",
+        linehl = "",
+        numhl = "",
+    },
+    breakpoint_rejected = {
+        text = "",
+        texthl = "LspDiagnosticsSignHint",
+        linehl = "",
+        numhl = "",
+    },
+    stopped = {
+        text = "S",
+        texthl = "DiagnosticSignWarn",
+        linehl = "Visual",
+        numhl = "DiagnosticSignWarn",
+    },
+    ui = {
+        auto_open = true,
+    },
+
+}
+
+vim.fn.sign_define("DapBreakpoint", option.breakpoint)
+vim.fn.sign_define("DapBreakpointRejected", option.breakpoint_rejected)
+vim.fn.sign_define("DapStopped", option.stopped)
 
 dapui.setup({
     icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
@@ -76,3 +111,10 @@ dapui.setup({
         max_value_lines = 100, -- Can be integer or nil.
     }
 })
+
+if option.ui.auto_open == true
+then
+    dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open({})
+    end
+end

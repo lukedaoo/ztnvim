@@ -18,12 +18,12 @@ map("n", "m,", "<cmd>lua require('harpoon.ui').nav_prev()<CR>")
 map("n", "ms", "<cmd>Telescope harpoon marks<CR>")
 map("n", "m;", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>")
 
-map("n", "m1", "<cmd>lua require('harpoon.ui').nav_file(1)<CR>");
-map("n", "m2", "<cmd>lua require('harpoon.ui').nav_file(2)<CR>");
-map("n", "m3", "<cmd>lua require('harpoon.ui').nav_file(3)<CR>");
-map("n", "m4", "<cmd>lua require('harpoon.ui').nav_file(4)<CR>");
+map("n", "m1", "<cmd>lua require('harpoon.ui').nav_file(1)<CR>")
+map("n", "m2", "<cmd>lua require('harpoon.ui').nav_file(2)<CR>")
+map("n", "m3", "<cmd>lua require('harpoon.ui').nav_file(3)<CR>")
+map("n", "m4", "<cmd>lua require('harpoon.ui').nav_file(4)<CR>")
 
-map("n", "<Tab>", function()
+map("n", "<leader><Tab>", function()
     require('telescope').extensions.harpoon.marks(
         require('telescope.themes')
         .get_dropdown {

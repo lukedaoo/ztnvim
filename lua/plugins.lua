@@ -56,6 +56,16 @@ return packer.startup(function(use)
         "famiu/bufdelete.nvim"
     }
     use { "alvarosevilla95/luatab.nvim", config = "require('luatab').setup({})" }
+    use({
+        "kwkarlwang/bufjump.nvim",
+        config = function()
+            require("bufjump").setup({
+                forward = "<C-i>",
+                backward = "<C-o>",
+                on_success = nil
+            })
+        end,
+    })
     -- Folder Tree
     use {
         "kyazdani42/nvim-tree.lua",
@@ -73,7 +83,6 @@ return packer.startup(function(use)
     use {
         "folke/zen-mode.nvim",
         config = "require('plug-config/zen')"
-
     }
 
     -- file finder
@@ -86,7 +95,9 @@ return packer.startup(function(use)
     -- Comments
     use { "numToStr/Comment.nvim", config = "require('plug-config/comment')" }
     -- Harpoon - bookmark file tool
-    use { "ThePrimeagen/harpoon", config = "require('plug-config/harpoon')", after = { "telescope.nvim" } }
+    use { "ThePrimeagen/harpoon",
+        config = "require('plug-config/harpoon')",
+        after = { "telescope.nvim" } }
 
     -- completion
     use {
@@ -118,7 +129,7 @@ return packer.startup(function(use)
     -- Debug tool
     use {
         "mfussenegger/nvim-dap",
-        requires = { { "rcarriga/nvim-dap-ui" } },
+        requires = { { "rcarriga/nvim-dap-ui", ft = require('settings/lang') } },
         after = "nvim-dap-ui",
         config = "require('plug-config/dap')"
     }

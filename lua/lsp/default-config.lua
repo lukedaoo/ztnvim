@@ -12,7 +12,8 @@ end
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
-local on_detach = function()
+local on_detach = function(client, bufnr)
+
     map("n", "gd", function() vim.lsp.buf.definition() end)
     map("n", "gr", function() vim.lsp.buf.references() end)
     map("n", "K", function() vim.lsp.buf.hover() end)
@@ -35,6 +36,7 @@ local on_detach = function()
         })
     end)
     map("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
+
 end
 
 

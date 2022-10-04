@@ -20,7 +20,6 @@ local options = {
     splitbelow = true,
     splitright = true,
     wrap = false,
-
     -- search
     hlsearch = true,
     incsearch = true,
