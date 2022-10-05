@@ -112,6 +112,16 @@ return packer.startup(function(use)
         after = { "cmp-nvim-lsp" },
         config = "require('plug-config/cmp')"
     }
+    use {
+        "mfussenegger/nvim-jdtls",
+    }
+    -- Debug tool
+    use {
+        "mfussenegger/nvim-dap",
+        requires = { { "rcarriga/nvim-dap-ui", ft = require('settings/lang') } },
+        after = "nvim-dap-ui",
+        config = "require('plug-config/dap')"
+    }
 
     -- LSP
     use {
@@ -120,18 +130,10 @@ return packer.startup(function(use)
             { "williamboman/mason-lspconfig.nvim" },
             { "neovim/nvim-lspconfig" },
             -- java
-            { "mfussenegger/nvim-jdtls" }
+            -- { "mfussenegger/nvim-jdtls", after = "nvim-dap" }
         },
         after = { "cmp-nvim-lsp" },
         config = "require('plug-config/lsp')"
-    }
-
-    -- Debug tool
-    use {
-        "mfussenegger/nvim-dap",
-        requires = { { "rcarriga/nvim-dap-ui", ft = require('settings/lang') } },
-        after = "nvim-dap-ui",
-        config = "require('plug-config/dap')"
     }
 
     -- Null-ls - linter

@@ -3,7 +3,15 @@ local map = require("lib.core").map
 -- utility
 map("n", "<leader>h", ":noh<CR>") -- no highlight
 map("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>") -- search and replace word at cursor
-map("n", "<leader>]", ":vsplit<CR>") -- vertical split
+map("n", "<leader><C-]>", ":vsplit<CR>") -- vertical split
+map("n", "<leader>]", function()
+    vim.cmd [[ vnew ]]
+    require("telescope.builtin")
+        .find_files(require('telescope.themes').get_dropdown({
+            previewer = false
+        }))
+
+end)
 map("n", "<C-a>", "ggVG") -- select all
 -- line navigation and movements
 map("v", "<Tab>", ">gv") -- intent forward 1 tab
@@ -55,7 +63,8 @@ if not vim.o.shell then
     vim.o.shell = default_shell
 end
 
-map("n", "<leader>T", ":vsp term://" .. vim.o.shell .. "<CR>")
+map("n", "<leader>tt", ":split term://" .. vim.o.shell .. "<CR>")
+map("n", "<leader>T", ":vsplit term://" .. vim.o.shell .. "<CR>")
 map("t", "<ESC>", "<C-\\><C-n>")
 map("t", "<C-c>", "<C-\\><C-n><C-w>")
 vim.cmd [[

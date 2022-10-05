@@ -24,7 +24,7 @@ local option = {
         numhl = "",
     },
     stopped = {
-        text = "S",
+        text = "",
         texthl = "DiagnosticSignWarn",
         linehl = "Visual",
         numhl = "DiagnosticSignWarn",
@@ -118,3 +118,56 @@ then
         dapui.open({})
     end
 end
+
+local map = require("lib.core").map
+
+map("n", "<leader>dt", function()
+    require("dap").toggle_breakpoint()
+end)
+
+map("n", "<leader>dT", function()
+    require("dap")
+        .set_breakpoint(vim.fn.input("[Condition] > "))
+end)
+
+map("n", "<leader>dc", function()
+    require("dap").continue()
+end)
+
+map("n", "<leader>dC", function()
+    require("dap").run_to_cursor()
+end)
+
+map("n", "<leader>db", function()
+    require("dap").step_back()
+end)
+
+map("n", "<leader>di", function()
+    require("dap").step_into()
+end)
+map("n", "<leader>do", function()
+    require("dap").step_over()
+end)
+map("n", "<leader>du", function()
+    require("dap").step_back()
+end)
+
+map("n", "<leader>dp", function()
+    require("dap").pause()
+end)
+
+map("n", "<leader>dd", function()
+    require("dap").disconnect()
+end)
+
+map("n", "<leader>dq", function()
+    require("dap").terminate()
+end)
+
+map("n", "<leader>dr", function()
+    require("dap").repl.toggle()
+end)
+
+map("n", "<leader>dU", function()
+    require("dapui").toggle({})
+end)

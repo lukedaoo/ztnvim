@@ -12,7 +12,7 @@ end
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
-local on_detach = function(client, bufnr)
+local on_attach = function(client, bufnr)
 
     map("n", "gd", function() vim.lsp.buf.definition() end)
     map("n", "gr", function() vim.lsp.buf.references() end)
@@ -36,20 +36,19 @@ local on_detach = function(client, bufnr)
         })
     end)
     map("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
-
 end
 
 
 local default_config = function(_config)
     return vim.tbl_deep_extend("force", {
         capabilities = capabilities,
-        on_attach = on_detach
+        on_attach = on_attach
     }, _config or {})
 end
 
 
 M.default_config = default_config
 M.capabilities = capabilities
-M.on_detach = on_detach
+M.on_attach = on_attach
 
 return M

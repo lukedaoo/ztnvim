@@ -27,7 +27,7 @@ local options = {
 
     -- number
     number = true,
-    relativenumber = true,
+    relativenumber = false,
 
     -- indent
     tabstop = 4,

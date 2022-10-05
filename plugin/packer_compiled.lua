@@ -96,7 +96,7 @@ _G.packer_plugins = {
     url = "https://github.com/famiu/bufdelete.nvim"
   },
   ["bufjump.nvim"] = {
-    config = { "\27LJ\2\nY\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\2\fforward\n<C-i>\rbackward\n<C-o>\nsetup\fbufjump\frequire\0" },
+    config = { "\27LJ\2\nY\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\2\rbackward\n<C-o>\fforward\n<C-i>\nsetup\fbufjump\frequire\0" },
     loaded = true,
     path = "/home/luked/.local/share/nvim/site/pack/packer/start/bufjump.nvim",
     url = "https://github.com/kwkarlwang/bufjump.nvim"
@@ -266,38 +266,38 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: Comment.nvim
-time([[Config for Comment.nvim]], true)
-require('plug-config/comment')
-time([[Config for Comment.nvim]], false)
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-require('gitsigns').setup({})
-time([[Config for gitsigns.nvim]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-require('plug-config/treesitter')
-time([[Config for nvim-treesitter]], false)
--- Config for: bufjump.nvim
-time([[Config for bufjump.nvim]], true)
-try_loadstring("\27LJ\2\nY\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\2\fforward\n<C-i>\rbackward\n<C-o>\nsetup\fbufjump\frequire\0", "config", "bufjump.nvim")
-time([[Config for bufjump.nvim]], false)
 -- Config for: luatab.nvim
 time([[Config for luatab.nvim]], true)
 require('luatab').setup({})
 time([[Config for luatab.nvim]], false)
--- Config for: nvim-tree.lua
-time([[Config for nvim-tree.lua]], true)
-require('plug-config/nvimtree')
-time([[Config for nvim-tree.lua]], false)
--- Config for: zen-mode.nvim
-time([[Config for zen-mode.nvim]], true)
-require('plug-config/zen')
-time([[Config for zen-mode.nvim]], false)
 -- Config for: telescope.nvim
 time([[Config for telescope.nvim]], true)
 require('plug-config/telescope')
 time([[Config for telescope.nvim]], false)
+-- Config for: Comment.nvim
+time([[Config for Comment.nvim]], true)
+require('plug-config/comment')
+time([[Config for Comment.nvim]], false)
+-- Config for: zen-mode.nvim
+time([[Config for zen-mode.nvim]], true)
+require('plug-config/zen')
+time([[Config for zen-mode.nvim]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+require('plug-config/nvimtree')
+time([[Config for nvim-tree.lua]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+require('gitsigns').setup({})
+time([[Config for gitsigns.nvim]], false)
+-- Config for: bufjump.nvim
+time([[Config for bufjump.nvim]], true)
+try_loadstring("\27LJ\2\nY\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\2\rbackward\n<C-o>\fforward\n<C-i>\nsetup\fbufjump\frequire\0", "config", "bufjump.nvim")
+time([[Config for bufjump.nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('plug-config/treesitter')
+time([[Config for nvim-treesitter]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
 vim.cmd [[ packadd LuaSnip ]]
@@ -307,6 +307,11 @@ vim.cmd [[ packadd harpoon ]]
 require('plug-config/harpoon')
 
 vim.cmd [[ packadd cmp-nvim-lsp ]]
+vim.cmd [[ packadd mason.nvim ]]
+
+-- Config for: mason.nvim
+require('plug-config/lsp')
+
 vim.cmd [[ packadd nvim-cmp ]]
 
 -- Config for: nvim-cmp
@@ -314,18 +319,13 @@ require('plug-config/cmp')
 
 vim.cmd [[ packadd cmp-path ]]
 vim.cmd [[ packadd cmp_luasnip ]]
-vim.cmd [[ packadd mason.nvim ]]
-
--- Config for: mason.nvim
-require('plug-config/lsp')
-
 time([[Sequenced loading]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType java ++once lua require("packer.load")({'nvim-dap-ui'}, { ft = "java" }, _G.packer_plugins)]]
 vim.cmd [[au FileType lua ++once lua require("packer.load")({'nvim-dap-ui'}, { ft = "lua" }, _G.packer_plugins)]]
+vim.cmd [[au FileType java ++once lua require("packer.load")({'nvim-dap-ui'}, { ft = "java" }, _G.packer_plugins)]]
 vim.cmd [[au FileType python ++once lua require("packer.load")({'nvim-dap-ui'}, { ft = "python" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")

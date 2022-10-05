@@ -68,7 +68,7 @@ if not lsp_config_status_ok then
     return
 end
 
-local on_detach = lsp_config.on_detach
+local on_attach = lsp_config.on_attach
 local capabilities = lsp_config.capabilities
 
 local config = {
@@ -94,7 +94,7 @@ local config = {
         workspace_dir,
     },
 
-    on_attach = on_detach,
+    -- on_attach = on_detach,
     capabilities = capabilities,
     root_dir = root_dir,
     settings = {
@@ -166,5 +166,10 @@ local config = {
     },
 }
 
+config["on_attach"] = function(client, bufnr)
+    require("jdtls.dap").setup_dap_main_class_configs()
+    require("jdtls").setup_dap({ hotcodereplace = 'auto' })
+    on_attach(client, bufnr)
+end
+
 jdtls.start_or_attach(config)
-jdtls.setup_dap()
