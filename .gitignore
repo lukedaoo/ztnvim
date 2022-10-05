@@ -2,5 +2,6 @@
 
 .luacache_chunks
 .luacache_modpaths
+
 plugin/packer_compiled.lua
 
