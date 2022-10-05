@@ -112,9 +112,6 @@ return packer.startup(function(use)
         after = { "cmp-nvim-lsp" },
         config = "require('plug-config/cmp')"
     }
-    use {
-        "mfussenegger/nvim-jdtls",
-    }
     -- Debug tool
     use {
         "mfussenegger/nvim-dap",
@@ -130,7 +127,7 @@ return packer.startup(function(use)
             { "williamboman/mason-lspconfig.nvim" },
             { "neovim/nvim-lspconfig" },
             -- java
-            -- { "mfussenegger/nvim-jdtls", after = "nvim-dap" }
+            { "mfussenegger/nvim-jdtls", after = "nvim-dap" }
         },
         after = { "cmp-nvim-lsp" },
         config = "require('plug-config/lsp')"

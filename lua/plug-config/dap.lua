@@ -32,7 +32,6 @@ local option = {
     ui = {
         auto_open = true,
     },
-
 }
 
 vim.fn.sign_define("DapBreakpoint", option.breakpoint)
@@ -115,6 +114,7 @@ dapui.setup({
 if option.ui.auto_open == true
 then
     dap.listeners.after.event_initialized["dapui_config"] = function()
+        vim.cmd [[ NvimTreeClose ]]
         dapui.open({})
     end
 end
@@ -149,7 +149,7 @@ map("n", "<leader>do", function()
     require("dap").step_over()
 end)
 map("n", "<leader>du", function()
-    require("dap").step_back()
+    require("dap").step_out()
 end)
 
 map("n", "<leader>dp", function()
