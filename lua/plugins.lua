@@ -115,8 +115,7 @@ return packer.startup(function(use)
     -- Debug tool
     use {
         "mfussenegger/nvim-dap",
-        requires = { { "rcarriga/nvim-dap-ui", ft = require('settings/lang') }
-        },
+        requires = { { "rcarriga/nvim-dap-ui" } },
         after = "nvim-dap-ui",
         config = "require('plug-config/dap')"
     }

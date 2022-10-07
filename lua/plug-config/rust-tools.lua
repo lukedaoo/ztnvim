@@ -10,10 +10,6 @@ local rust_on_attach = function(client, bufnr)
     on_attach(client, bufnr)
 end
 
-
--- Update this Path
---
---
 local opts = {
     server = {
         on_attach = rust_on_attach,
@@ -22,7 +18,10 @@ local opts = {
 
 rt.setup(opts)
 
-local dap = require "dap"
+local status_dap, dap = pcall(require, "dap")
+if not status_dap then
+    return
+end
 local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
 dap.adapters.lldb = {
     type = "server",
