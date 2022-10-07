@@ -58,5 +58,4 @@ lsp_config["sumneko_lua"].setup(config({
 lsp_config["pyright"].setup(config())
 
 -- Rust
-lsp_config["rust_analyzer"].setup(config())
-
+-- lsp_config["rust_analyzer"].setup(config())

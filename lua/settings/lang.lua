@@ -1,5 +1,6 @@
 return {
     "lua",
     "python",
-    "java"
+    "java",
+    "rust", "rs"
 }
