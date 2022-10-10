@@ -1,4 +1,4 @@
--- require("settings.cache") -- use it only if my nvim is stable
+require("settings.cache") -- use it only if my nvim is stable
 require("settings.global")
 require("settings.options")
 require("settings.colorscheme")

@@ -18,13 +18,4 @@ local function try_load_impatient()
     end
 end
 
-local function try_load_packer_cache()
-
-    local ok, _ = pcall(require, "plugin.packer_compiled")
-    if ok then
-        return
-    end
-end
-
 try_load_impatient()
-try_load_packer_cache()
