@@ -55,7 +55,6 @@ end)
 map("n", "<leader>tq", ":tabclose<CR>")
 map("n", "<C-Left>", ":tabprevious<CR>")
 map("n", "<C-Right>", ":tabnext<CR>")
-
 -- term
 
 local default_shell = "sh"
@@ -92,7 +91,7 @@ map({ "n", "v" }, "dl", "<Nop>")
 
 -- delete without yank
 map({ "n", "v" }, "x", '"_x', { noremap = false }) -- detele without yank
-
+map({ "n", "v" }, "<leader>x", '_x', { noremap = false })
 -- enter othhers mode from insert mode
 map("i", "jj", "<ESC>")
 map("i", "jk", "<ESC>")

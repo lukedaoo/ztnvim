@@ -5,7 +5,7 @@ if not ok then
 end
 
 ts.setup {
-    ensure_installed = { "c", "lua", "rust", "python", "java" },
+    ensure_installed = { "c", "lua", "rust", "python", "java", "http", "json" },
     sync_install = false,
     ignore_install = { "" }, -- List of parsers to ignore installing
     highlight = {

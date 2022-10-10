@@ -3,7 +3,7 @@ if not ok then
     return
 end
 
-require("nvim-tree").setup({
+nvim_tree.setup({
     ignore_buffer_on_setup = true,
     sort_by = "case_sensitive",
     view = {

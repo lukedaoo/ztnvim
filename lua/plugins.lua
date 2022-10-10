@@ -139,6 +139,10 @@ return packer.startup(function(use)
         ft = { "rust", "rs" },
     }
 
+    use {
+        "NTBBloodbath/rest.nvim",
+        config = "require('plug-config/rest')"
+    }
 
     -- Null-ls - linter
     -- use "jose-elias-alvarez/null-ls.nvim"
