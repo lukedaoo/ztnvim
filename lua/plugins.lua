@@ -45,7 +45,9 @@ return packer.startup(function(use)
         "k4yt3x/ayu-vim-darker",
         -- "ayu-theme/ayu-vim",
         "folke/tokyonight.nvim",
-        "navarasu/onedark.nvim"
+        "navarasu/onedark.nvim",
+        "b4skyx/serenade",
+        "rose-pine/neovim",
     }
     -- Performance turning
     use { "lewis6991/impatient.nvim" }

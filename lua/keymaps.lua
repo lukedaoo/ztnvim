@@ -27,23 +27,31 @@ map("x", "K", ":move '<-2<CR>gv-gv")
 map("x", "J", ":move '<+1<CR>gv-gv")
 
 -- window navigation
-map("n", "<C-h>", "<C-w>h")
 map("n", "<C-j>", "<C-w>j")
 map("n", "<C-k>", "<C-w>k")
-map("n", "<C-l>", "<C-w>l")
+-- map("n", "<C-h>", "<C-w>h")
+-- map("n", "<C-l>", "<C-w>l")
+map("n", "<C-h>", function()
+    if vim.fn.winnr() == vim.fn.winnr("h") then
+        return "<cmd>tabprev<cr>"
+    else
+        return "<C-w>h"
+    end
+end, { expr = true, silent = true })
+
+map("n", "<C-l>", function()
+    if vim.fn.winnr() == vim.fn.winnr("l") then
+        return "<cmd>tabnext<cr>"
+    else
+        return "<C-w>l"
+    end
+end, { expr = true, silent = true })
 
 -- window resize
 map("n", "<C-S-Up>", "<cmd>resize +2<CR>")
 map("n", "<C-S-Down>", "<cmd>resize -2<CR>")
 map("n", "<C-S-Left>", "<cmd>vertical resize -2<CR>")
 map("n", "<C-S-Right>", "<cmd>vertical resize +2<CR>")
-
--- zen mode
-map("n", "Z", function()
-    require("zen-mode").toggle({
-        window = { width = .6 },
-    })
-end)
 
 -- tab
 map("n", "<leader>tn", function() -- new tab
@@ -83,7 +91,7 @@ vim.cmd [[
 ]]
 
 
--- disable anoying delete with ky motions
+-- disable annoying delete with ky motions
 map({ "n", "v" }, "dh", "<Nop>")
 map({ "n", "v" }, "dj", "<Nop>")
 map({ "n", "v" }, "dk", "<Nop>")
@@ -114,7 +122,7 @@ map({ "n", "i" }, "<C-s>", "<ESC>:w<CR>")
 -- easy exit
 map("n", "<C-x>", ":wq<CR>")
 map("n", "<C-c>", ":wq<CR>")
-map({ "n" }, "<leader>q", ":wq<CR>")
+map({ "n" }, "<leader>Q", ":wq<CR>")
 map("n", "<leader>q", function()
     require('bufdelete').bufdelete(0, true)
 end)
@@ -124,9 +132,9 @@ map({ "n", "v" }, "q:", "<nop>")
 map({ "n", "v" }, "q/", "<nop>")
 map({ "n", "v" }, "q?", "<nop>")
 
-HARD_CODE_MODE = 0
+if vim.g.hardmode == 1 then
 
-if HARD_CODE_MODE == 1 then
+    print("Hardmode is enable")
 
     map({ "n", "i" }, "<Up>", "<Nop>")
     map({ "n", "i" }, "<Down>", "<Nop>")

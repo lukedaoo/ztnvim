@@ -34,3 +34,5 @@ end
 
 vim.g.mapleader = " "
 vim.o.shell = "zsh"
+
+vim.g.hardmode = 1

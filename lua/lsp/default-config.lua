@@ -15,7 +15,17 @@ capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 local on_attach = function(client, bufnr)
 
     map("n", "gd", function() vim.lsp.buf.definition() end)
-    map("n", "gr", function() vim.lsp.buf.references() end)
+    map("n", "gr", function()
+        require('telescope.builtin').lsp_references(
+            require('telescope.themes').get_dropdown({})
+        )
+    end)
+
+    map("n", "gi", function()
+        require('telescope.builtin').lsp_implementations(
+            require('telescope.themes').get_dropdown({})
+        )
+    end)
     map("n", "K", function() vim.lsp.buf.hover() end)
     map("n", "<leader>lws", function() vim.lsp.buf.workspace_symbol() end)
     map("n", "<leader>ld", function() vim.diagnostic.open_float() end)
