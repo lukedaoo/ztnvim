@@ -14,7 +14,11 @@ capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 local on_attach = function(client, bufnr)
 
-    map("n", "gd", function() vim.lsp.buf.definition() end)
+    map("n", "gd", function()
+        require('telescope.builtin').lsp_definitions(
+            require('telescope.themes').get_dropdown({})
+        )
+    end)
     map("n", "gr", function()
         require('telescope.builtin').lsp_references(
             require('telescope.themes').get_dropdown({})
