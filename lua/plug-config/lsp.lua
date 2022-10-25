@@ -18,7 +18,7 @@ end
 
 mason.setup()
 mason_lsp_config.setup({
-    ensure_installed = { "sumneko_lua", "jdlts", "pyright", "rust_analyzer", "codelldb" }
+    ensure_installed = { "sumneko_lua", "jdtls", "pyright", "rust_analyzer" }
 })
 
 local lsp_handler = require("lsp.default-config")

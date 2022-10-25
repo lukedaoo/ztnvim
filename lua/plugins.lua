@@ -62,8 +62,8 @@ return packer.startup(function(use)
         "kwkarlwang/bufjump.nvim",
         config = function()
             require("bufjump").setup({
-                forward = "<C-i>",
-                backward = "<C-o>",
+                forward = "<C-n>",
+                backward = "<C-p>",
                 on_success = nil
             })
         end,
@@ -144,6 +144,10 @@ return packer.startup(function(use)
     use {
         "NTBBloodbath/rest.nvim",
         config = "require('plug-config/rest')"
+    }
+    use {
+        "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
     }
 
     -- Null-ls - linter

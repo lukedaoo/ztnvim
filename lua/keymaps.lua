@@ -19,12 +19,12 @@ map("v", "<S-Tab>", "<gv") -- intent backward 1 tab
 map("v", "w", "iw") -- select exactly a word in visual mode
 map({ "n", "v", "o" }, "H", "^") -- jump to first non-blank character of the line
 map({ "n", "v", "o" }, "L", "$") -- jump to last non-blank character of the line
-map("n", ">", "<ESC>v>gv<ESC>")
 map("n", "<", "<ESC>v<gv<ESC>")
+map("n", ">", "<ESC>v>gv<ESC>")
 
 -- move block
 map("x", "K", ":move '<-2<CR>gv-gv")
-map("x", "J", ":move '<+1<CR>gv-gv")
+map("x", "J", ":move '>+1<CR>gv-gv")
 
 -- window navigation
 map("n", "<C-j>", "<C-w>j")
