@@ -142,3 +142,12 @@ if vim.g.hardmode == 1 then
     map({ "n", "i" }, "<Right>", "<Nop>")
 
 end
+
+-- copy & patse
+
+map({ "n", "v" }, "<leader>y", '"+y');
+map("n", "<leader>Y", '"+yg_');
+map("n", "<leader>yy", '"+yy');
+
+map({ "n", "v" }, "<leader>p", '"+p')
+map({ "n", "v" }, "<leader>P", '"+P')
