@@ -3,7 +3,6 @@ local map = require("lib.core").map
 -- utility
 map("n", "<leader>h", ":noh<CR>") -- no highlight
 map("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>") -- search and replace word at cursor
-map("n", "<leader><C-]>", ":vsplit<CR>") -- vertical split
 map("n", "<leader>]", function()
     vim.cmd [[ vnew ]]
     require("telescope.builtin")
@@ -13,6 +12,10 @@ map("n", "<leader>]", function()
 
 end)
 map("n", "<C-a>", "ggVG") -- select all
+map("n", "<leader>sv", ":vsplit<CR>")
+map("n", "<leader>sh", ":split<CR>")
+map("n", "<leader>se", "<C-w>=")
+map("n", "<leader>sx", ":close<CR>")
 -- line navigation and movements
 map("v", "<Tab>", ">gv") -- intent forward 1 tab
 map("v", "<S-Tab>", "<gv") -- intent backward 1 tab
