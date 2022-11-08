@@ -13,7 +13,7 @@ vim.cmd [[
 let ignore_files_type = ["java"] 
 augroup AutoSave
     autocmd!
-    autocmd BufWritePre * if index(ignore_files_type, &ft) < 0 | lua vim.lsp.buf.formatting_sync()
+    autocmd BufWritePre * if index(ignore_files_type, &ft) < 0 | lua vim.lsp.buf.format({async=true})
 augroup END
 
 ]]

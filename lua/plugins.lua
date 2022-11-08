@@ -59,14 +59,7 @@ return packer.startup(function(use)
     }
     use { "alvarosevilla95/luatab.nvim", config = "require('luatab').setup({})" }
     use({
-        "kwkarlwang/bufjump.nvim",
-        config = function()
-            require("bufjump").setup({
-                forward = "<C-n>",
-                backward = "<C-p>",
-                on_success = nil
-            })
-        end,
+        "kwkarlwang/bufjump.nvim", config = "require('plug-config/bufjump')"
     })
     -- Folder Tree
     use {
