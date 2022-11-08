@@ -15,6 +15,15 @@ local function get_homedir()
     return os.getenv('HOME')
 end
 
+-- get default terminal
+local function get_terminal()
+    local terminal = os.getenv('TERMINAL');
+    if terminal == nil or terminal == "" then
+        terminal = os.getenv('TER')
+    end
+    return terminal
+end
+
 -- get operating system name
 local function get_os()
     if vim.fn.has "mac" == 1 then
@@ -101,5 +110,6 @@ return {
     map = map,
     get_username = get_username,
     get_homedir = get_homedir,
-    get_os = get_os
+    get_os = get_os,
+    get_terminal = get_terminal
 }

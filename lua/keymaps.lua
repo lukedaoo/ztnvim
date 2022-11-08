@@ -51,11 +51,19 @@ map("n", "<C-l>", function()
 end, { expr = true, silent = true })
 
 -- window resize
-map("n", "<C-S-Up>", "<cmd>resize +2<CR>")
-map("n", "<C-S-Down>", "<cmd>resize -2<CR>")
-map("n", "<C-S-Left>", "<cmd>vertical resize -2<CR>")
-map("n", "<C-S-Right>", "<cmd>vertical resize +2<CR>")
+local terminal = require('lib.core').get_terminal()
 
+if string.find(terminal, 'kitty') then
+    map("n", "<S-Up>", "<cmd>resize +2<CR>")
+    map("n", "<S-Down>", "<cmd>resize -2<CR>")
+    map("n", "<S-Left>", "<cmd>vertical resize -2<CR>")
+    map("n", "<S-Right>", "<cmd>vertical resize +2<CR>")
+else
+    map("n", "<C-S-Up>", "<cmd>resize +2<CR>")
+    map("n", "<C-S-Down>", "<cmd>resize -2<CR>")
+    map("n", "<C-S-Left>", "<cmd>vertical resize -2<CR>")
+    map("n", "<C-S-Right>", "<cmd>vertical resize +2<CR>")
+end
 -- tab
 map("n", "<leader>tn", function() -- new tab
     vim.cmd [[ tabnew ]]
