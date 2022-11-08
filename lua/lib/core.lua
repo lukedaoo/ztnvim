@@ -18,8 +18,8 @@ end
 -- get default terminal
 local function get_terminal()
     local terminal = os.getenv('TERMINAL');
-    if terminal == nil or terminal == "" then
-        terminal = os.getenv('TER')
+    if terminal == nil or terminal == '' then
+        terminal = os.getenv('TERM')
     end
     return terminal
 end

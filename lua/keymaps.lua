@@ -52,7 +52,6 @@ end, { expr = true, silent = true })
 
 -- window resize
 local terminal = require('lib.core').get_terminal()
-
 if string.find(terminal, 'kitty') then
     map("n", "<S-Up>", "<cmd>resize +2<CR>")
     map("n", "<S-Down>", "<cmd>resize -2<CR>")
