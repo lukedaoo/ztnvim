@@ -143,6 +143,18 @@ return packer.startup(function(use)
         config = function() require("nvim-autopairs").setup {} end
     }
 
+    use "lervag/vimtex"
+
+    use {
+        "akinsho/flutter-tools.nvim",
+        requires = { "nvim-lua/plenary.nvim" },
+        config = "require('plug-config/flutter-tools')"
+    }
+
+    use "xiyaowong/nvim-transparent"
+
+
+
     -- Null-ls - linter
     -- use "jose-elias-alvarez/null-ls.nvim"
     -- Automatically set up your configuration after cloning packer.nvim

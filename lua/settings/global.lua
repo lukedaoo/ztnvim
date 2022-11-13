@@ -33,6 +33,8 @@ for _, plugin in pairs(disabled_built_ins) do
 end
 
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 vim.o.shell = "zsh"
 
 vim.g.hardmode = 1
+vim.g.vimtex_view_method = "zathura"

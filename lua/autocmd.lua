@@ -17,3 +17,5 @@ augroup AutoSave
 augroup END
 
 ]]
+
+vim.cmd([[autocmd BufEnter *.pdf execute "!zathura '%'" | bdelete %]])

@@ -57,4 +57,7 @@ lsp_config["sumneko_lua"].setup(config({
 -- Python
 lsp_config["pyright"].setup(config())
 
--- Rust
+-- Latex
+lsp_config["texlab"].setup(config())
+
+-- lsp_config["dartls"].setup(config())
