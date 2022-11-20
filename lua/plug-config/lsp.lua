@@ -61,3 +61,5 @@ lsp_config["pyright"].setup(config())
 lsp_config["texlab"].setup(config())
 
 -- lsp_config["dartls"].setup(config())
+
+lsp_config["clangd"].setup(config())

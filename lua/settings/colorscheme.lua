@@ -1,4 +1,4 @@
-local default_colorscheme = "onedark"
+local default_colorscheme = "oxocarbon"
 
 local function load_colorscheme(colorscheme)
     local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
@@ -24,12 +24,19 @@ local function load_onedark_colorscheme()
     end
 end
 
+local function load_carbon_colorscheme()
+    load_colorscheme("oxocarbon")
+end
+
 if default_colorscheme == "ayu"
 then
     load_ayu_colorscheme()
 elseif default_colorscheme == "onedark"
 then
     load_onedark_colorscheme()
+elseif default_colorscheme == "oxocarbon"
+then
+    load_carbon_colorscheme()
 else
     load_colorscheme(default_colorscheme)
 end

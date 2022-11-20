@@ -3,6 +3,7 @@ require("settings.global")
 require("settings.options")
 require("settings.colorscheme")
 require("statusline")
+require("settings.ts-fix")
 
 require("keymaps")
 require("autocmd")

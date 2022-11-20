@@ -43,11 +43,11 @@ return packer.startup(function(use)
     -- colorscheme
     use {
         "k4yt3x/ayu-vim-darker",
-        -- "ayu-theme/ayu-vim",
         "folke/tokyonight.nvim",
         "navarasu/onedark.nvim",
         "b4skyx/serenade",
         "rose-pine/neovim",
+        "shaunsingh/oxocarbon.nvim" -- run <packer_location>/oxocarbon.nvim/install.sh first
     }
     -- Performance turning
     use { "lewis6991/impatient.nvim" }
