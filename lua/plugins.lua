@@ -152,9 +152,10 @@ return packer.startup(function(use)
     }
 
     use "xiyaowong/nvim-transparent"
-
-
-
+    use {
+        "norcalli/nvim-colorizer.lua",
+        config = function() require("colorizer").setup {} end
+    }
     -- Null-ls - linter
     -- use "jose-elias-alvarez/null-ls.nvim"
     -- Automatically set up your configuration after cloning packer.nvim

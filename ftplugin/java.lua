@@ -129,8 +129,7 @@ local config = {
                     url = home .. "/.code-formatter/.eclipse-java-google-formatter.xml",
                 },
             },
-        },
-        signatureHelp = { enabled = true },
+        }, signatureHelp = { enabled = true },
         completion = {
             favoriteStaticMembers = {
                 "org.hamcrest.MatcherAssert.assertThat",
@@ -173,3 +172,7 @@ config["on_attach"] = function(client, bufnr)
 end
 
 jdtls.start_or_attach(config)
+
+local map = require("lib.core").map;
+
+map("i", ";;", "<ESC>A;");
