@@ -63,3 +63,18 @@ lsp_config["texlab"].setup(config())
 -- lsp_config["dartls"].setup(config())
 
 lsp_config["clangd"].setup(config())
+
+lsp_config["html"].setup(config({
+    init_options = {
+        configurationSection = { "html", "css", "javascript" },
+        embeddedLanguages = {
+            css = true,
+            javascript = false
+        },
+        provideFormatter = true
+    }
+}))
+
+lsp_config["tsserver"].setup(config({
+    single_file_support = true
+}))
