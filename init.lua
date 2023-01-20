@@ -4,7 +4,9 @@ require("settings.options")
 require("settings.colorscheme")
 require("statusline")
 require("settings.ts-fix")
-
-require("keymaps")
-require("autocmd")
-require("plugins")
+-- deferred execution makes the editor feel more responsive
+vim.defer_fn(function()
+    require("keymaps")
+    require("autocmd")
+    require("plugins")
+end, 0)
