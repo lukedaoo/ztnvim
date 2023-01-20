@@ -113,7 +113,7 @@ map({ "n", "v" }, "<leader>x", '_x', { noremap = false })
 -- enter others mode from insert mode
 map("i", "jj", "<ESC>")
 map("i", "jk", "<ESC>")
-map("i", "ddd", "<ESC>")
+-- map("i", "ddd", "<ESC>")
 map("i", "AA", "<ESC>")
 map("i", "VV", "<ESC>V")
 
