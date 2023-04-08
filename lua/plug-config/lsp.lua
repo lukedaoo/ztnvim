@@ -78,5 +78,10 @@ lsp_config["html"].setup(config({
 lsp_config["cssls"].setup(config())
 
 lsp_config["tsserver"].setup(config({
+    init_options = {
+        preferences = {
+            disableSuggestions = true,
+        }
+    },
     single_file_support = true
 }))
