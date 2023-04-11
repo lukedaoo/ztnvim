@@ -165,6 +165,18 @@ return packer.startup(function(use)
         "norcalli/nvim-colorizer.lua",
         config = function() require("colorizer").setup {} end
     }
+
+    use({
+        "jackMort/ChatGPT.nvim",
+        config = function()
+            require("chatgpt").setup()
+        end,
+        requires = {
+            "MunifTanjim/nui.nvim",
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope.nvim"
+        }
+    })
     -- Null-ls - linter
     -- use "jose-elias-alvarez/null-ls.nvim"
     -- Automatically set up your configuration after cloning packer.nvim
