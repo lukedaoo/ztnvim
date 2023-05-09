@@ -18,7 +18,7 @@ end
 
 mason.setup()
 mason_lsp_config.setup({
-    ensure_installed = { "sumneko_lua", "jdtls", "pyright", "rust_analyzer" }
+    ensure_installed = { "lua_ls", "jdtls", "pyright", "rust_analyzer" }
 })
 
 local lsp_handler = require("lsp.default-config")
@@ -30,7 +30,7 @@ local lsp_flags = {
 }
 
 -- Lua LSP
-lsp_config["sumneko_lua"].setup(config({
+lsp_config["lua_ls"].setup(config({
     flags = lsp_flags,
     settings = {
         Lua = {
