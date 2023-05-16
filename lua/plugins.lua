@@ -99,8 +99,8 @@ return packer.startup(function(use)
         "hrsh7th/nvim-cmp", -- The completion plugin
         requires = {
             { "hrsh7th/cmp-nvim-lsp" },
-            { "hrsh7th/cmp-buffer" }, -- buffer completions
-            { "hrsh7th/cmp-path", after = "nvim-cmp" }, -- path completions
+            { "hrsh7th/cmp-buffer" },                                          -- buffer completions
+            { "hrsh7th/cmp-path",         after = "nvim-cmp" },                -- path completions
             -- use("hrsh7th/cmp-cmdline" -- cmdline completions
             { "saadparwaiz1/cmp_luasnip", after = { "nvim-cmp", "LuaSnip" } }, -- snippet completions
         },
@@ -131,7 +131,7 @@ return packer.startup(function(use)
             { "williamboman/mason-lspconfig.nvim" },
             { "neovim/nvim-lspconfig" },
             -- java
-            { "mfussenegger/nvim-jdtls", after = "nvim-dap" },
+            { "mfussenegger/nvim-jdtls",          after = "nvim-dap" },
         },
         after = { "cmp-nvim-lsp" },
         config = "require('plug-config/lsp')"

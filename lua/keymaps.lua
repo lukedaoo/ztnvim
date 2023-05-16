@@ -1,7 +1,7 @@
 local map = require("lib.core").map
 
 -- utility
-map("n", "<leader>h", ":noh<CR>") -- no highlight
+map("n", "<leader>h", ":noh<CR>")                                             -- no highlight
 map("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>") -- search and replace word at cursor
 map("n", "<leader>]", function()
     vim.cmd [[ vnew ]]
@@ -9,7 +9,6 @@ map("n", "<leader>]", function()
         .find_files(require('telescope.themes').get_dropdown({
             previewer = false
         }))
-
 end)
 map("n", "<C-a>", "ggVG") -- select all
 map("n", "<leader>sv", ":vsplit<CR>")
@@ -17,9 +16,9 @@ map("n", "<leader>sh", ":split<CR>")
 map("n", "<leader>se", "<C-w>=")
 map("n", "<leader>sx", ":close<CR>")
 -- line navigation and movements
-map("v", "<Tab>", ">gv") -- intent forward 1 tab
-map("v", "<S-Tab>", "<gv") -- intent backward 1 tab
-map("v", "w", "iw") -- select exactly a word in visual mode
+map("v", "<Tab>", ">gv")         -- intent forward 1 tab
+map("v", "<S-Tab>", "<gv")       -- intent backward 1 tab
+map("v", "w", "iw")              -- select exactly a word in visual mode
 map({ "n", "v", "o" }, "H", "^") -- jump to first non-blank character of the line
 map({ "n", "v", "o" }, "L", "$") -- jump to last non-blank character of the line
 map("n", "<", "<ESC>v<gv<ESC>")
@@ -124,6 +123,7 @@ vim.cmd [[
     cnoreabbrev <expr> Q     ((getcmdtype()  is# ':' && getcmdline() is# 'Q')?('q'):('Q'))
     cnoreabbrev <expr> WQ    ((getcmdtype()  is# ':' && getcmdline() is# 'WQ')?('wq'):('WQ'))
     cnoreabbrev <expr> Wq    ((getcmdtype()  is# ':' && getcmdline() is# 'Wq')?('wq'):('Wq'))
+    cnoreabbrev <expr> Wqa    ((getcmdtype()  is# ':' && getcmdline() is# 'Wqa')?('wqa'):('Wqa'))
     cnoreabbrev <expr> w;    ((getcmdtype()  is# ':' && getcmdline() is# 'w;')?('w'):('w;'))
     cnoreabbrev <expr> ;w    ((getcmdtype()  is# ':' && getcmdline() is# ';w')?('w'):(';w'))
     cnoreabbrev <expr> Wqa    ((getcmdtype()  is# ':' && getcmdline() is# 'Wqa')?('wqa'):('wqa'))
@@ -145,14 +145,12 @@ map({ "n", "v" }, "q/", "<nop>")
 map({ "n", "v" }, "q?", "<nop>")
 
 if vim.g.hardmode == 1 then
-
     print("Hardmode is enable")
 
     map({ "n", "i" }, "<Up>", "<Nop>")
     map({ "n", "i" }, "<Down>", "<Nop>")
     map({ "n", "i" }, "<Left>", "<Nop>")
     map({ "n", "i" }, "<Right>", "<Nop>")
-
 end
 
 -- copy & patse
