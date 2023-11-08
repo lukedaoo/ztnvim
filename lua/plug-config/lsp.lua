@@ -85,3 +85,5 @@ lsp_config["tsserver"].setup(config({
     },
     single_file_support = true
 }))
+
+lsp_config["csharp_ls"].setup(config())
