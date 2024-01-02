@@ -1,187 +1,229 @@
-local fn = vim.fn
-
--- Automatically install packer
-local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-    PACKER_BOOTSTRAP = fn.system {
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
         "git",
         "clone",
-        "--depth",
-        "1",
-        "https://github.com/wbthomason/packer.nvim",
-        install_path,
-    }
-    print "Installing packer close and reopen Neovim..."
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
+vim.opt.rtp:prepend(lazypath)
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd [[
-    augroup packer_user_config
-        autocmd!
-        autocmd BufWritePost plugins.lua source <afile> | PackerSync
-    augroup end
-]]
-
--- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
+local status_ok, packer = pcall(require, "lazy")
 if not status_ok then
     return
 end
 
--- Have packer use a popup window
-packer.init {
-    display = {
-        open_fn = function()
-            return require("packer.util").float { border = "rounded" }
-        end,
-    },
-}
-
 -- Install your plugins here
-return packer.startup(function(use)
-    use "wbthomason/packer.nvim" -- Have packer manage itself
-    -- colorscheme
-    use {
+return packer.setup({
+    { "nyoom-engineering/oxocarbon.nvim" },
+    {
+        "blazkowolf/gruber-darker.nvim",
+        event = "VeryLazy",
+        opts = {
+            bold = false,
+            italic = {
+                strings = false,
+            },
+        },
+    },
+    {
         "k4yt3x/ayu-vim-darker",
+        event = "VeryLazy",
+    },
+    {
         "folke/tokyonight.nvim",
+        event = "VeryLazy",
+    },
+    {
         "navarasu/onedark.nvim",
+        event = "VeryLazy"
+    },
+    {
         "b4skyx/serenade",
+        event = "VeryLazy",
+    },
+    {
         "rose-pine/neovim",
-        "shaunsingh/oxocarbon.nvim" -- run <packer_location>/oxocarbon.nvim/install.sh first
-    }
-    -- Performance turning
-    use { "lewis6991/impatient.nvim" }
+        event = "VeryLazy",
+    },
     -- utilities
-    use {
+    {
         "nvim-lua/plenary.nvim",
+        event = "VeryLazy",
+    },
+    {
         "nvim-lua/popup.nvim",
-        "famiu/bufdelete.nvim"
-    }
-    use { "alvarosevilla95/luatab.nvim", config = "require('luatab').setup({})" }
-    use({
-        "kwkarlwang/bufjump.nvim", config = "require('plug-config/bufjump')"
-    })
+        event = "VeryLazy",
+    },
+    {
+        "famiu/bufdelete.nvim",
+        event = "VeryLazy",
+    },
+    {
+        "alvarosevilla95/luatab.nvim",
+        event = "VeryLazy",
+        config = function() require('luatab').setup({}) end
+    },
+    {
+        "kwkarlwang/bufjump.nvim",
+        event = "VeryLazy",
+        config = function() require('plug-config/bufjump') end
+    },
     -- Folder Tree
-    use {
+    {
         "kyazdani42/nvim-tree.lua",
-        requires = {
+        dependencies = {
             "kyazdani42/nvim-web-devicons", -- optional, for file icons
         },
-        config = "require('plug-config/nvimtree')"
-    }
-    use {
+        event = "VeryLazy",
+        config = function()
+            require('plug-config/nvimtree')
+        end,
+    },
+    {
         "lewis6991/gitsigns.nvim",
-        requires = { 'nvim-lua/plenary.nvim' },
-        config = "require('gitsigns').setup({})"
-    }
-
-    use {
+        event = "VeryLazy",
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        config = function() require('gitsigns').setup({}) end,
+    },
+    {
         "folke/zen-mode.nvim",
-        config = "require('plug-config/zen')"
-    }
+        event = "VeryLazy",
+        config = function() require('plug-config/zen') end
+    },
 
     -- file finder
-    use { "nvim-telescope/telescope.nvim", config = "require('plug-config/telescope')" }
+    {
+        "nvim-telescope/telescope.nvim",
+        event = "VeryLazy",
+        config = function() require('plug-config/telescope') end
+    },
     -- snippets
-    use { "L3MON4D3/LuaSnip", "rafamadriz/friendly-snippets" } -- a bunch of snippets to use
+    {
+        "L3MON4D3/LuaSnip",
+        event = "VeryLazy",
+    },
+    {
+        "rafamadriz/friendly-snippets",
+        event = "VeryLazy",
+    }, -- a bunch of snippets to use
 
     -- Treesitter
-    use { "nvim-treesitter/nvim-treesitter", config = "require('plug-config/treesitter')", run = ":TSUpdate", }
+    {
+        "nvim-treesitter/nvim-treesitter",
+        config = function() require('plug-config/treesitter') end,
+        run = ":TSUpdate",
+    },
     -- Comments
-    use { "numToStr/Comment.nvim", config = "require('plug-config/comment')" }
+    {
+        "numToStr/Comment.nvim",
+        event = "VeryLazy",
+        config = function() require('plug-config/comment') end
+    },
     -- Harpoon - bookmark file tool
-    use { "ThePrimeagen/harpoon",
-        config = "require('plug-config/harpoon')",
-        after = { "telescope.nvim" } }
+    {
+        "ThePrimeagen/harpoon",
+        event = "VeryLazy",
+        config = function() require('plug-config/harpoon') end,
+    },
 
     -- completion
-    use {
+    {
         "hrsh7th/nvim-cmp", -- The completion plugin
-        requires = {
-            { "hrsh7th/cmp-nvim-lsp" },
-            { "hrsh7th/cmp-buffer" },                                          -- buffer completions
-            { "hrsh7th/cmp-path",         after = "nvim-cmp" },                -- path completions
+        event = "VeryLazy",
+        dependencies = {
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-buffer",          -- buffer completions
+            "hrsh7th/cmp-path",            -- path completions
             -- use("hrsh7th/cmp-cmdline" -- cmdline completions
-            { "saadparwaiz1/cmp_luasnip", after = { "nvim-cmp", "LuaSnip" } }, -- snippet completions
-        },
-        after = { "cmp-nvim-lsp" },
-        config = "require('plug-config/cmp')"
-    }
+            "saadparwaiz1/cmp_luasnip", }, -- snippet completions
+        config = function() require('plug-config/cmp') end
+    },
 
     -- match tag
-    use {
+    {
         'andymass/vim-matchup',
+        event = "VeryLazy",
         setup = function()
             -- may set any options here
             vim.g.matchup_matchparen_offscreen = { method = "popup" }
         end
-    }
-    -- Debug tool
-    use {
+    },
+    {
         "mfussenegger/nvim-dap",
-        requires = { { "rcarriga/nvim-dap-ui" } },
-        after = "nvim-dap-ui",
-        config = "require('plug-config/dap')"
-    }
+        event = "VeryLazy",
+        dependencies = { "rcarriga/nvim-dap-ui" },
+        config = function() require('plug-config/dap') end
+    },
 
     -- LSP
-    use {
+    {
         "williamboman/mason.nvim",
-        requires = {
-            { "williamboman/mason-lspconfig.nvim" },
-            { "neovim/nvim-lspconfig" },
+        dependencies = {
+            "williamboman/mason-lspconfig.nvim",
+            "neovim/nvim-lspconfig",
             -- java
-            { "mfussenegger/nvim-jdtls",          after = "nvim-dap" },
+            "mfussenegger/nvim-jdtls",
         },
-        after = { "cmp-nvim-lsp" },
-        config = "require('plug-config/lsp')"
-    }
+        config = function()
+            require('plug-config/lsp')
+        end
+    },
 
-    use {
+    {
         "simrat39/rust-tools.nvim",
-        config = "require('plug-config/rust-tools')",
+        event = "VeryLazy",
+        config = function() require('plug-config/rust-tools') end,
         ft = { "rust", "rs" },
-    }
+    },
 
-    use {
+    {
         "NTBBloodbath/rest.nvim",
-        config = "require('plug-config/rest')"
-    }
-    use {
+        event = "VeryLazy",
+        config = function() require('plug-config/rest') end
+    },
+    {
         "windwp/nvim-autopairs",
+        event = "VeryLazy",
         config = function() require("nvim-autopairs").setup {} end
-    }
+    },
 
-    use "lervag/vimtex"
+    {
+        "lervag/vimtex",
+        event = "VeryLazy",
+    },
 
-    use {
+    {
         "akinsho/flutter-tools.nvim",
-        requires = { "nvim-lua/plenary.nvim" },
-        config = "require('plug-config/flutter-tools')"
-    }
+        event = "VeryLazy",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function() require('plug-config/flutter-tools') end
+    },
 
-    use "xiyaowong/nvim-transparent"
-    use {
+    { "xiyaowong/nvim-transparent", event = "VeryLazy",
+    },
+    {
         "norcalli/nvim-colorizer.lua",
+        event = "VeryLazy",
         config = function() require("colorizer").setup {} end
-    }
+    },
 
-    use({
+    {
         "jackMort/ChatGPT.nvim",
+        event = "VeryLazy",
         config = function()
             require("chatgpt").setup()
         end,
-        requires = {
+        dependencies = {
             "MunifTanjim/nui.nvim",
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope.nvim"
         }
-    })
+    },
     -- Null-ls - linter
     -- use "jose-elias-alvarez/null-ls.nvim"
-    -- Automatically set up your configuration after cloning packer.nvim
-    -- Put this at the end after all plugins
-    if PACKER_BOOTSTRAP then
-        require("packer").sync()
-    end
-end)
+})

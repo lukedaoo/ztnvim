@@ -12,8 +12,7 @@ end
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-local on_attach = function(client, bufnr)
-
+local on_attach = function()
     map("n", "gd", function()
         require('telescope.builtin').lsp_definitions(
             require('telescope.themes').get_dropdown({})
@@ -37,7 +36,8 @@ local on_attach = function(client, bufnr)
     map("n", "]d", function() vim.diagnostic.goto_prev() end)
     map("n", "<leader>lrn", function() vim.lsp.buf.rename() end)
     map("n", "<leader>la", function() vim.lsp.buf.code_action() end)
-    map("n", "<leader>lo", function() vim.lsp.buf.code_action({
+    map("n", "<leader>lo", function()
+        vim.lsp.buf.code_action({
             filter = function(code_action)
                 if not code_action or not code_action.data then
                     return false

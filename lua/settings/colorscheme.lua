@@ -1,4 +1,4 @@
-local default_colorscheme = "oxocarbon"
+local default_colorscheme = "gruber-darker"
 
 local function load_colorscheme(colorscheme)
     local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
