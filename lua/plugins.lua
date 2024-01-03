@@ -226,4 +226,16 @@ return packer.setup({
     },
     -- Null-ls - linter
     -- use "jose-elias-alvarez/null-ls.nvim"
+    --
+    {
+        "folke/trouble.nvim",
+        event = "VeryLazy",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+        },
+        config = function() require('plug-config/trouble') end
+    }
 })

@@ -20,9 +20,9 @@ telescope.setup({
         seletion_caret = " ",
         prompt_prefix = " ",
         color_devicons = true,
+        initial_mode = "normal",
         path_display = { "smart" },
         file_ignore_patterns = ignores_file,
-
         file_previewer = require("telescope.previewers").vim_buffer_cat.new,
         grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
         qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
@@ -47,7 +47,12 @@ map("n", "<C-f>", ":Telescope")
 map("n", "<leader>fs", function()
     require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ") })
 end)
+
 map("n", "<leader>ff", function()
+    require('telescope.builtin').git_files()
+end)
+
+map("n", "<leader>F", function()
     require('telescope.builtin').find_files()
 end)
 
@@ -58,6 +63,7 @@ end)
 map("n", "<leader>gf", function()
     require('telescope.builtin').git_files()
 end)
+
 map("n", "<leader>gb", function()
     require('telescope.builtin').git_branches()
 end)
