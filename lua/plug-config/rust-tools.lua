@@ -7,7 +7,7 @@ end
 local on_attach = require("lsp.default-config").on_attach
 
 local rust_on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
+    on_attach()
 end
 
 local opts = {

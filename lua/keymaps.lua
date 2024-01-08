@@ -69,6 +69,7 @@ map("n", "<leader>tn", function() -- new tab
         require("telescope.builtin").find_files()
     end
 end)
+map("n", "<leader>tN", ":tabnew <CR>")
 map("n", "<leader>tq", ":tabclose<CR>")
 map("n", "<C-Left>", ":tabprevious<CR>")
 map("n", "<C-Right>", ":tabnext<CR>")

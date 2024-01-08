@@ -129,7 +129,8 @@ local config = {
                     url = home .. "/.code-formatter/.eclipse-java-google-formatter.xml",
                 },
             },
-        }, signatureHelp = { enabled = true },
+        },
+        signatureHelp = { enabled = true },
         completion = {
             favoriteStaticMembers = {
                 "org.hamcrest.MatcherAssert.assertThat",
@@ -165,10 +166,10 @@ local config = {
     },
 }
 
-config["on_attach"] = function(client, bufnr)
+config["on_attach"] = function()
     require("jdtls.dap").setup_dap_main_class_configs()
     require("jdtls").setup_dap({ hotcodereplace = 'auto' })
-    on_attach(client, bufnr)
+    on_attach()
 end
 
 jdtls.start_or_attach(config)
