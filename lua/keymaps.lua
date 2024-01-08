@@ -87,8 +87,8 @@ vim.cmd [[
   augroup terminal_settings
     autocmd!
 
-    autocmd BufWinEnter,WinEnter term://* startinsert
-    autocmd BufLeave term://* stopinsert
+    " autocmd BufWinEnter,WinEnter term://* startinsert
+    " autocmd BufLeave term://* stopinsert
 
     " Ignore various filetypes as those will close terminal automatically
     " Ignore fzf, ranger, coc

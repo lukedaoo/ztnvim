@@ -20,15 +20,30 @@ end
 -- Install your plugins here
 return packer.setup({
     { "nyoom-engineering/oxocarbon.nvim" },
+    -- {
+    --     'akinsho/bufferline.nvim',
+    --     version = "*",
+    --     event = "VeryLazy",
+    --     dependencies = 'nvim-tree/nvim-web-devicons',
+    --     config = function()
+    --         require("bufferline").setup({
+    --             options = {
+    --                 buffer_close_icon = '',
+    --                 offsets = {
+    --                     {
+    --                         filetype = "NvimTree",
+    --                         text = "Files Structure",
+    --                         separator = true,
+    --                         text_align = "left"
+    --                     }
+    --                 },
+    --             }
+    --         })
+    --     end
+    -- },
     {
         "blazkowolf/gruber-darker.nvim",
         event = "VeryLazy",
-        opts = {
-            bold = false,
-            italic = {
-                strings = false,
-            },
-        },
     },
     {
         "k4yt3x/ayu-vim-darker",
@@ -115,6 +130,7 @@ return packer.setup({
     -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
+        event = "VeryLazy",
         config = function() require('plug-config/treesitter') end,
         run = ":TSUpdate",
     },
@@ -212,21 +228,18 @@ return packer.setup({
         config = function() require("colorizer").setup {} end
     },
 
-    {
-        "jackMort/ChatGPT.nvim",
-        event = "VeryLazy",
-        config = function()
-            require("chatgpt").setup()
-        end,
-        dependencies = {
-            "MunifTanjim/nui.nvim",
-            "nvim-lua/plenary.nvim",
-            "nvim-telescope/telescope.nvim"
-        }
-    },
-    -- Null-ls - linter
-    -- use "jose-elias-alvarez/null-ls.nvim"
-    --
+    -- {
+    --     "jackMort/ChatGPT.nvim",
+    --     event = "VeryLazy",
+    --     config = function()
+    --         require("chatgpt").setup()
+    --     end,
+    --     dependencies = {
+    --         "MunifTanjim/nui.nvim",
+    --         "nvim-lua/plenary.nvim",
+    --         "nvim-telescope/telescope.nvim"
+    --     }
+    -- },
     {
         "folke/trouble.nvim",
         event = "VeryLazy",

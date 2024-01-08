@@ -13,8 +13,8 @@ telescope.load_extension("harpoon")
 local map = require("lib.core").map
 
 map("n", "mm", "<cmd>lua require('harpoon.mark').add_file()<CR>")
-map("n", "m.", "<cmd>lua require('harpoon.ui').nav_next()<CR>")
-map("n", "m,", "<cmd>lua require('harpoon.ui').nav_prev()<CR>")
+map("n", "mn", "<cmd>lua require('harpoon.ui').nav_next()<CR>")
+map("n", "mp", "<cmd>lua require('harpoon.ui').nav_prev()<CR>")
 map("n", "ms", "<cmd>Telescope harpoon marks<CR>")
 map("n", "m;", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>")
 

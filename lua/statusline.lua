@@ -1,22 +1,195 @@
-local utils = require("lib.core")
-local symbol_config = utils.symbol_config
-local colors = utils.statusline_colors
+-- Statusline
+-- inspiration: https://elianiva.my.id/post/neovim-lua-statusline
 
+-- aliases
+local fn = vim.fn
+local api = vim.api
+local listed = fn.buflisted
+local create_highlight = api.nvim_set_hl
+local severity = vim.diagnostic.severity
+local get_diagnostics = vim.diagnostic.get
+local augroup = api.nvim_create_augroup
+local autocmd = api.nvim_create_autocmd
+local hl_by_name = api.nvim_get_hl_by_name
+
+-- defaults
+local M = {}
+local palette = {}
+local colors = {
+    Error = 'DiagnosticSignError', -- Number of error messsages
+    Warn = 'DiagnosticSignWarn',   -- Number of warning messages
+    Info = 'DiagnosticSignInfo',   -- Number of information messages
+    Hint = 'DiagnosticSignHint',   -- Number of hint messages
+    Normal = 'Character',          -- Normal mode
+    Insert = 'Question',           -- Insert mode
+    Select = 'Number',             -- Visual mode and selection mode (gh etc.)
+    Replace = 'Label',             -- Replace mode
+    Progress = 'Macro',            -- File name and progress
+    Fileinfo = 'Normal',           -- file encoding and attached language server status
+    Inactive = 'Conceal'           -- Inactive buffersa and windows
+}
+
+-- helper for safely creating a highlight group
+local highlight = function(group_name, group)
+    if group == nil or group_name == nil then
+        return
+    end
+
+    pcall(create_highlight, 0, group_name, group)
+end
+
+
+local get_color = function(hl_name, kind, default)
+    local rgb = hl_by_name(hl_name, true)[kind]
+    local cterm = hl_by_name(hl_name, false)[kind] or 'Grey'
+    local hex = (rgb and bit.tohex(rgb, 6) or default:sub(2))
+    return { gui = string.format('#%s', hex), cterm = cterm }
+end
+
+-- define highlight groups and build palette from active colorscheme colors
+M.build_palette = function()
+    local bg = get_color('StatusLine', 'background', '#ffffff')
+
+    for color, highlight_group in pairs(colors) do
+        local group_name = 'StatusLine' .. color
+        local found, fg = pcall(get_color, highlight_group, 'foreground', '#666666')
+        if found then
+            local group = setmetatable(
+                { ctermfg = fg.cterm, ctermbg = bg.cterm, fg = fg.gui, bg = bg.gui },
+                { __tostring = function() return group_name end }
+            )
+            palette[color] = group
+            highlight(group_name, group)
+        end
+    end
+
+    -- default highlight for the statusline
+    highlight('StatusLine', palette.Normal)
+    -- configure highlight for wild menu (command mode completions)
+    highlight('WildMenu', palette.Progress)
+
+    return palette
+end
+
+-- This will create required highlight groups
+M:build_palette()
+
+-- Map accent color for statusline based on active mode
+local color_map = setmetatable({
+    ['n']    = palette.Normal,  -- Normal
+    ['no']   = palette.Normal,  -- Operator pending
+    ['v']    = palette.Select,  -- Select by character (v)
+    ['V']    = palette.Select,  -- Select by line (V)
+    ['\022'] = palette.Select,  -- Select block wise (CTRL-V)
+    ['s']    = palette.Select,  -- Select by character (gh)
+    ['S']    = palette.Select,  -- Select by line (gH)
+    ['\019'] = palette.Select,  -- Select block wise (g CTRL-H)
+    ['i']    = palette.Info,    -- Insert
+    ['ic']   = palette.Info,    -- Insert completion (generic)
+    ['ix']   = palette.Info,    -- Insert completion (CTRL-X)
+    ['R']    = palette.Replace, -- Replace
+    ['Rc']   = palette.Replace, -- Replace completion
+    ['Rv']   = palette.Replace, -- Replace virtual
+    ['c']    = palette.Warn,    -- Command-line
+    ['cv']   = palette.Warn,    -- Execute (gQ)
+    ['ce']   = palette.Warn,    -- Execute (Q)
+    ['r']    = palette.Warn,    -- Prompt for enter
+    ['rm']   = palette.Warn,    -- Read more (-- more -- prompt)
+    ['r?']   = palette.Warn,    -- Prompt yes/no (confirmation prompt)
+    ['!']    = palette.Error,   -- Shell execution
+    ['t']    = palette.Error,   -- Terminal mode (insert)
+    ['nt']   = palette.Insert,  -- Terminal mode (normal)
+}, {
+    __index = function(_, idx)
+        return palette.Insert -- Catch any undefined modes
+    end
+})
+
+-- Map symbols/text to be used as an identifier for currently active mode
+M.mode_map = setmetatable({
+    ['n']    = 'N',   -- Normal
+    ['no']   = 'N-P', -- Operator pending
+    ['v']    = 'V',   -- Select by character
+    ['V']    = 'V-L', -- Select by line
+    ['\022'] = 'V-B', -- Select block wise, does not work cannot map symbol (^V)
+    ['s']    = 'S',   -- Select by character (gh)
+    ['S']    = 'S-L', -- Select by line (gH)
+    ['\019'] = 'S-B', -- Select block wise (g CTRL-H), does not work cannot map symbol (^S)
+    ['i']    = 'I',   -- Insert
+    ['ic']   = 'I~',  -- Insert completion (generic)
+    ['ix']   = 'I~',  -- Insert completion (CTRL-X)
+    ['R']    = 'R',   -- Replace
+    ['Rc']   = 'R~',  -- Replace completion
+    ['Rv']   = 'R-V', -- Replace virtual
+    ['c']    = 'C',   -- Command-line
+    ['cv']   = 'C!',  -- Execute (gQ)
+    ['ce']   = 'C!',  -- Execute (Q)
+    ['r']    = 'P',   -- Prompt for enter
+    ['rm']   = 'P!',  -- Read more (-- more -- prompt)
+    ['r?']   = 'P?',  -- Prompt yes/no (confirmation prompt)
+    ['!']    = 'S',   -- Shell execution
+    ['t']    = 'I-T', -- Terminal mode (insert)
+    ['nt']   = 'N-T', -- Terminal mode (normal)
+}, {
+    __index = function(_, mode)
+        -- Catch any undefined modes
+        return string.format('? (%s)', mode)
+    end,
+})
+
+local format_diagnostics = function(format, severity)
+    local count = #(get_diagnostics(0, { severity = severity }))
+    return count == 0 and '' or string.format(format, count)
+end
+
+-- Language server status and progress messages
+M.get_lsp_status = function()
+    local clients = vim.lsp.buf_get_clients()
+    if (#clients > 0) then
+        local client_status = {}
+
+        for _, client in pairs(clients) do
+            local messages = {}
+            for _token, message in pairs(client.messages.progress) do
+                if message.done then
+                    messages = {}
+                    break
+                elseif message.percentage then
+                    table.insert(messages, string.format('%s %s', message.title, message.message))
+                end
+            end
+            if #messages > 0 then
+                table.insert(client_status, string.format('%s[%s]', client.config.name, messages[1]))
+            else
+                table.insert(client_status, client.config.name)
+            end
+        end
+
+        if type(next(table)) ~= "nill" then
+            return string.format(' { LSP: ✔ } ', table.concat(client_status, ' '))
+        end
+
+        return string.format(' {%s} ', table.concat(client_status, ' '))
+    end
+
+    return ''
+end
+
+
+local truncation_limit_s = 80
+local truncation_limit = 120
+
+local function is_htruncated(width)
+    local current_width = vim.api.nvim_win_get_width(0)
+    return current_width < width
+end
 local function truncate_statusline(small)
-    local limit = (small and utils.truncation_limit_s) or utils.truncation_limit
-    return (utils.is_htruncated(limit) and
+    local limit = (small and truncation_limit_s) or truncation_limit
+    return (is_htruncated(limit) and
         vim.api.nvim_get_option_value('laststatus', { scope = 'global' }) ~= 3)
 end
 
--- get the display name for current mode
-local function get_current_mode()
-    local current_mode = vim.api.nvim_get_mode().mode
-    return string.format(' %s ', utils.modes[current_mode]):upper()
-end
-
--- get git information of current file
--- NOTE(vir): release gitsigns dependencies?
-local function get_git_status()
+M.get_git_status = function()
     local meta = {}
     local gitsigns_summary = vim.b.gitsigns_status_dict
     if not gitsigns_summary then return '' end
@@ -29,142 +202,213 @@ local function get_git_status()
     if truncate_statusline() then return string.format(' %s ', meta['branch']) end
     return string.format(' %s | +%s ~%s -%s ', meta['branch'], meta['added'], meta['modified'], meta['removed'])
 end
-
--- get current tag name
-local function get_tagname()
-    local bufnr = vim.fn.bufnr('%')
-    if utils.tag_state.context[bufnr] == nil or truncate_statusline(true) then return '' end
-
-    return string.format("[ %s %s ] ", utils.tag_state.context[bufnr].icon, utils.tag_state.context[bufnr].name)
+-- Returns symbolic identifier for current mode
+M.get_current_mode = function(self)
+    local current_mode = api.nvim_get_mode().mode
+    return string.format(' %s ', self.mode_map[current_mode])
 end
 
--- get current file name
-local function get_filename()
-    if truncate_statusline() then return ' %t ' end
-    return ' %f '
+-- File name with read-only marker or identifier for unsaved changes
+M.get_file_state = function()
+    local name = vim.bo.filetype == 'help' and fn.expand('%:t') or fn.expand('%')
+    local file_name = (name == '' and '[no name]' or name)
+    local read_only = "%{&readonly?' -':''}"
+    local modified = "%{&modified?' +':''}"
+    return string.format('%s%s%s ', file_name, modified, read_only)
 end
 
--- get current line/col
-local function get_line_col() return ' %l:%c ' end
+-- File's type as identified by neovim.
+M.get_file_type = function()
+    local file_type = vim.bo.filetype
 
--- get current percentage through file
-local function get_percentage()
-    if truncate_statusline() then return '' end
-    return ' %p%% '
+    return file_type == ''
+        and ' [no ft] '
+        or string.format('  %s', file_type)
 end
 
--- get current file type
-local function get_filetype() return ' %y ' end
-
--- get buffer number
-local function get_bufnr()
-    if truncate_statusline(true) then return '' end
-    return ' %n '
+-- File line ending format Unix / Windows
+M.get_file_format = function()
+    return string.format('%s ', vim.o.fileformat)
 end
 
--- get current file diagnostics
-local function get_diagnostics()
-    if #vim.lsp.buf_get_clients(0) == 0 then return '' end
+-- Character encoding of current file
+M.get_file_encoding = function()
+    return string.format('%s ', vim.o.encoding)
+end
 
-    local status_parts = {}
-    local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+-- Indentation settings for current file
+M.get_file_indentation = function(self)
+    local indentation = 'tabs'
+    local characters = vim.o.tabstop
+    local on_click = '%@v:lua.StatusLine.select_indentation@'
 
-    if errors > 0 then
-        table.insert(status_parts, symbol_config.indicator_error .. symbol_config.indicator_seperator .. errors)
+    if vim.o.expandtab then
+        indentation = 'spaces'
+        characters = vim.o.shiftwidth
     end
 
-    if not truncate_statusline(true) then
-        local warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-        local hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-        local infos = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
+    return string.format(' %s%s:%d%s ', on_click, indentation, characters, '%X')
+end
 
-        if warnings > 0 then table.insert(status_parts,
-                symbol_config.indicator_warning .. symbol_config.indicator_seperator .. warnings)
+-- Interactively switch indentation settings, onclick action of file indentation component
+M.select_indentation = function()
+    vim.ui.select({ 'tabs', 'spaces' }, {
+        prompt = 'Select character to be used for indentation:',
+        format_item = function(item)
+            return 'Indent using ' .. item
+        end,
+    }, function(choice)
+        if choice == nil then return end
+
+        if choice == 'spaces' then
+            vim.o.expandtab = true
+        else
+            vim.o.expandtab = false
         end
-        if infos > 0 then table.insert(status_parts,
-                symbol_config.indicator_info .. symbol_config.indicator_seperator .. infos)
+
+        local width = tonumber(fn.input('Enter number of characters per indentation level: '))
+
+        if width then
+            vim.o.shiftwidth = width
+            vim.o.tabstop = width
         end
-        if hints > 0 then table.insert(status_parts,
-                symbol_config.indicator_hint .. symbol_config.indicator_seperator .. hints)
+    end)
+end
+
+-- Apply color to a statusline component using a highlight group
+M.highlight = function(self, group)
+    return string.format('%%#%s#', group)
+end
+
+-- List buffer numbers across the statusline as a substitute for tabs
+M.get_buffers = function()
+    local buffers = api.nvim_list_bufs()
+    local current = api.nvim_get_current_buf()
+    local prev_bufs = {}
+    local next_bufs = {}
+
+
+    for _, buf in ipairs(buffers) do
+        if listed(buf) == 1 then
+            -- local buffer = string.format('%s(0, %s)@ %s %s', '%@nvim_win_set_buf', buf, buf, '%X')
+            local buffer = string.format('%%%s%s %s', buf, '@v:lua.StatusLine.switch_buffer@', buf, '%X')
+            if buf < current then
+                table.insert(prev_bufs, buffer)
+            elseif buf > current then
+                table.insert(next_bufs, buffer)
+            end
         end
     end
 
-    local status_diagnostics = vim.trim(table.concat(status_parts, ' '))
-    if status_diagnostics ~= '' then return ' ' .. status_diagnostics .. ' ' end
-    return ''
+    return {
+        prev_bufs = table.concat(prev_bufs),
+        current = string.format('%%%s%s %s', current, '@v:lua.StatusLine.switch_buffer@', current, '%X'),
+        next_bufs = table.concat(next_bufs),
+    }
 end
 
--- special statusline
-local function statusline_special(mode)
-    return colors.active .. ' ' .. mode .. ' ' .. colors.inactive
+M.switch_buffer = function(buf)
+    vim.api.nvim_win_set_buf(0, buf)
 end
 
--- inactive statusline
-local function statusline_inactive()
-    local filename = colors.file .. get_filename()
-    local line_col = colors.line_col .. get_line_col()
-    local percentage = colors.percentage .. get_percentage()
-    local filetype = colors.filetype .. get_filetype()
+M.extract_colors = function(self, highlights)
+    colors = highlights
+    self:build_palette()
+end
 
+M.selection = function()
+    if vim.fn.mode():find("[Vv]") == nil then return "" end
+
+    local starts = vim.fn.line('v')
+    local ends = vim.fn.line('.')
+    local count = starts <= ends and ends - starts + 1 or starts - ends + 1
+    local wc = vim.fn.wordcount()
+    return string.format(' (L %s, C %s)', count, wc['visual_chars'])
+end
+
+M.set_active = function(self)
+    -- if api.nvim_buf_get_option(api.nvim_get_current_buf(), 'ft') == 'NvimTree' then return ' ' end
+
+    local mode = api.nvim_get_mode().mode
+    local accent_color = self:highlight(color_map[mode])
+    local buffers = self:get_buffers()
     return table.concat({
-        colors.active, filename, colors.inactive,
-        '%=% ',
-        line_col, percentage, filetype, colors.inactive
+        accent_color,
+        self:get_current_mode(),
+        self:highlight(palette.Progress),
+        self:get_file_state(),
+        self:highlight(palette.Error),
+        format_diagnostics(' E:%s', severity.ERROR),
+        self:highlight(palette.Warn),
+        format_diagnostics(' W:%s', severity.WARN),
+        self:highlight(palette.Info),
+        format_diagnostics(' I:%s', severity.INFO),
+        self:highlight(palette.Hint),
+        format_diagnostics(' H:%s', severity.HINT),
+        self:highlight(palette.Fileinfo),
+        accent_color,
+        self:get_git_status(),
+        '%=',     -- left / right separator
+        '%<',     -- Collapse point for smaller screen sizes
+        accent_color,
+        ' %l:%c', -- position of cursor
+        self:highlight(palette.Fileinfo),
+        self:selection(),
+        self:highlight(palette.Inactive),
+        -- buffers.prev_bufs,
+        -- accent_color,
+        -- buffers.current,
+        -- self:highlight(palette.Inactive),
+        -- buffers.next_bufs,
+        accent_color,
+        self:get_file_type(),
+        self:get_lsp_status(),
+        self:highlight(palette.Progress),
+        ' --%1p%%-- ', -- Place in file as a percentage
     })
 end
 
--- active statusline
-local function statusline_normal()
-    local mode = colors.mode .. get_current_mode()
-    local git = colors.git .. get_git_status()
-    local diagnostics = colors.diagnostics .. get_diagnostics()
-    local truncator = '%<'
-    local filename = colors.file .. get_filename()
-    local tagname = colors.tagname .. get_tagname()
-    local line_col = colors.line_col .. get_line_col()
-    local percentage = colors.percentage .. get_percentage()
-    local bufnr = colors.bufnr .. get_bufnr()
-    local filetype = colors.filetype .. get_filetype()
-
+-- Statusline to be displayed on inactive windows
+M.set_inactive = function(self)
     return table.concat({
-        colors.active, mode, git, diagnostics, truncator, filename,
-        colors.inactive, '%=% ', tagname, line_col, percentage, bufnr, filetype,
-        colors.inactive
+        self:highlight(palette.Inactive),
+        self:get_file_state(),
+        '%=',          -- left / right separator
+        ' --%1p%%-- ', -- Place in file as a percentage
+        ' %l:%c ',     -- position of cursor
     })
 end
 
--- generate statusline
-StatusLine = function(mode)
-    if mode then return statusline_special(mode) end
-    return statusline_normal()
+-- Make statusline callable
+StatusLine = setmetatable(M, {
+    __call = function(self, mode)
+        return self['set_' .. mode](self)
+    end,
+})
+
+local statusline = augroup('StatusLine', { clear = true })
+-- Rebuild statusline pallet on colorscheme change event
+autocmd('ColorScheme', {
+    desc = 'rebuild statusline color pallet and highlight groups',
+    callback = StatusLine.build_palette,
+    group = statusline
+})
+
+
+if vim.o.laststatus ~= 3 then
+    -- Set statusline to active variant for focused buffer
+    autocmd({ 'WinEnter', 'BufEnter' }, {
+        desc = 'show active statusline with details',
+        callback = function() vim.wo.statusline = '%!v:lua.StatusLine("active")' end,
+        group = statusline
+    })
+    -- Set statusline to inactive variant for buffers without focus
+    autocmd({ 'WinLeave', 'BufLeave' }, {
+        desc = 'show muted statusline without additional details',
+        callback = function() vim.wo.statusline = '%!v:lua.StatusLine("inactive")' end,
+        group = statusline
+    })
+else
+    -- Use active varient for global statusline
+    vim.o.statusline = '%!v:lua.StatusLine("active")'
 end
-
--- generate inactive statusline
-StatusLineInactive = function() return statusline_inactive() end
-
--- NOTE(vir): consider moving to lua
-vim.cmd [[
-    let g:statusline_blacklist = ['diagnostics', 'qf', 'gitcommit', 'NvimTree',
-                                \ 'DiffviewFiles', 'DiffviewFileHistory',
-                                \ 'dapui_watches', 'dapui_stacks', 'dapui_scopes', 'dapui_breakpoints', 'dap-repl']
-    augroup StatusLine
-        autocmd!
-        autocmd WinEnter,BufEnter * if index(statusline_blacklist, &ft) < 0 | setlocal statusline=%!v:lua.StatusLine() | endif
-        autocmd WinLeave,BufLeave * if index(statusline_blacklist, &ft) < 0 | setlocal statusline=%!v:lua.StatusLineInactive() | endif
-        autocmd FileType terminal setlocal statusline=%!v:lua.StatusLine('Terminal')
-        autocmd BufWinEnter quickfix setlocal statusline=%!v:lua.StatusLine('QuickFix')
-        autocmd BufWinEnter diagnostics setlocal statusline=%!v:lua.StatusLine('Diagnostics')
-        autocmd BufWinEnter NvimTree_1 setlocal statusline=%!v:lua.StatusLine('Explorer')
-        autocmd FileType gitc setlocal statusline=%!v:lua.StatusLine('GitCommit')
-        autocmd FileType DiffviewFiles set statusline=%!v:lua.StatusLine('DiffViewFiles')
-        autocmd FileType DiffviewFileHistory set statusline=%!v:lua.StatusLine('DiffViewFileHistory')
-        " autocmd BufEnter \[dap-terminal\]* setlocal statusline=%!v:lua.StatusLine('Output')
-        autocmd FileType dapui_watches setlocal statusline=%!v:lua.StatusLine('Watches')
-        autocmd FileType dapui_stacks setlocal statusline=%!v:lua.StatusLine('Stacks')
-        autocmd FileType dapui_scopes setlocal statusline=%!v:lua.StatusLine('Scopes')
-        autocmd FileType dapui_breakpoints setlocal statusline=%!v:lua.StatusLine('Breaks')
-        autocmd FileType dap-repl setlocal statusline=%!v:lua.StatusLine('Repl')
-    augroup end
-]]
-
-return { StatusLine = StatusLine, StatusLineInactive = StatusLineInactive }
