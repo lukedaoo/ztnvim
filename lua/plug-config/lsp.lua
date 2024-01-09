@@ -18,7 +18,7 @@ end
 
 mason.setup()
 mason_lsp_config.setup({
-    ensure_installed = { "lua_ls", "jdtls", "pyright", "rust_analyzer" }
+    ensure_installed = { "lua_ls", "jdtls", "rust_analyzer" }
 })
 
 local lsp_handler = require("lsp.default-config")
@@ -55,7 +55,7 @@ lsp_config["lua_ls"].setup(config({
 }))
 
 -- Python
-lsp_config["pyright"].setup(config())
+lsp_config["jedi_language_server"].setup(config())
 
 -- Latex
 lsp_config["texlab"].setup(config())
