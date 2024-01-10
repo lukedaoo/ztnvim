@@ -163,3 +163,6 @@ map("n", "<leader>yy", '"+yy');
 
 map({ "n", "v" }, "<leader>p", '"+p')
 map({ "n", "v" }, "<leader>P", '"+P')
+
+map({ "v" }, "n",
+    [[:<c-u>let temp_variable=@"<CR>gvy:<c-u>let @/='\V<C-R>=escape(@",'/\')<CR>'<CR>:let @"=temp_variable<CR>]])
