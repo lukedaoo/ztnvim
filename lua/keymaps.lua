@@ -145,7 +145,6 @@ end)
 map({ "n", "v" }, "q:", "<nop>")
 map({ "n", "v" }, "q/", "<nop>")
 map({ "n", "v" }, "q?", "<nop>")
-
 if vim.g.hardmode == 1 then
     print("Hardmode is enable")
 
