@@ -1,5 +1,6 @@
 require("settings.global")
 require("settings.options")
+require("settings.vim-tex")
 require("statusline")
 require("settings.ts-fix")
 require("keymaps")
