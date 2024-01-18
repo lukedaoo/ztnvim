@@ -11,8 +11,8 @@ map("n", "<leader>]", function()
         }))
 end)
 map("n", "<C-a>", "ggVG") -- select all
-map("n", "<leader>sv", ":vsplit<CR>")
-map("n", "<leader>sh", ":split<CR>")
+map("n", "<leader>|", ":vsplit<CR>")
+map("n", "<leader>_", ":split<CR>")
 map("n", "<leader>se", "<C-w>=")
 map("n", "<leader>sx", ":close<CR>")
 -- line navigation and movements
