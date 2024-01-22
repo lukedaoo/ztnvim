@@ -222,11 +222,11 @@ return packer.setup({
         event = "VeryLazy",
         config = function() require('plug-config/rest') end
     },
-    {
-        "windwp/nvim-autopairs",
-        event = "VeryLazy",
-        config = function() require("nvim-autopairs").setup {} end
-    },
+    -- {
+    --     "windwp/nvim-autopairs",
+    --     event = "VeryLazy",
+    --     config = function() require("nvim-autopairs").setup {} end
+    -- },
 
     {
         "lervag/vimtex",
