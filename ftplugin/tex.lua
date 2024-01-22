@@ -7,6 +7,7 @@ vim.cmd [[
   let g:Tex_IgnoreLevel = 8
 ]]
 
+
 local map = require("lib.core").map;
 
 map("n", "<leader>vc", ":VimtexCompile<cr>")

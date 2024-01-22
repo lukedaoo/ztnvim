@@ -50,7 +50,7 @@ lsp_config["jedi_language_server"].setup(config())
 
 -- Latex
 lsp_config["texlab"].setup(config())
-lsp_config["ltex"].setup(config())
+-- lsp_config["ltex"].setup(config())
 
 -- lsp_config["dartls"].setup(config())
 
