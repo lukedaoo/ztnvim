@@ -5,11 +5,8 @@ end
 
 local ignored_ext = {
     ".aux", ".fls", ".fdb_latexmk", ".synctex.gz",
-    ".git"
-}
-
-local exclude_filter = {
-    ".config",
+    ".git",
+    ".DS_Store"
 }
 
 nvim_tree.setup({
@@ -35,7 +32,6 @@ nvim_tree.setup({
     filters = {
         dotfiles = true,
         custom = ignored_ext,
-        exclude = exclude_filter
     },
 })
 
