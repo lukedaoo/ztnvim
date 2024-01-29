@@ -6,7 +6,8 @@ end
 local ignored_ext = {
     ".aux", ".fls", ".fdb_latexmk", ".synctex.gz",
     ".git",
-    ".DS_Store"
+    ".DS_Store",
+    "aux", "fls", "fdb_latexmk", ".git"
 }
 
 nvim_tree.setup({
