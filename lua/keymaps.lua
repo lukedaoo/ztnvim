@@ -2,15 +2,9 @@ local map = require("lib.core").map
 
 -- utility
 map("n", "<leader>h", ":noh<CR>")                                             -- no highlight
+map("n", "<leader><leader>", ":noh<CR>")                                      -- no highlight
 map("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>") -- search and replace word at cursor
-map("n", "<leader>]", function()
-    vim.cmd [[ vnew ]]
-    require("telescope.builtin")
-        .find_files(require('telescope.themes').get_dropdown({
-            previewer = false
-        }))
-end)
-map("n", "<C-a>", "ggVG") -- select all
+map("n", "<C-a>", "ggVG")                                                     -- select all
 map("n", "<leader>|", ":vsplit<CR>")
 map("n", "<leader>_", ":split<CR>")
 map("n", "<leader>se", "<C-w>=")
@@ -75,6 +69,13 @@ map("n", "<leader>tN", ":tabnew <CR>")
 map("n", "<leader>tq", ":tabclose<CR>")
 map("n", "<C-Left>", ":tabprevious<CR>")
 map("n", "<C-Right>", ":tabnext<CR>")
+map("n", "<leader>]", function()
+    vim.cmd [[ vnew ]]
+    require("telescope.builtin")
+        .find_files(require('telescope.themes').get_dropdown({
+            previewer = false
+        }))
+end)
 -- term
 
 local default_shell = "sh"
@@ -114,8 +115,8 @@ map({ "n", "v" }, "x", '"_x', { noremap = false }) -- detele without yank
 map({ "n", "v" }, "<leader>x", '_x', { noremap = false })
 map({ "n", "v" }, "vd", "dd")
 -- enter others mode from insert mode
-map("i", "jj", "<ESC>")
-map("i", "jk", "<ESC>")
+map("i", "jj", "<ESC><Right>")
+map("i", "jk", "<ESC><Right>")
 -- map("i", "ddd", "<ESC>")
 map("i", "AA", "<ESC>")
 map("i", "VV", "<ESC>V")
@@ -147,6 +148,7 @@ end)
 map({ "n", "v" }, "q:", "<nop>")
 map({ "n", "v" }, "q/", "<nop>")
 map({ "n", "v" }, "q?", "<nop>")
+
 if vim.g.hardmode == 1 then
     print("Hardmode is enable")
 
