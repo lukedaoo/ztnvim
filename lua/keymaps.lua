@@ -139,8 +139,8 @@ map({ "n", "i" }, "<C-s>", "<ESC>:w<CR>")
 -- easy exit
 map("n", "<C-x>", ":wq<CR>")
 map("n", "<C-c>", ":wq<CR>")
-map({ "n" }, "<leader>Q", ":wq<CR>")
-map("n", "<leader>q", function()
+map({ "n" }, "<leader>q", ":wq<CR>")
+map("n", "<leader>Q", function()
     require('bufdelete').bufdelete(0, true)
 end)
 
