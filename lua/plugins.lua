@@ -217,11 +217,11 @@ return packer.setup({
         ft = { "rust", "rs" },
     },
 
-    {
-        "NTBBloodbath/rest.nvim",
-        event = "VeryLazy",
-        config = function() require('plug-config/rest') end
-    },
+    -- {
+    --     "NTBBloodbath/rest.nvim",
+    --     event = "VeryLazy",
+    --     config = function() require('plug-config/rest') end
+    -- },
     -- {
     --     "windwp/nvim-autopairs",
     --     event = "VeryLazy",
