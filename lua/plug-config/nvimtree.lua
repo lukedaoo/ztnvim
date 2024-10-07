@@ -31,7 +31,6 @@ nvim_tree.setup({
         update_cwd = true,
     },
     filters = {
-        dotfiles = true,
         custom = ignored_ext,
     },
 })
