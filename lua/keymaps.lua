@@ -112,7 +112,7 @@ map({ "n", "v" }, "dl", "<Nop>")
 
 -- delete without yank
 map({ "n", "v" }, "x", '"_x', { noremap = false }) -- detele without yank
-map({ "n", "v" }, "<leader>x", '_x', { noremap = false })
+map({ "n", "v" }, "<leader>x", '"+x', { noremap = false })
 map({ "n", "v" }, "vd", "dd")
 -- enter others mode from insert mode
 map("i", "jj", "<ESC><Right>")

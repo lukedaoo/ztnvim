@@ -78,3 +78,4 @@ lsp_config["ts_ls"].setup(config({
 }))
 
 lsp_config["csharp_ls"].setup(config())
+lsp_config["gopls"].setup(config())
