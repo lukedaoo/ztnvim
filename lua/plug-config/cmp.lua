@@ -46,6 +46,7 @@ cmp.setup {
     snippet = {
         expand = function(args)
             luasnip.lsp_expand(args.body) -- For `luasnip` users.
+            vim.snippet.expand(args.body)
         end,
     },
     mapping = {

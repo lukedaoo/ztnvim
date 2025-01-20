@@ -140,9 +140,9 @@ map({ "n", "i" }, "<C-s>", "<ESC>:w<CR>")
 map("n", "<C-x>", ":wq<CR>")
 -- map("n", "<C-c>", ":wq<CR>")
 map({ "n" }, "<leader>q", ":wq<CR>")
-map("n", "<leader>Q", function()
-    require('bufdelete').bufdelete(0, true)
-end)
+-- map("n", "<leader>Q", function()
+--     require('bufdelete').bufdelete(0, true)
+-- end)
 
 -- disable command history modes
 map({ "n", "v" }, "q:", "<nop>")

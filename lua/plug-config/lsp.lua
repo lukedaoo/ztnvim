@@ -18,7 +18,8 @@ end
 
 mason.setup()
 mason_lsp_config.setup({
-    ensure_installed = { "lua_ls", "jdtls", "rust_analyzer" }
+    ensure_installed = { "lua_ls", }
+    -- /"jdtls", "rust_analyzer" }
 })
 
 local lsp_handler = require("lsp.default-config")
@@ -46,10 +47,10 @@ lsp_config["lua_ls"].setup(config({
 }))
 
 -- Python
-lsp_config["jedi_language_server"].setup(config())
+-- lsp_config["jedi_language_server"].setup(config())
 
 -- Latex
-lsp_config["texlab"].setup(config())
+-- lsp_config["texlab"].setup(config())
 -- lsp_config["ltex"].setup(config())
 -- lsp_config["dartls"].setup(config())
 
@@ -77,5 +78,5 @@ lsp_config["ts_ls"].setup(config({
     single_file_support = true
 }))
 
-lsp_config["csharp_ls"].setup(config())
+-- lsp_config["csharp_ls"].setup(config())
 lsp_config["gopls"].setup(config())

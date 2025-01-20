@@ -65,10 +65,11 @@ return packer.setup({
         "blazkowolf/gruber-darker.nvim",
         event = "VeryLazy",
     },
-    {
-        "k4yt3x/ayu-vim-darker",
-        event = "VeryLazy",
-    },
+    -- {
+    --     "k4yt3x/ayu-vim-darker",
+    --     event = "VeryLazy",
+    -- },
+
     {
         "folke/tokyonight.nvim",
         event = "VeryLazy",
@@ -77,14 +78,14 @@ return packer.setup({
         "navarasu/onedark.nvim",
         event = "VeryLazy"
     },
-    {
-        "b4skyx/serenade",
-        event = "VeryLazy",
-    },
-    {
-        "rose-pine/neovim",
-        event = "VeryLazy",
-    },
+    -- {
+    --     "b4skyx/serenade",
+    --     event = "VeryLazy",
+    -- },
+    -- {
+    --     "rose-pine/neovim",
+    --     event = "VeryLazy",
+    -- },
     -- utilities
     {
         "nvim-lua/plenary.nvim",
@@ -94,20 +95,20 @@ return packer.setup({
         "nvim-lua/popup.nvim",
         event = "VeryLazy",
     },
-    {
-        "famiu/bufdelete.nvim",
-        event = "VeryLazy",
-    },
+    -- {
+    --     "famiu/bufdelete.nvim",
+    --     event = "VeryLazy",
+    -- },
     {
         "alvarosevilla95/luatab.nvim",
         event = "VeryLazy",
         config = function() require('luatab').setup({}) end
     },
-    {
-        "kwkarlwang/bufjump.nvim",
-        event = "VeryLazy",
-        config = function() require('plug-config/bufjump') end
-    },
+    -- {
+    --     "kwkarlwang/bufjump.nvim",
+    --     event = "VeryLazy",
+    --     config = function() require('plug-config/bufjump') end
+    -- },
     -- Folder Tree
     {
         "kyazdani42/nvim-tree.lua",
@@ -119,17 +120,17 @@ return packer.setup({
             require('plug-config/nvimtree')
         end,
     },
-    {
-        "lewis6991/gitsigns.nvim",
-        event = "VeryLazy",
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        config = function() require('gitsigns').setup({}) end,
-    },
-    {
-        "folke/zen-mode.nvim",
-        event = "VeryLazy",
-        config = function() require('plug-config/zen') end
-    },
+    -- {
+    --     "lewis6991/gitsigns.nvim",
+    --     event = "VeryLazy",
+    --     dependencies = { 'nvim-lua/plenary.nvim' },
+    --     config = function() require('gitsigns').setup({}) end,
+    -- },
+    -- {
+    --     "folke/zen-mode.nvim",
+    --     event = "VeryLazy",
+    --     config = function() require('plug-config/zen') end
+    -- },
 
     -- file finder
     {
@@ -141,11 +142,14 @@ return packer.setup({
     {
         "L3MON4D3/LuaSnip",
         event = "VeryLazy",
+        version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+        -- install jsregexp (optional!).
+        build = "make install_jsregexp"
     },
-    {
-        "rafamadriz/friendly-snippets",
-        event = "VeryLazy",
-    }, -- a bunch of snippets to use
+    -- {
+    --     "rafamadriz/friendly-snippets",
+    --     event = "VeryLazy",
+    -- }, -- a bunch of snippets to use
 
     -- Treesitter
     {
@@ -180,21 +184,21 @@ return packer.setup({
         config = function() require('plug-config/cmp') end
     },
 
-    -- match tag
-    {
-        'andymass/vim-matchup',
-        event = "VeryLazy",
-        setup = function()
-            -- may set any options here
-            vim.g.matchup_matchparen_offscreen = { method = "popup" }
-        end
-    },
-    {
-        "mfussenegger/nvim-dap",
-        event = "VeryLazy",
-        dependencies = { "rcarriga/nvim-dap-ui" },
-        config = function() require('plug-config/dap') end
-    },
+    -- -- match tag
+    -- {
+    --     'andymass/vim-matchup',
+    --     event = "VeryLazy",
+    --     setup = function()
+    --         -- may set any options here
+    --         vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    --     end
+    -- },
+    -- {
+    --     "mfussenegger/nvim-dap",
+    --     event = "VeryLazy",
+    --     dependencies = { "rcarriga/nvim-dap-ui" },
+    --     config = function() require('plug-config/dap') end
+    -- },
 
     -- LSP
     {
@@ -203,19 +207,19 @@ return packer.setup({
             "williamboman/mason-lspconfig.nvim",
             "neovim/nvim-lspconfig",
             -- java
-            "mfussenegger/nvim-jdtls",
+            -- "mfussenegger/nvim-jdtls",
         },
         config = function()
             require('plug-config/lsp')
         end
     },
 
-    {
-        "simrat39/rust-tools.nvim",
-        event = "VeryLazy",
-        config = function() require('plug-config/rust-tools') end,
-        ft = { "rust", "rs" },
-    },
+    -- {
+    --     "simrat39/rust-tools.nvim",
+    --     event = "VeryLazy",
+    --     config = function() require('plug-config/rust-tools') end,
+    --     ft = { "rust", "rs" },
+    -- },
 
     -- {
     --     "NTBBloodbath/rest.nvim",
@@ -228,25 +232,27 @@ return packer.setup({
     --     config = function() require("nvim-autopairs").setup {} end
     -- },
 
-    {
-        "lervag/vimtex",
-        event = "VeryLazy",
-    },
+    -- {
+    --     "lervag/vimtex",
+    --     event = "VeryLazy",
+    -- },
 
-    {
-        "akinsho/flutter-tools.nvim",
-        event = "VeryLazy",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = function() require('plug-config/flutter-tools') end
-    },
+    -- {
+    --     "akinsho/flutter-tools.nvim",
+    --     event = "VeryLazy",
+    --     dependencies = { "nvim-lua/plenary.nvim" },
+    --     config = function() require('plug-config/flutter-tools') end
+    -- },
 
-    { "xiyaowong/nvim-transparent", event = "VeryLazy",
-    },
-    {
-        "norcalli/nvim-colorizer.lua",
-        event = "VeryLazy",
-        config = function() require("colorizer").setup {} end
-    },
+    -- {
+    --     "xiyaowong/nvim-transparent",
+    --     event = "VeryLazy",
+    -- },
+    -- {
+    --     "norcalli/nvim-colorizer.lua",
+    --     event = "VeryLazy",
+    --     config = function() require("colorizer").setup {} end
+    -- },
 
     -- {
     --     "jackMort/ChatGPT.nvim",

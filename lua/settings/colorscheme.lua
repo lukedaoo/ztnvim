@@ -8,13 +8,6 @@ local function load_colorscheme(colorscheme)
     end
 end
 
-local function load_ayu_colorscheme()
-    local set_color_status, _ = pcall(vim.cmd, "let ayucolor='darker'");
-    if set_color_status then
-        load_colorscheme("ayu")
-    end
-end
-
 local function load_onedark_colorscheme()
     local status_ok, onedark = pcall(require, "onedark")
 
@@ -25,13 +18,11 @@ local function load_onedark_colorscheme()
 end
 
 local function load_carbon_colorscheme()
+    -- vim.opt.background = "light"
     load_colorscheme("oxocarbon")
 end
 
-if default_colorscheme == "ayu"
-then
-    load_ayu_colorscheme()
-elseif default_colorscheme == "onedark"
+if default_colorscheme == "onedark"
 then
     load_onedark_colorscheme()
 elseif default_colorscheme == "oxocarbon"

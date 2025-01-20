@@ -1,14 +1,14 @@
 vim.loader.enable()
 
 vim.g.do_filetype_lua = 1
-vim.g.loaded_node_provider = 0
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_python_provider = 0
-vim.g.loaded_ruby_provider = 0
 vim.g.python_host_skip_check = 1
 
 -- Disable some builtin vim plugins
 local disabled_built_ins = {
+    "node_provider",
+    "perl_provider",
+    "ruby_provider",
+    "python_provider",
     "2html_plugin",
     "getscript",
     "getscriptPlugin",
