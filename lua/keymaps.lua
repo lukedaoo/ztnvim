@@ -9,6 +9,7 @@ map("n", "<leader>|", ":vsplit<CR>")
 map("n", "<leader>_", ":split<CR>")
 map("n", "<leader>se", "<C-w>=")
 map("n", "<leader>sx", ":close<CR>")
+
 -- line navigation and movements
 map("v", "<Tab>", ">gv")         -- intent forward 1 tab
 map("v", "<S-Tab>", "<gv")       -- intent backward 1 tab

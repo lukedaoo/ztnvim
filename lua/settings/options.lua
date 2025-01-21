@@ -65,3 +65,10 @@ set.fillchars = {
     vertright = '┣',
     verthoriz = '╋'
 }
+-- folding
+set.foldmethod = "expr"
+set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+set.foldtext = ""
+set.foldlevel = 99
+set.foldlevelstart = 5
+set.foldnestmax = 4
