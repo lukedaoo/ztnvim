@@ -290,5 +290,11 @@ return packer.setup({
             -- refer to the configuration section below
         },
         config = function() require('plug-config/trouble') end
+    },
+    {
+        "nvim-neorg/neorg",
+        event = "VeryLazy",
+        version = "*", -- Pin Neorg to the latest stable release
+        config = function() require('plug-config/neoorg') end,
     }
 })

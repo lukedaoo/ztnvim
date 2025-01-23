@@ -72,3 +72,5 @@ set.foldtext = ""
 set.foldlevel = 99
 set.foldlevelstart = 5
 set.foldnestmax = 4
+
+set.conceallevel = 2
