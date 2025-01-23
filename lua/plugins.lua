@@ -296,5 +296,7 @@ return packer.setup({
         event = "VeryLazy",
         version = "*", -- Pin Neorg to the latest stable release
         config = function() require('plug-config/neoorg') end,
-    }
+    },
+    { "dhruvasagar/vim-table-mode" }
+
 })
