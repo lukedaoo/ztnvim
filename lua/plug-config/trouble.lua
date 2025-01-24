@@ -3,7 +3,7 @@ if not status_ok then
     return
 end
 trouble.setup()
-local map = require("lib.core").map
+local map = require("lib").map
 
 
 map("n", "<leader>xx", ":Trouble diagnostics toggle<CR>")

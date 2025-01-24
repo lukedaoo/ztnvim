@@ -4,7 +4,7 @@ if not status_ok then
 end
 comment.setup({})
 
-local map = require("lib.core").map
+local map = require("lib").map
 
 map("n", "<leader>/", "<Plug>(comment_toggle_linewise_current)");
 map("v", "<leader>/", "<Plug>(comment_toggle_linewise_visual)");

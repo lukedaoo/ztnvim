@@ -11,7 +11,7 @@ rest.setup({
 
 -- REST client
 
-local map = require("lib.core").map
+local map = require("lib").map
 
 map("n", "<leader>rn", "<cmd>vsplit rest.http<CR>")
 map("n", "<leader>rr", function()

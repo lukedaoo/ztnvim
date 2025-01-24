@@ -8,7 +8,7 @@ vim.cmd [[
 ]]
 
 
-local map = require("lib.core").map;
+local map = require("lib").map;
 
 map("n", "<leader>vc", ":VimtexCompile<cr>")
 map("n", "<leader>vv", ":VimtexView<cr>")

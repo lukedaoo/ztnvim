@@ -40,7 +40,7 @@ telescope.setup({
 -- telescope.load_extension("media_files")
 --
 -- telescope.load_extension("flutter")
-local map = require("lib.core").map
+local map = require("lib").map
 
 map("n", "<C-f>", ":Telescope")
 

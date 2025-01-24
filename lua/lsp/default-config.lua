@@ -1,6 +1,6 @@
 local M = {}
 
-local map = require("lib.core").map
+local map = require("lib").map
 
 local capabilities = vim.lsp.protocol.make_client_capabilities();
 

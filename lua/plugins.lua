@@ -19,7 +19,39 @@ end
 
 -- Install your plugins here
 return packer.setup({
+    -- colorschemes
     { "nyoom-engineering/oxocarbon.nvim" },
+    {
+        'projekt0n/github-nvim-theme',
+        name = 'github-theme',
+        event = "VeryLazy",
+        config = function()
+            require('github-theme').setup({
+            })
+        end,
+    },
+    {
+        "blazkowolf/gruber-darker.nvim",
+        event = "VeryLazy",
+    },
+    {
+        "olimorris/onedarkpro.nvim",
+        event = "VeryLazy"
+    },
+    -- utilities
+    {
+        "nvim-lua/plenary.nvim",
+        event = "VeryLazy",
+    },
+    {
+        "nvim-lua/popup.nvim",
+        event = "VeryLazy",
+    },
+    {
+        "alvarosevilla95/luatab.nvim",
+        event = "VeryLazy",
+        config = function() require('luatab').setup({}) end
+    },
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
@@ -40,90 +72,7 @@ return packer.setup({
             hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_tab_indent_level)
         end
     },
-    -- {
-    --     'akinsho/bufferline.nvim',
-    --     version = "*",
-    --     event = "VeryLazy",
-    --     dependencies = 'nvim-tree/nvim-web-devicons',
-    --     config = function()
-    --         require("bufferline").setup({
-    --             options = {
-    --                 buffer_close_icon = '',
-    --                 offsets = {
-    --                     {
-    --                         filetype = "NvimTree",
-    --                         text = "Files Structure",
-    --                         separator = true,
-    --                         text_align = "left"
-    --                     }
-    --                 },
-    --             }
-    --         })
-    --     end
-    -- },
-    -- Or with configuration
-    {
-        'projekt0n/github-nvim-theme',
-        name = 'github-theme',
-        lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-        priority = 1000, -- make sure to load this before all the other start plugins
-        config = function()
-            require('github-theme').setup({
-                -- ...
-            })
-
-            vim.cmd('colorscheme github_dark')
-        end,
-    },
-    {
-        "blazkowolf/gruber-darker.nvim",
-        event = "VeryLazy",
-    },
-    -- {
-    --     "k4yt3x/ayu-vim-darker",
-    --     event = "VeryLazy",
-    -- },
-
-    {
-        "folke/tokyonight.nvim",
-        event = "VeryLazy",
-    },
-    {
-        "navarasu/onedark.nvim",
-        event = "VeryLazy"
-    },
-    -- {
-    --     "b4skyx/serenade",
-    --     event = "VeryLazy",
-    -- },
-    -- {
-    --     "rose-pine/neovim",
-    --     event = "VeryLazy",
-    -- },
-    -- utilities
-    {
-        "nvim-lua/plenary.nvim",
-        event = "VeryLazy",
-    },
-    {
-        "nvim-lua/popup.nvim",
-        event = "VeryLazy",
-    },
-    -- {
-    --     "famiu/bufdelete.nvim",
-    --     event = "VeryLazy",
-    -- },
-    {
-        "alvarosevilla95/luatab.nvim",
-        event = "VeryLazy",
-        config = function() require('luatab').setup({}) end
-    },
-    -- {
-    --     "kwkarlwang/bufjump.nvim",
-    --     event = "VeryLazy",
-    --     config = function() require('plug-config/bufjump') end
-    -- },
-    -- Folder Tree
+    -- folder explorer
     {
         "kyazdani42/nvim-tree.lua",
         dependencies = {
@@ -134,23 +83,11 @@ return packer.setup({
             require('plug-config/nvimtree')
         end,
     },
-    -- {
-    --     "lewis6991/gitsigns.nvim",
-    --     event = "VeryLazy",
-    --     dependencies = { 'nvim-lua/plenary.nvim' },
-    --     config = function() require('gitsigns').setup({}) end,
-    -- },
-    -- {
-    --     "folke/zen-mode.nvim",
-    --     event = "VeryLazy",
-    --     config = function() require('plug-config/zen') end
-    -- },
-
-    -- file finder
+    -- finder
     {
         "nvim-telescope/telescope.nvim",
         event = "VeryLazy",
-        config = function() require('plug-config/telescope') end
+        config = function() require("plug-config/telescope") end
     },
     -- snippets
     {
@@ -160,25 +97,21 @@ return packer.setup({
         -- install jsregexp (optional!).
         build = "make install_jsregexp"
     },
-    -- {
-    --     "rafamadriz/friendly-snippets",
-    --     event = "VeryLazy",
-    -- }, -- a bunch of snippets to use
 
-    -- Treesitter
+    -- treesitter
     {
         "nvim-treesitter/nvim-treesitter",
         event = "VeryLazy",
         config = function() require('plug-config/treesitter') end,
         run = ":TSUpdate",
     },
-    -- Comments
+    -- comments
     {
         "numToStr/Comment.nvim",
         event = "VeryLazy",
         config = function() require('plug-config/comment') end
     },
-    -- Harpoon - bookmark file tool
+    -- harpoon - bookmark file tool
     {
         "ThePrimeagen/harpoon",
         event = "VeryLazy",
@@ -198,22 +131,6 @@ return packer.setup({
         config = function() require('plug-config/cmp') end
     },
 
-    -- -- match tag
-    -- {
-    --     'andymass/vim-matchup',
-    --     event = "VeryLazy",
-    --     setup = function()
-    --         -- may set any options here
-    --         vim.g.matchup_matchparen_offscreen = { method = "popup" }
-    --     end
-    -- },
-    -- {
-    --     "mfussenegger/nvim-dap",
-    --     event = "VeryLazy",
-    --     dependencies = { "rcarriga/nvim-dap-ui" },
-    --     config = function() require('plug-config/dap') end
-    -- },
-
     -- LSP
     {
         "williamboman/mason.nvim",
@@ -227,76 +144,26 @@ return packer.setup({
             require('plug-config/lsp')
         end
     },
-
-    -- {
-    --     "simrat39/rust-tools.nvim",
-    --     event = "VeryLazy",
-    --     config = function() require('plug-config/rust-tools') end,
-    --     ft = { "rust", "rs" },
-    -- },
-
-    -- {
-    --     "NTBBloodbath/rest.nvim",
-    --     event = "VeryLazy",
-    --     config = function() require('plug-config/rest') end
-    -- },
-    -- {
-    --     "windwp/nvim-autopairs",
-    --     event = "VeryLazy",
-    --     config = function() require("nvim-autopairs").setup {} end
-    -- },
-
-    -- {
-    --     "lervag/vimtex",
-    --     event = "VeryLazy",
-    -- },
-
-    -- {
-    --     "akinsho/flutter-tools.nvim",
-    --     event = "VeryLazy",
-    --     dependencies = { "nvim-lua/plenary.nvim" },
-    --     config = function() require('plug-config/flutter-tools') end
-    -- },
-
-    -- {
-    --     "xiyaowong/nvim-transparent",
-    --     event = "VeryLazy",
-    -- },
-    -- {
-    --     "norcalli/nvim-colorizer.lua",
-    --     event = "VeryLazy",
-    --     config = function() require("colorizer").setup {} end
-    -- },
-
-    -- {
-    --     "jackMort/ChatGPT.nvim",
-    --     event = "VeryLazy",
-    --     config = function()
-    --         require("chatgpt").setup()
-    --     end,
-    --     dependencies = {
-    --         "MunifTanjim/nui.nvim",
-    --         "nvim-lua/plenary.nvim",
-    --         "nvim-telescope/telescope.nvim"
-    --     }
-    -- },
     {
         "folke/trouble.nvim",
         event = "VeryLazy",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts = {
-            -- your configuration comes here
-            -- or leave it empty to use the default settings
-            -- refer to the configuration section below
-        },
         config = function() require('plug-config/trouble') end
     },
+    -- Notes
     {
         "nvim-neorg/neorg",
         event = "VeryLazy",
         version = "*", -- Pin Neorg to the latest stable release
         config = function() require('plug-config/neoorg') end,
     },
-    { "dhruvasagar/vim-table-mode" }
-
+    {
+        "dhruvasagar/vim-table-mode",
+        event = "VeryLazy",
+    },
+    {
+        "3rd/image.nvim",
+        event = "VeryLazy",
+        opts = {}
+    },
 })

@@ -1,4 +1,4 @@
-local map = require("lib.core").map
+local map = require("lib").map
 
 -- utility
 map("n", "<leader>h", ":noh<CR>")                                             -- no highlight
@@ -47,7 +47,7 @@ map("n", "<C-l>", function()
 end, { expr = true, silent = true })
 
 -- window resize
-local terminal = require('lib.core').get_terminal()
+local terminal = require('lib').get_terminal()
 if string.find(terminal, 'kitty') then
     map("n", "<S-Up>", "<cmd>resize +2<CR>")
     map("n", "<S-Down>", "<cmd>resize -2<CR>")

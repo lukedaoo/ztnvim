@@ -179,4 +179,4 @@
 -- map("i", ";;", "<ESC>A;");
 --
 --
-# just use IntelliJ IDEA for Java dude 
+--  just use IntelliJ IDEA for Java dude

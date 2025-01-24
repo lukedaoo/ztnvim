@@ -36,6 +36,6 @@ nvim_tree.setup({
     },
 })
 
-local map = require("lib.core").map
+local map = require("lib").map
 
 map("n", "<leader>e", ":NvimTreeToggle<CR>")

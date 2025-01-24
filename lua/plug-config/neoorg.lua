@@ -3,7 +3,7 @@ if not status_ok then
     return
 end
 
-local map = require("lib.core").map
+local map = require("lib").map
 neorg.setup({
     load = {
         ["core.defaults"] = {},
