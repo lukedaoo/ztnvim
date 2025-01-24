@@ -84,8 +84,8 @@ if not vim.o.shell then
     vim.o.shell = default_shell
 end
 
-map("n", "<leader>tt", ":split term://" .. vim.o.shell .. "<CR>")
-map("n", "<leader>T", ":vsplit term://" .. vim.o.shell .. "<CR>")
+map("n", "<leader>t_", ":split term://" .. vim.o.shell .. "<CR>")
+map("n", "<leader>t|", ":vsplit term://" .. vim.o.shell .. "<CR>")
 map("t", "<ESC>", "<C-\\><C-n>")
 map("t", "<C-c>", "<C-\\><C-n><C-w>")
 vim.cmd [[
@@ -135,15 +135,11 @@ vim.cmd [[
     cnoreabbrev <expr> Wqa    ((getcmdtype()  is# ':' && getcmdline() is# 'Wqa')?('wqa'):('wqa'))
     cnoreabbrev <expr> Wq    ((getcmdtype()  is# ':' && getcmdline() is# 'Wq')?('wq'):('wq'))
 ]]
-map({ "n", "i" }, "<C-s>", "<ESC>:w<CR>")
+-- map({ "n", "i" }, "<C-s>", "<ESC>:w<CR>")
 
 -- easy exit
 map("n", "<C-x>", ":wq<CR>")
--- map("n", "<C-c>", ":wq<CR>")
-map({ "n" }, "<leader>q", ":wq<CR>")
--- map("n", "<leader>Q", function()
---     require('bufdelete').bufdelete(0, true)
--- end)
+-- map({ "n" }, "<leader>q", ":wq<CR>")
 
 -- disable command history modes
 map({ "n", "v" }, "q:", "<nop>")
@@ -160,13 +156,12 @@ if vim.g.hardmode == 1 then
 end
 
 -- copy & patse
+map({ "n", "v" }, "<leader>y", '"+y'); -- copy to clipboard
+map("n", "<leader>Y", '"+yg_');        -- copy to the end of line to clipboard
+map("n", "<leader>yy", '"+yy');        -- copy the current line to clipboard
 
-map({ "n", "v" }, "<leader>y", '"+y');
-map("n", "<leader>Y", '"+yg_');
-map("n", "<leader>yy", '"+yy');
-
-map({ "n", "v" }, "<leader>p", '"+p')
-map({ "n", "v" }, "<leader>P", '"+P')
+map({ "n", "v" }, "<leader>p", '"+p')  -- paste from from clipboard
+map({ "n", "v" }, "<leader>P", '"+P')  -- paste from from clipboard
 
 map({ "v" }, "n",
     [[:<c-u>let temp_variable=@"<CR>gvy:<c-u>let @/='\V<C-R>=escape(@",'/\')<CR>'<CR>:let @"=temp_variable<CR>]])

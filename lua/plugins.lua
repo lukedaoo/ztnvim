@@ -20,7 +20,10 @@ end
 -- Install your plugins here
 return packer.setup({
     -- colorschemes
-    { "nyoom-engineering/oxocarbon.nvim" },
+    {
+        "nyoom-engineering/oxocarbon.nvim",
+        event = "VeryLazy",
+    },
     {
         'projekt0n/github-nvim-theme',
         name = 'github-theme',
@@ -56,6 +59,7 @@ return packer.setup({
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         opts = {},
+        event = "VeryLazy",
         config = function()
             require("ibl").setup({
                 indent = {
@@ -76,7 +80,10 @@ return packer.setup({
     {
         "kyazdani42/nvim-tree.lua",
         dependencies = {
-            "kyazdani42/nvim-web-devicons", -- optional, for file icons
+            {
+                "kyazdani42/nvim-web-devicons", -- optional, for file icons
+                event = "VeryLazy",
+            }
         },
         event = "VeryLazy",
         config = function()
@@ -123,11 +130,11 @@ return packer.setup({
         "hrsh7th/nvim-cmp", -- The completion plugin
         event = "VeryLazy",
         dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",          -- buffer completions
-            "hrsh7th/cmp-path",            -- path completions
-            -- use("hrsh7th/cmp-cmdline" -- cmdline completions
-            "saadparwaiz1/cmp_luasnip", }, -- snippet completions
+            { "hrsh7th/cmp-nvim-lsp",     event = "VeryLazy", },
+            { "hrsh7th/cmp-buffer",       event = "VeryLazy", },
+            { "hrsh7th/cmp-path",         event = "VeryLazy", },
+            { "saadparwaiz1/cmp_luasnip", event = "VeryLazy", },
+        },
         config = function() require('plug-config/cmp') end
     },
 
@@ -135,8 +142,8 @@ return packer.setup({
     {
         "williamboman/mason.nvim",
         dependencies = {
-            "williamboman/mason-lspconfig.nvim",
-            "neovim/nvim-lspconfig",
+            { "williamboman/mason-lspconfig.nvim", event = "VeryLazy", },
+            { "neovim/nvim-lspconfig",             event = "VeryLazy", },
             -- java
             -- "mfussenegger/nvim-jdtls",
         },
@@ -147,7 +154,7 @@ return packer.setup({
     {
         "folke/trouble.nvim",
         event = "VeryLazy",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
+        dependencies = { "nvim-tree/nvim-web-devicons", event = "VeryLazy", },
         config = function() require('plug-config/trouble') end
     },
     -- Notes
