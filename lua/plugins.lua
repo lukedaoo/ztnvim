@@ -96,6 +96,8 @@ return packer.setup({
         event = "VeryLazy",
         config = function() require("plug-config/telescope") end
     },
+    { 'kevinhwang91/nvim-bqf', event = "VeryLazy" },
+
     -- snippets
     {
         "L3MON4D3/LuaSnip",
