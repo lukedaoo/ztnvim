@@ -175,4 +175,11 @@ return packer.setup({
         event = "VeryLazy",
         opts = {}
     },
+    {
+        "David-Kunz/gen.nvim",
+        opts = {
+            model = "deepseek-r1:1.5b",
+        }
+    },
+
 })
