@@ -181,5 +181,7 @@ return packer.setup({
             model = "deepseek-r1:1.5b",
         }
     },
+    { 'wakatime/vim-wakatime', lazy = false }
+
 
 })
