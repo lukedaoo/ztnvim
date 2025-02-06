@@ -1,6 +1,7 @@
 local map = require("lib").map
 
 -- utility
+map("n", "<leader>q", vim.cmd.exit);
 map("n", "<leader>h", ":noh<CR>")                                             -- no highlight
 map("n", "<leader><leader>", ":noh<CR>")                                      -- no highlight
 map("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>") -- search and replace word at cursor
@@ -145,6 +146,7 @@ map("n", "<C-x>", ":wq<CR>")
 map({ "n", "v" }, "q:", "<nop>")
 map({ "n", "v" }, "q/", "<nop>")
 map({ "n", "v" }, "q?", "<nop>")
+map({ "n", "v" }, "Q", "<nop>");
 
 if vim.g.hardmode == 1 then
     print("Hardmode is enable")
@@ -160,7 +162,7 @@ map({ "n", "v" }, "<leader>y", '"+y'); -- copy to clipboard
 map("n", "<leader>Y", '"+yg_');        -- copy to the end of line to clipboard
 map("n", "<leader>yy", '"+yy');        -- copy the current line to clipboard
 
-map({ "n", "v" }, "<leader>p", '"+p')  -- paste from from clipboard
+map({ "n", "v" }, "<leader>p", '"_dP') -- paste from from clipboard
 map({ "n", "v" }, "<leader>P", '"+P')  -- paste from from clipboard
 
 map({ "v" }, "n",
