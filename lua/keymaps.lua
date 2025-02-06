@@ -11,14 +11,23 @@ map("n", "<leader>_", ":split<CR>")
 map("n", "<leader>se", "<C-w>=")
 map("n", "<leader>sx", ":close<CR>")
 
+-- copy & patse
+map({ "n", "v" }, "<leader>y", '"+y'); -- copy to clipboard
+map("n", "<leader>Y", '"+yg_');        -- copy to the end of line to clipboard
+map("n", "<leader>yy", '"+yy');        -- copy the current line to clipboard
+
+map({ "n", "v" }, "<leader>P", '"+P')  -- paste from from clipboard
+map({ "n", "v" }, "<leader>p", '"+p')  -- paste from from clipboard
+map("x", "p", "P")
+
 -- line navigation and movements
 map("v", "<Tab>", ">gv")         -- intent forward 1 tab
 map("v", "<S-Tab>", "<gv")       -- intent backward 1 tab
 map("v", "w", "iw")              -- select exactly a word in visual mode
 map({ "n", "v", "o" }, "H", "^") -- jump to first non-blank character of the line
 map({ "n", "v", "o" }, "L", "$") -- jump to last non-blank character of the line
-map({ "n", "v", "o" }, "J", "<C-D>")
-map({ "n", "v", "o" }, "K", "<C-U>")
+map({ "n", "v", "o" }, "J", "<C-D>zz")
+map({ "n", "v", "o" }, "K", "<C-U>zz")
 map("n", "<", "<ESC>v<gv<ESC>")
 map("n", ">", "<ESC>v>gv<ESC>")
 
@@ -113,7 +122,7 @@ map({ "n", "v" }, "dk", "<Nop>")
 map({ "n", "v" }, "dl", "<Nop>")
 
 -- delete without yank
-map({ "n", "v" }, "x", '"_x', { noremap = false }) -- detele without yank
+-- map({ "n", "v" }, "x", '"_x', { noremap = false }) -- detele without yank
 map({ "n", "v" }, "<leader>x", '"+x', { noremap = false })
 map({ "n", "v" }, "vd", "dd")
 -- enter others mode from insert mode
@@ -146,7 +155,10 @@ map("n", "<C-x>", ":wq<CR>")
 map({ "n", "v" }, "q:", "<nop>")
 map({ "n", "v" }, "q/", "<nop>")
 map({ "n", "v" }, "q?", "<nop>")
-map({ "n", "v" }, "Q", "<nop>");
+map({ "n", "v" }, "qq", "<nop>");
+map({ "v" }, "Q", "<nop>");
+map('n', 'Q', 'q', { noremap = true, silent = true }) -- Q to write macro
+map('n', 'q', '', { noremap = true, silent = true })
 
 if vim.g.hardmode == 1 then
     print("Hardmode is enable")
@@ -157,13 +169,7 @@ if vim.g.hardmode == 1 then
     map({ "n", "i" }, "<Right>", "<Nop>")
 end
 
--- copy & patse
-map({ "n", "v" }, "<leader>y", '"+y'); -- copy to clipboard
-map("n", "<leader>Y", '"+yg_');        -- copy to the end of line to clipboard
-map("n", "<leader>yy", '"+yy');        -- copy the current line to clipboard
-
-map({ "n", "v" }, "<leader>p", '"_dP') -- paste from from clipboard
-map({ "n", "v" }, "<leader>P", '"+P')  -- paste from from clipboard
-
 map({ "v" }, "n",
     [[:<c-u>let temp_variable=@"<CR>gvy:<c-u>let @/='\V<C-R>=escape(@",'/\')<CR>'<CR>:let @"=temp_variable<CR>]])
+
+map("n", "<leader>op", "<cmd>silent !tmux neww tmux-sessionizer<CR>")

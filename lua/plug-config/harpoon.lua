@@ -3,41 +3,44 @@ if not status_ok then
     return
 end
 
-local h_status_ok, _ = pcall(require, "harpoon")
+local h_status_ok, harpoon = pcall(require, "harpoon")
 if not h_status_ok then
     return
 end
-
 telescope.load_extension("harpoon")
 
 local map = require("lib").map
 
-map("n", "mm", "<cmd>lua require('harpoon.mark').add_file()<CR>")
-map("n", "mn", "<cmd>lua require('harpoon.ui').nav_next()<CR>")
-map("n", "mp", "<cmd>lua require('harpoon.ui').nav_prev()<CR>")
-map("n", "ms", "<cmd>Telescope harpoon marks<CR>")
-map("n", "m;", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>")
+local conf = require("telescope.config").values
+local function toggle_telescope(harpoon_files)
+    local file_paths = {}
+    for _, item in ipairs(harpoon_files.items) do
+        table.insert(file_paths, item.value)
+    end
 
-map("n", "mq", "<cmd>lua require('harpoon.ui').nav_file(1)<CR>")
-map("n", "mw", "<cmd>lua require('harpoon.ui').nav_file(2)<CR>")
-map("n", "me", "<cmd>lua require('harpoon.ui').nav_file(3)<CR>")
-map("n", "mr", "<cmd>lua require('harpoon.ui').nav_file(4)<CR>")
+    require("telescope.pickers").new({}, {
+        prompt_title = "Harpoon",
+        finder = require("telescope.finders").new_table({
+            results = file_paths,
+        }),
+        previewer = conf.file_previewer({}),
+        sorter = conf.generic_sorter({}),
+    }):find()
+end
 
-map("n", "<leader><Tab>", function()
-    require("telescope").extensions.harpoon.marks(
-        require("telescope.themes")
-        .get_dropdown {
-            previewer = false,
-            initial_mode = 'normal',
-            prompt_title = 'Harpoon'
-        })
-end)
+harpoon:setup()
+-- REQUIRED
+map("n", "<leader><Tab>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-map("n", "<S-Tab>", function()
-    require('telescope.builtin').buffers(
-        require('telescope.themes')
-        .get_dropdown {
-            previewer = false,
-            initial_mode = 'normal'
-        })
+map("n", "mm", function() harpoon:list():add() end)
+map("n", "mq", function() harpoon:list():select(1) end)
+map("n", "mw", function() harpoon:list():select(2) end)
+map("n", "me", function() harpoon:list():select(3) end)
+map("n", "mr", function() harpoon:list():select(4) end)
+
+-- Toggle previous & next buffers stored within Harpoon list
+map("n", "mn", function() harpoon:list():prev() end)
+map("n", "mp", function() harpoon:list():next() end)
+map("n", "m;", function()
+    toggle_telescope(harpoon:list())
 end)

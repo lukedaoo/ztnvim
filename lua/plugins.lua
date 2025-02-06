@@ -124,6 +124,7 @@ return packer.setup({
     {
         "ThePrimeagen/harpoon",
         event = "VeryLazy",
+        branch = "harpoon2",
         config = function() require('plug-config/harpoon') end,
     },
 
