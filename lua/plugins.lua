@@ -173,7 +173,8 @@ return packer.setup({
     {
         "3rd/image.nvim",
         event = "VeryLazy",
-        opts = {}
+        opts = {},
+        config = function() require('plug-config/image') end,
     },
     {
         "David-Kunz/gen.nvim",
