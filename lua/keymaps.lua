@@ -11,7 +11,7 @@ map("n", "<leader>_", ":split<CR>")
 map("n", "<leader>se", "<C-w>=")
 map("n", "<leader>sx", ":close<CR>")
 
--- copy & patse
+-- copy & paste
 map({ "n", "v" }, "<leader>y", '"+y'); -- copy to clipboard
 map("n", "<leader>Y", '"+yg_');        -- copy to the end of line to clipboard
 map("n", "<leader>yy", '"+yy');        -- copy the current line to clipboard
@@ -19,6 +19,11 @@ map("n", "<leader>yy", '"+yy');        -- copy the current line to clipboard
 map({ "n", "v" }, "<leader>P", '"+P')  -- paste from from clipboard
 map({ "n", "v" }, "<leader>p", '"+p')  -- paste from from clipboard
 map("x", "p", "P")
+-- copy & paste current line
+map("n", "<leader>ll", function()
+    local col = vim.fn.getpos(".")[3] -- Get cursor column
+    vim.api.nvim_feedkeys("yyp" .. (col - 1) .. "l", "n", false)
+end, { noremap = true, silent = true })
 
 -- line navigation and movements
 map("v", "<Tab>", ">gv")         -- intent forward 1 tab
