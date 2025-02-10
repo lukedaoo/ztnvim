@@ -5,7 +5,7 @@ local options = {
     guicursor = "",
     termguicolors = true,
     updatetime = 150,
-    colorcolumn = "120",
+    colorcolumn = "80",
 
     backup = false,
     swapfile = false,

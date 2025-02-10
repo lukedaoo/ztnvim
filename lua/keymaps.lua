@@ -172,4 +172,4 @@ end
 map({ "v" }, "n",
     [[:<c-u>let temp_variable=@"<CR>gvy:<c-u>let @/='\V<C-R>=escape(@",'/\')<CR>'<CR>:let @"=temp_variable<CR>]])
 
-map("n", "<leader>op", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+map("n", "<leader>op", "<cmd>!tmux neww tmux-sessionizer<CR>")
