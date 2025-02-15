@@ -39,3 +39,5 @@ vim.o.shell = "zsh"
 
 vim.g.hardmode = 1
 vim.g.vimtex_view_method = "zathura"
+
+vim.g.auto_format_enabled = true -- Set to true to enable, false to disable auto format

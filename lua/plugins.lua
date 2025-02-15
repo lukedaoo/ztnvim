@@ -177,6 +177,7 @@ return packer.setup({
         opts = {},
         config = function() require('plug-config/image') end,
     },
+
     {
         "David-Kunz/gen.nvim",
         opts = {
@@ -184,6 +185,4 @@ return packer.setup({
         }
     },
     { 'wakatime/vim-wakatime', lazy = false }
-
-
 })
