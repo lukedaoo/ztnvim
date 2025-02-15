@@ -6,8 +6,8 @@ augroup BgHighlight
 augroup END
 ]]
 
--- Function to trigger LSP format
 function FormatOnSave()
+    if vim.g.auto_format_enabled == false then return end
     local ignore_files_type = { "java", "h" } -- List of file types to ignore
     if vim.tbl_contains(ignore_files_type, vim.bo.filetype) then
         return
@@ -31,9 +31,8 @@ vim.api.nvim_create_user_command(
 vim.cmd [[
 augroup AutoSave
     autocmd!
-    autocmd BufWritePre * lua if vim.g.auto_format_enabled then vim.lsp.buf.format({async=true}) end
+    autocmd BufWritePre * lua FormatOnSave()
 augroup END
-
 ]]
 
 vim.cmd([[autocmd BufEnter *.pdf execute "!zathura '%'" | bdelete %]])
