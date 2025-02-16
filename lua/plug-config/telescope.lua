@@ -44,7 +44,7 @@ local map = require("lib").map
 
 map("n", "<C-f>", ":Telescope")
 
-map("n", "<leader>fs", function()
+map("n", "<leader>fS", function()
     require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ") })
 end)
 
@@ -56,7 +56,7 @@ map("n", "<leader>F", function()
     require('telescope.builtin').find_files()
 end)
 
-map("n", "<leader>fS", function()
+map("n", "<leader>fs", function()
     require('telescope.builtin').grep_string({ search = vim.fn.expand('<cword>') })
 end)
 

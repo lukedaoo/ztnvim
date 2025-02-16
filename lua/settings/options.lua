@@ -27,7 +27,7 @@ local options = {
 
     -- number
     number = true,
-    relativenumber = false,
+    relativenumber = true,
 
     -- indent
     tabstop = 4,
@@ -44,7 +44,6 @@ local options = {
 for k, v in pairs(options) do
     vim.opt[k] = v
 end
-
 
 -- show invisible
 local set = vim.opt

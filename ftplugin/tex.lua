@@ -1,3 +1,5 @@
+vim.opt.conceallevel = 0
+
 vim.cmd [[
   let g:vimtex_quickfix_ignore_filters = [
   \'Underfull',
@@ -6,7 +8,6 @@ vim.cmd [[
   \]
   let g:Tex_IgnoreLevel = 8
 ]]
-
 
 local map = require("lib").map;
 
