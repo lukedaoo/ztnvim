@@ -49,7 +49,14 @@ end
 local set = vim.opt
 set.list = true
 set.termguicolors = true
-set.listchars = { tab = '│ ', --[[eol = '↩' ,--]] trail = '•', space = ' ', precedes = '←', extends = '→' }
+set.listchars = {
+    tab = '│ ',
+    trail = '•',
+    space = ' ',
+    precedes = '←',
+    extends = '→',
+    -- eol = '↩'
+}
 set.fillchars = {
     stl = ' ',
     stlnc = ' ',

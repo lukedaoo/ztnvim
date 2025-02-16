@@ -12,6 +12,7 @@ map("n", "<leader>se", "<C-w>=")
 map("n", "<leader>sx", ":close<CR>")
 
 -- copy & paste
+map({ "n", "v", "x" }, "$", 'g_');     -- go to the end line but not trailling char . THE BEST
 map({ "n", "v" }, "<leader>y", '"+y'); -- copy to clipboard
 map("n", "<leader>Y", '"+yg_');        -- copy to the end of line to clipboard
 map("n", "<leader>yy", '"+yy');        -- copy the current line to clipboard
@@ -26,11 +27,11 @@ map("n", "<leader>ll", function()
 end, { noremap = true, silent = true })
 
 -- line navigation and movements
-map("v", "<Tab>", ">gv")         -- intent forward 1 tab
-map("v", "<S-Tab>", "<gv")       -- intent backward 1 tab
-map("v", "w", "iw")              -- select exactly a word in visual mode
-map({ "n", "v", "o" }, "H", "^") -- jump to first non-blank character of the line
-map({ "n", "v", "o" }, "L", "$") -- jump to last non-blank character of the line
+map("v", "<Tab>", ">gv")          -- intent forward 1 tab
+map("v", "<S-Tab>", "<gv")        -- intent backward 1 tab
+map("v", "w", "iw")               -- select exactly a word in visual mode
+map({ "n", "v", "o" }, "H", "^")  -- jump to first non-blank character of the line
+map({ "n", "v", "o" }, "L", "g_") -- jump to last non-blank character of the line
 map({ "n", "v", "o" }, "J", "<C-D>zz")
 map({ "n", "v", "o" }, "K", "<C-U>zz")
 map("n", "<", "<ESC>v<gv<ESC>")
