@@ -10,7 +10,6 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.rtp:prepend(lazypath)
-
 local status_ok, packer = pcall(require, "lazy")
 if not status_ok then
     return
@@ -176,6 +175,11 @@ return packer.setup({
         opts = {},
         config = function() require('plug-config/image') end,
     },
-    { 'wakatime/vim-wakatime', event = "VeryLazy" },
-    { "github/copilot.vim",    event = "VeryLazy" }
+    { "wakatime/vim-wakatime", event = "VeryLazy" },
+    {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        config = function() require("plug-config/copilot") end,
+    }
 })
