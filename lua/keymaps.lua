@@ -3,7 +3,6 @@ local map = require("lib").map
 -- utility
 map("n", "<leader>q", vim.cmd.exit);
 map("n", "<leader>h", ":noh<CR>")                                             -- no highlight
-map("n", "<leader><leader>", ":noh<CR>")                                      -- no highlight
 map("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>") -- search and replace word at cursor
 map("n", "<C-a>", "ggVG")                                                     -- select all
 map("n", "<leader>|", ":vsplit<CR>")
@@ -21,10 +20,11 @@ map({ "n", "v" }, "<leader>P", '"+P')  -- paste from from clipboard
 map({ "n", "v" }, "<leader>p", '"+p')  -- paste from from clipboard
 map("x", "p", "P")
 -- copy & paste current line
-map("n", "<leader>ll", function()
-    local col = vim.fn.getpos(".")[3] -- Get cursor column
-    vim.api.nvim_feedkeys("yyp" .. (col - 1) .. "l", "n", false)
-end, { noremap = true, silent = true })
+map("n", "<leader>ll", "mayyp`aj")
+-- map("n", "<leader>ll", function()
+--     local col = vim.fn.getpos(".")[2] -- Get cursor column
+--     vim.api.nvim_feedkeys("yyp" .. (col - 1) .. "l", "n", false)
+-- end, { noremap = true, silent = true })
 
 -- line navigation and movements
 map("v", "<Tab>", ">gv")          -- intent forward 1 tab
@@ -178,4 +178,4 @@ end
 map({ "v" }, "n",
     [[:<c-u>let temp_variable=@"<CR>gvy:<c-u>let @/='\V<C-R>=escape(@",'/\')<CR>'<CR>:let @"=temp_variable<CR>]])
 
-map("n", "<leader>op", "<cmd>!tmux neww tmux-sessionizer<CR>")
+map("n", "<leader>op", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
