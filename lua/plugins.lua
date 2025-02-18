@@ -176,12 +176,6 @@ return packer.setup({
         opts = {},
         config = function() require('plug-config/image') end,
     },
-
-    {
-        "David-Kunz/gen.nvim",
-        opts = {
-            model = "deepseek-r1:1.5b",
-        }
-    },
-    { 'wakatime/vim-wakatime', lazy = false }
+    { 'wakatime/vim-wakatime', event = "VeryLazy" },
+    { "github/copilot.vim",    event = "VeryLazy" }
 })

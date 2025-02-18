@@ -7,5 +7,7 @@ local map = require("lib").map
 
 
 map("n", "<leader>xx", ":Trouble diagnostics toggle<CR>")
+map("n", "<leader>xq", function()
+    vim.diagnostic.setqflist();
+end)
 map("n", "<leader>xX", ":Trouble diagnostics toggle filter.buf=0<CR>")
-map("n", "<leader>xq", "Trouble qflist toggle<cr>")
