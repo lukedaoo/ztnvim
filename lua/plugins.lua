@@ -27,8 +27,7 @@ return packer.setup({
         name = 'github-theme',
         event = "VeryLazy",
         config = function()
-            require('github-theme').setup({
-            })
+            require('github-theme').setup({})
         end,
     },
     {
@@ -47,11 +46,6 @@ return packer.setup({
     {
         "nvim-lua/popup.nvim",
         event = "VeryLazy",
-    },
-    {
-        "alvarosevilla95/luatab.nvim",
-        event = "VeryLazy",
-        config = function() require('luatab').setup({}) end
     },
     {
         "lukas-reineke/indent-blankline.nvim",
@@ -102,7 +96,11 @@ return packer.setup({
         event = "VeryLazy",
         version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
         -- install jsregexp (optional!).
-        build = "make install_jsregexp"
+        build = "make install_jsregexp",
+        dependencies = {
+            { "rafamadriz/friendly-snippets", event = "VeryLazy", },
+            { "saadparwaiz1/cmp_luasnip",     event = "VeryLazy", },
+        },
     },
 
     -- treesitter
@@ -131,10 +129,9 @@ return packer.setup({
         "hrsh7th/nvim-cmp", -- The completion plugin
         event = "VeryLazy",
         dependencies = {
-            { "hrsh7th/cmp-nvim-lsp",     event = "VeryLazy", },
-            { "hrsh7th/cmp-buffer",       event = "VeryLazy", },
-            { "hrsh7th/cmp-path",         event = "VeryLazy", },
-            { "saadparwaiz1/cmp_luasnip", event = "VeryLazy", },
+            { "hrsh7th/cmp-nvim-lsp", event = "VeryLazy", },
+            { "hrsh7th/cmp-buffer",   event = "VeryLazy", },
+            { "hrsh7th/cmp-path",     event = "VeryLazy", },
         },
         config = function() require('plug-config/cmp') end
     },
@@ -179,7 +176,7 @@ return packer.setup({
     {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
-        event = "InsertEnter",
+        event = "VeryLazy",
         config = function() require("plug-config/copilot") end,
     }
 })

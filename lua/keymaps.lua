@@ -9,6 +9,8 @@ map("n", "<leader>|", ":vsplit<CR>")
 map("n", "<leader>_", ":split<CR>")
 map("n", "<leader>se", "<C-w>=")
 map("n", "<leader>sx", ":close<CR>")
+map("n", "yc", "yygccp", { remap = true })
+
 
 -- copy & paste
 map({ "n", "v", "x" }, "$", 'g_');     -- go to the end line but not trailling char . THE BEST
@@ -21,10 +23,6 @@ map({ "n", "v" }, "<leader>p", '"+p')  -- paste from from clipboard
 map("x", "p", "P")
 -- copy & paste current line
 map("n", "<leader>ll", "mayyp`aj")
--- map("n", "<leader>ll", function()
---     local col = vim.fn.getpos(".")[2] -- Get cursor column
---     vim.api.nvim_feedkeys("yyp" .. (col - 1) .. "l", "n", false)
--- end, { noremap = true, silent = true })
 
 -- line navigation and movements
 map("v", "<Tab>", ">gv")          -- intent forward 1 tab
@@ -44,8 +42,6 @@ map("x", "J", ":move '>+1<CR>gv-gv")
 -- window navigation
 map("n", "<C-j>", "<C-w>j")
 map("n", "<C-k>", "<C-w>k")
--- map("n", "<C-h>", "<C-w>h")
--- map("n", "<C-l>", "<C-w>l")
 map("n", "<C-h>", function()
     if vim.fn.winnr() == vim.fn.winnr("h") then
         return "<cmd>tabprev<cr>"
@@ -134,6 +130,7 @@ map({ "n", "v" }, "vd", "dd")
 -- enter others mode from insert mode
 map("i", "jj", "<ESC><Right>")
 map("i", "jk", "<ESC><Right>")
+map("i", "kk", "<ESC><Right>")
 -- map("i", "ddd", "<ESC>")
 map("i", "AA", "<ESC>")
 map("i", "VV", "<ESC>V")
@@ -167,7 +164,7 @@ map('n', 'Q', 'q', { noremap = true, silent = true }) -- Q to write macro
 map('n', 'q', '', { noremap = true, silent = true })
 
 if vim.g.hardmode == 1 then
-    print("Hardmode is enable")
+    print("Hardmode is enabled")
 
     map({ "n", "i" }, "<Up>", "<Nop>")
     map({ "n", "i" }, "<Down>", "<Nop>")
@@ -175,7 +172,24 @@ if vim.g.hardmode == 1 then
     map({ "n", "i" }, "<Right>", "<Nop>")
 end
 
+-- search by selected text
 map({ "v" }, "n",
     [[:<c-u>let temp_variable=@"<CR>gvy:<c-u>let @/='\V<C-R>=escape(@",'/\')<CR>'<CR>:let @"=temp_variable<CR>]])
 
+-- open tmux session in new window
 map("n", "<leader>op", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
+-- format selected text
+map("v", "<leader>f", function()
+    if vim.g.auto_format_enabled == true then
+        print("Work only with auto_format_enabled = false")
+        return
+    end
+    vim.lsp.buf.format({
+        async = true,
+        range = {
+            ["start"] = vim.api.nvim_buf_get_mark(0, "<"),
+            ["end"] = vim.api.nvim_buf_get_mark(0, ">"),
+        }
+    })
+end)

@@ -12,6 +12,7 @@ local check_backspace = function()
     local col = vim.fn.col "." - 1
     return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
 end
+
 --   פּ ﯟ   some other good icons
 local kind_icons = {
     Text = "",
@@ -40,8 +41,8 @@ local kind_icons = {
     Operator = "",
     TypeParameter = "",
 }
--- find more here: https://www.nerdfonts.com/cheat-sheet
 
+require("luasnip.loaders.from_vscode").lazy_load()
 cmp.setup {
     snippet = {
         expand = function(args)
@@ -60,29 +61,7 @@ cmp.setup {
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
         },
-        -- Accept currently selected item. If none selected, `select` first item.
-        -- Set `select` to `false` to only confirm explicitly selected items.
         ["<CR>"] = cmp.mapping.confirm { select = true },
-        -- ["<C-Down>"] = cmp.mapping(function(fallback)
-        --     if cmp.visible() then
-        --         cmp.select_next_item()
-        --     else
-        --         fallback()
-        --     end
-        -- end, {
-        --     "i",
-        --     "s",
-        -- }),
-        -- ["<C-Up>"] = cmp.mapping(function(fallback)
-        --     if cmp.visible() then
-        --         cmp.select_prev_item()
-        --     else
-        --         fallback()
-        --     end
-        -- end, {
-        --     "i",
-        --     "s",
-        -- }),
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
@@ -117,7 +96,6 @@ cmp.setup {
         format = function(entry, vim_item)
             -- Kind icons
             vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
-            -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
             vim_item.menu = ({
                 luasnip = "[Snippet]",
                 buffer = "[Buffer]",
