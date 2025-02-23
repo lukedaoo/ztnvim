@@ -49,11 +49,11 @@ map("n", "<leader>fS", function()
 end)
 
 map("n", "<leader>ff", function()
-    require('telescope.builtin').git_files()
+    require('telescope.builtin').find_files()
 end)
 
-map("n", "<leader>F", function()
-    require('telescope.builtin').find_files()
+map("n", "<leader>fg", function()
+    require('telescope.builtin').git_files()
 end)
 
 map("n", "<leader>fs", function()
