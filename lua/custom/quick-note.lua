@@ -10,7 +10,7 @@ local M = {}
 --      Tries to open note file in the current working directory.
 --      If it does not exist, open the global notes directory (opts.global_dir).
 -- @opts.global_dir: The global notes directory.
--- @opt.note_name: The note file name.
+-- @opts.note_name: The note file name.
 local function open_floating_note(opts, dir_or_file)
     local check = file_utils.isFolderOrFile(dir_or_file)
     local floating_file = require("custom.floating-file")
