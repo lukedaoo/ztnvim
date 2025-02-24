@@ -44,3 +44,13 @@ augroup ConcealFileTypes
     autocmd FileType json,markdown,help,tex setlocal conceallevel=0
 augroup END
 ]]
+
+-- show line count after yanking
+vim.api.nvim_create_autocmd("TextYankPost", {
+    group = vim.api.nvim_create_augroup("YankLineCount", { clear = true }),
+    callback = function()
+        local register_content = vim.fn.getreg('"')
+        local line_count = #vim.split(register_content, "\n") - 1
+        vim.notify("Yanked " .. line_count .. " lines")
+    end,
+})

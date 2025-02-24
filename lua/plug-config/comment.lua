@@ -6,9 +6,30 @@ comment.setup({})
 
 local map = require("lib").map
 
-map("n", "<leader>/", "<Plug>(comment_toggle_linewise_current)");
-map("v", "<leader>/", "<Plug>(comment_toggle_linewise_visual)");
+local function toggle_comment()
+    local mode = vim.api.nvim_get_mode().mode
+    local line1, line2
 
+    local upbound = vim.g.block_comment_lines or 10
+
+    if mode == "v" or mode == "V" or mode == "\22" then
+        line1 = vim.fn.line("v")
+        line2 = vim.fn.line(".")
+        local count = math.abs(line2 - line1) + 1 -- Calculate selected line count
+
+        if count > upbound then
+            vim.api.nvim_feedkeys("gb", "x", true)
+            vim.notify("Commented " .. count .. " lines")
+        else
+            vim.api.nvim_feedkeys("gcc", "x", true)
+        end
+    else -- Normal mode
+        vim.api.nvim_feedkeys("gcc", "x", true)
+    end
+end
+
+map("n", "<leader>/", toggle_comment, { noremap = true, silent = true })
+map("v", "<leader>/", toggle_comment, { noremap = true, silent = true })
 
 local ft = require('Comment.ft')
 
