@@ -34,6 +34,9 @@ nvim_tree.setup({
         dotfiles = true,
         custom = ignored_ext,
     },
+    actions = {
+        change_dir = { enable = false }
+    }
 })
 
 local map = require("lib").map
