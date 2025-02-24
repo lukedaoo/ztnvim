@@ -17,25 +17,38 @@ end
 
 -- Install your plugins here
 return packer.setup({
+    -- custom
+    {
+        "custom",
+        name = "custom",
+        dir = vim.fn.stdpath("config") .. "/lua/custom",
+        lazy = true,
+        event = "VeryLazy",
+        config = function() require("custom") end,
+    },
     -- colorschemes
     {
         "nyoom-engineering/oxocarbon.nvim",
+        lazy = true,
         event = "VeryLazy",
     },
     {
         'projekt0n/github-nvim-theme',
         name = 'github-theme',
         event = "VeryLazy",
+        lazy = true,
         config = function()
             require('github-theme').setup({})
         end,
     },
     {
         "blazkowolf/gruber-darker.nvim",
+        lazy = true,
         event = "VeryLazy",
     },
     {
         "olimorris/onedarkpro.nvim",
+        lazy = true,
         event = "VeryLazy"
     },
     -- utilities
@@ -50,6 +63,7 @@ return packer.setup({
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
+        lazy = true,
         opts = {},
         event = "VeryLazy",
         config = function()
@@ -71,6 +85,7 @@ return packer.setup({
     -- folder explorer
     {
         "kyazdani42/nvim-tree.lua",
+        lazy = true,
         dependencies = {
             {
                 "kyazdani42/nvim-web-devicons", -- optional, for file icons
@@ -86,15 +101,21 @@ return packer.setup({
     {
         "nvim-telescope/telescope.nvim",
         event = "VeryLazy",
+        lazy = true,
         config = function() require("plug-config/telescope") end
     },
-    { 'kevinhwang91/nvim-bqf', event = "VeryLazy" },
+    {
+        'kevinhwang91/nvim-bqf',
+        lazy = true,
+        event = "VeryLazy"
+    },
 
     -- snippets
     {
         "L3MON4D3/LuaSnip",
         event = "VeryLazy",
         version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+        lazy = true,
         -- install jsregexp (optional!).
         build = "make install_jsregexp",
         dependencies = {
@@ -108,12 +129,14 @@ return packer.setup({
         "nvim-treesitter/nvim-treesitter",
         event = "VeryLazy",
         config = function() require('plug-config/treesitter') end,
+        lazy = true,
         run = ":TSUpdate",
     },
     -- comments
     {
         "numToStr/Comment.nvim",
         event = "VeryLazy",
+        lazy = true,
         config = function() require('plug-config/comment') end
     },
     -- harpoon - bookmark file tool
@@ -121,6 +144,7 @@ return packer.setup({
         "ThePrimeagen/harpoon",
         event = "VeryLazy",
         branch = "harpoon2",
+        lazy = true,
         config = function() require('plug-config/harpoon') end,
     },
 
@@ -128,6 +152,7 @@ return packer.setup({
     {
         "hrsh7th/nvim-cmp", -- The completion plugin
         event = "VeryLazy",
+        lazy = true,
         dependencies = {
             { "hrsh7th/cmp-nvim-lsp", event = "VeryLazy", },
             { "hrsh7th/cmp-buffer",   event = "VeryLazy", },
@@ -145,6 +170,7 @@ return packer.setup({
             -- java
             -- "mfussenegger/nvim-jdtls",
         },
+        lazy = true,
         config = function()
             require('plug-config/lsp')
         end
@@ -152,6 +178,7 @@ return packer.setup({
     {
         "folke/trouble.nvim",
         event = "VeryLazy",
+        lazy = true,
         dependencies = { "nvim-tree/nvim-web-devicons", event = "VeryLazy", },
         config = function() require('plug-config/trouble') end
     },
@@ -160,23 +187,30 @@ return packer.setup({
         "nvim-neorg/neorg",
         event = "VeryLazy",
         version = "*", -- Pin Neorg to the latest stable release
+        lazy = true,
         config = function() require('plug-config/neoorg') end,
     },
     {
         "dhruvasagar/vim-table-mode",
+        lazy = true,
         event = "VeryLazy",
     },
     {
         "3rd/image.nvim",
         event = "VeryLazy",
-        opts = {},
+        lazy = true,
         config = function() require('plug-config/image') end,
     },
-    { "wakatime/vim-wakatime", event = "VeryLazy" },
+    {
+        "wakatime/vim-wakatime",
+        lazy = true,
+        event = "VeryLazy"
+    },
     {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
         event = "VeryLazy",
+        lazy = true,
         config = function() require("plug-config/copilot") end,
     }
 })
