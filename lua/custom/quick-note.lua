@@ -2,42 +2,46 @@ local file_utils = require("custom.file-utils")
 
 local M = {}
 
+-- Checks if it is a folder:
+--      If yes, open the folder
+-- Checks if dir_or_file is a file:
+--      If yes, opens it in a floating window.
+-- If dir_or_file is missing or invalid:
+--      Tries to open note file in the current working directory.
+--      If it does not exist, open the global notes directory (opts.global_dir).
+-- @opts.global_dir: The global notes directory.
+-- @opt.note_name: The note file name.
 local function open_floating_note(opts, dir_or_file)
     local check = file_utils.isFolderOrFile(dir_or_file)
     local floating_file = require("custom.floating-file")
 
     if check == 0 then -- is a folder
-        file_utils.get_filepath(dir_or_file, function(filepath)
-            floating_file.open(filepath)
+        file_utils.get_filepath(dir_or_file, function(file_path)
+            floating_file.open(file_path)
         end)
     elseif check == 1 then -- is a file
-        file_utils.open_floating_file(dir_or_file)
+        floating_file.open(dir_or_file)
     else
         local cur_dir = vim.fn.getcwd()
-        local todo_norg = vim.fn.resolve(cur_dir .. "/todo.norg")
-        local todo_md = vim.fn.resolve(cur_dir .. "/todo.md")
+        local note_name = opts.note_name or "todo.norg"
+        local todo_filepath = vim.fn.resolve(cur_dir .. "/" .. note_name)
 
-        if vim.fn.filereadable(todo_norg) == 1 then
-            floating_file.open(todo_norg)
-        elseif vim.fn.filereadable(todo_md) == 1 then
-            floating_file.open(todo_md)
+        if vim.fn.filereadable(todo_filepath) == 1 then
+            floating_file.open(todo_filepath)
         else
             local default_dir = opts.global_dir or "~/Notes"
-            file_utils.get_filepath(default_dir, function(filepath)
-                floating_file.open(filepath)
+            file_utils.get_filepath(default_dir, function(file_path)
+                floating_file.open(file_path)
             end)
         end
     end
 end
--- @file_name: string - name of the file to create,
--- if nil, defaults to todo.norg
+
 local function new_note(opts, file_name)
-    local cur_dir = vim.fn.getcwd()
     if file_name == nil or file_name == "" then
-        file_name = "todo.norg"
+        file_name = opts.note_name or "todo.norg"
     end
-    local target_file = cur_dir .. "/" .. file_name
-    local resolved_target_file = vim.fn.resolve(target_file)
+    local resolved_target_file = vim.fn.resolve(file_name)
 
     local check = file_utils.isFolderOrFile(resolved_target_file)
 
@@ -75,7 +79,7 @@ end
 
 local function setup_keymaps()
     vim.keymap.set("n", "<leader>td", ":ToggleNote<CR>", {
-        silent = true, desc = "Toggle todo note" })
+        silent = true, desc = "Toggle note folder or note file" })
     vim.keymap.set("n", "<leader>nn", ":NewNote todo.norg<CR>",
         { silent = true, desc = "Create new note in current directory" })
     vim.keymap.set("n", "<leader>ni", ":ToggleNote ~/Notes/ideas.norg<CR>",
