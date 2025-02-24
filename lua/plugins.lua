@@ -170,7 +170,7 @@ return packer.setup({
             -- java
             -- "mfussenegger/nvim-jdtls",
         },
-        lazy = true,
+        event = "VeryLazy",
         config = function()
             require('plug-config/lsp')
         end

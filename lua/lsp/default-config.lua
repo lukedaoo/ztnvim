@@ -19,7 +19,7 @@ local on_attach = function()
         )
     end)
     map("n", "gr", function()
-        require('telescope.builtin').lsp_references(
+        require('telescope.juiltin').lsp_references(
             require('telescope.themes').get_dropdown({})
         )
     end)
