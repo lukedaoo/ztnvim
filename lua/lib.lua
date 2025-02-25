@@ -34,12 +34,13 @@ local function get_os()
     end
 end
 
-local function load_colorscheme(colorscheme)
+local function load_colorscheme(colorscheme, post)
     local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
     if not status_ok then
         vim.notify("colorscheme " .. colorscheme .. " not found!")
         return
     end
+    post()
 end
 
 return {

@@ -196,15 +196,15 @@ return packer.setup({
         event = "VeryLazy",
     },
     {
+        "wakatime/vim-wakatime",
+        lazy = true,
+        event = "VeryLazy"
+    },
+    {
         "3rd/image.nvim",
         event = "VeryLazy",
         lazy = true,
         config = function() require('plug-config/image') end,
-    },
-    {
-        "wakatime/vim-wakatime",
-        lazy = true,
-        event = "VeryLazy"
     },
     {
         "zbirenbaum/copilot.lua",
