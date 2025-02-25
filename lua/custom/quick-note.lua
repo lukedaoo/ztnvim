@@ -2,7 +2,7 @@ local file_utils = require("custom.file-utils")
 
 local M = {}
 
--- Checks if it is a folder:
+-- Checks if dir_or_file is a folder:
 --      If yes, open the folder
 -- Checks if dir_or_file is a file:
 --      If yes, opens it in a floating window.

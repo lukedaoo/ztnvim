@@ -7,16 +7,14 @@ local function setup_commands()
         function()
             vim.g.hard_mode_enabled = not vim.g.hard_mode_enabled
             print("Hardmode " .. (vim.g.hard_mode_enabled and "enabled" or "disabled"))
-            toggle()
+            toggle_hard_mode()
         end,
         { nargs = 0 }
     )
 end
 
-local function toggle()
-    local enabled = vim.g.hard_mode_enabled
-    if enabled then
-        print("Hardmode is enabled")
+function toggle_hard_mode()
+    if vim.g.hard_mode_enabled then
         map({ "n", "i" }, "<Up>", "<Nop>")
         map({ "n", "i" }, "<Down>", "<Nop>")
         map({ "n", "i" }, "<Left>", "<Nop>")
@@ -35,7 +33,7 @@ end
 
 function M.setup()
     setup_commands()
-    toggle()
+    toggle_hard_mode()
 end
 
 return M
