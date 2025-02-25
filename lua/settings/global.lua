@@ -37,9 +37,9 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 vim.o.shell = "zsh"
 
-vim.g.hardmode = 1
+vim.g.hard_mode_enabled = true
 vim.g.vimtex_view_method = "zathura"
 
 vim.g.auto_format_enabled = true -- Set to true to enable, false to disable auto format
 vim.g.note_dir = "~/Notes"
-vim.g.block_comment_lines = 5    -- When selected block has more than x lines, use block comment syntax
+vim.g.block_comment_lines = 25   -- When selected block has more than x lines, use block comment syntax

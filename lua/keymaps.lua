@@ -10,6 +10,7 @@ map("n", "<leader>_", ":split<CR>")
 map("n", "<leader>se", "<C-w>=")
 map("n", "<leader>sx", ":close<CR>")
 map("n", "yc", "yygccp", { remap = true })
+map("n", "<leader><leader>", "ciw")
 
 
 -- copy & paste
@@ -162,15 +163,6 @@ map({ "n", "v" }, "qq", "<nop>");
 map({ "v" }, "Q", "<nop>");
 map('n', 'Q', 'q', { noremap = true, silent = true }) -- Q to write macro
 map('n', 'q', '', { noremap = true, silent = true })
-
-if vim.g.hardmode == 1 then
-    print("Hardmode is enabled")
-
-    map({ "n", "i" }, "<Up>", "<Nop>")
-    map({ "n", "i" }, "<Down>", "<Nop>")
-    map({ "n", "i" }, "<Left>", "<Nop>")
-    map({ "n", "i" }, "<Right>", "<Nop>")
-end
 
 -- search by selected text
 map({ "v" }, "n",

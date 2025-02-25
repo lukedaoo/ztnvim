@@ -7,17 +7,8 @@ augroup BgHighlight
 augroup END
 ]])
 
--- formatting after saved
-function FormatOnSave()
-    if vim.g.auto_format_enabled == false then return end
-    local ignore_files_type = { "java", "h" } -- List of file types to ignore
-    if vim.tbl_contains(ignore_files_type, vim.bo.filetype) then
-        return
-    end
-    vim.lsp.buf.format({ async = true })
-end
-
-function ToggleAutoFormat()
+-- auto format
+local function ToggleAutoFormat()
     vim.g.auto_format_enabled = not vim.g.auto_format_enabled
     print("Auto-formatting " .. (vim.g.auto_format_enabled and "enabled" or "disabled"))
 end
@@ -28,12 +19,19 @@ vim.api.nvim_create_user_command(
     { nargs = 0 }
 )
 
-vim.cmd [[
-augroup AutoSave
-    autocmd!
-    autocmd BufWritePre * lua FormatOnSave()
-augroup END
-]]
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = vim.api.nvim_create_augroup("AutoSave", { clear = true }),
+    pattern = "*",
+    callback = function()
+        if vim.g.auto_format_enabled == false then return end
+        local ignore_files_type = { "java", "h" } -- List of file types to ignore
+        if vim.tbl_contains(ignore_files_type, vim.bo.filetype) then
+            return
+        end
+        vim.lsp.buf.format({ async = true })
+    end,
+})
+
 -- open pdf files with zathura
 vim.cmd([[autocmd BufEnter *.pdf execute "!zathura '%'" | bdelete %]])
 
