@@ -209,7 +209,7 @@ return packer.setup({
     {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
-        event = "VeryLazy",
+        -- event = "VeryLazy",
         lazy = true,
         config = function() require("plug-config/copilot") end,
     }
