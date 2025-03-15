@@ -10,7 +10,7 @@ local function get_filepath(folder, callback)
     folder = (folder and folder ~= "") and folder or vim.fn.getcwd()
     require("telescope.builtin").find_files({
         cwd = folder, -- Set the working directory
-        attach_mappings = function(prompt_bufnr, map)
+        attach_mappings = function(prompt_bufnr, _)
             local actions = require("telescope.actions")
             local action_state = require("telescope.actions.state")
 

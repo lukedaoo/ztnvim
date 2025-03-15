@@ -35,6 +35,7 @@ lsp_config["lua_ls"].setup(config({
             },
             diagnostics = {
                 globals = { 'vim' },
+                disable = { "lowercase-global" }
             },
             workspace = {
                 checkThirdParty = false,
