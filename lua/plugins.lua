@@ -132,6 +132,28 @@ return packer.setup({
         lazy = true,
         run = ":TSUpdate",
     },
+    {
+        "nvim-treesitter/nvim-treesitter-context",
+        event = "VeryLazy",
+        lazy = true,
+        config = function()
+            require("treesitter-context").setup({
+                enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
+                multiwindow = false,      -- Enable multiwindow support.
+                max_lines = 0,            -- How many lines the window should span. Values <= 0 mean no limit.
+                min_window_height = 0,    -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+                line_numbers = true,
+                multiline_threshold = 20, -- Maximum number of lines to show for a single context
+                trim_scope = 'outer',     -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+                mode = 'cursor',          -- Line used to calculate context. Choices: 'cursor', 'topline'
+                -- Separator between context and content. Should be a single character string, like '-'.
+                -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+                separator = nil,
+                zindex = 20,     -- The Z-index of the context window
+                on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+            })
+        end
+    },
     -- comments
     {
         "numToStr/Comment.nvim",
@@ -207,10 +229,54 @@ return packer.setup({
         config = function() require('plug-config/image') end,
     },
     {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        event = "VeryLazy",
-        lazy = true,
-        config = function() require("plug-config/copilot") end,
-    }
+        "Exafunction/windsurf.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "hrsh7th/nvim-cmp",
+        },
+        config = function()
+            require("codeium").setup({
+                -- Optionally disable cmp source if using virtual text only
+                enable_cmp_source = false,
+                virtual_text = {
+                    enabled = true,
+
+                    -- These are the defaults
+
+                    -- Set to true if you never want completions to be shown automatically.
+                    manual = false,
+                    -- A mapping of filetype to true or false, to enable virtual text.
+                    filetypes = {},
+                    -- Whether to enable virtual text of not for filetypes not specifically listed above.
+                    default_filetype_enabled = true,
+                    -- How long to wait (in ms) before requesting completions after typing stops.
+                    idle_delay = 75,
+                    -- Priority of the virtual text. This usually ensures that the completions appear on top of
+                    -- other plugins that also add virtual text, such as LSP inlay hints, but can be modified if
+                    -- desired.
+                    virtual_text_priority = 65535,
+                    -- Set to false to disable all key bindings for managing completions.
+                    map_keys = true,
+                    -- The key to press when hitting the accept keybinding but no completion is showing.
+                    -- Defaults to \t normally or <c-n> when a popup is showing.
+                    accept_fallback = nil,
+                    -- Key bindings for managing completions in virtual text mode.
+                    key_bindings = {
+                        -- Accept the current completion.
+                        accept = "<C-o>",
+                        -- Accept the next word.
+                        accept_word = false,
+                        -- Accept the next line.
+                        accept_line = false,
+                        -- Clear the virtual text.
+                        clear = false,
+                        -- Cycle to the next completion.
+                        next = "<M-]>",
+                        -- Cycle to the previous completion.
+                        prev = "<M-[>",
+                    }
+                }
+            })
+        end
+    },
 })
