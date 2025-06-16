@@ -1,7 +1,7 @@
 local map = require("lib").map
 
 -- utility
-map("n", "<leader>q", vim.cmd.exit);
+-- map("n", "<leader>q", vim.cmd.exit);
 map("n", "<leader>h", ":noh<CR>")                                             -- no highlight
 map("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>") -- search and replace word at cursor
 map("n", "<C-a>", "ggVG")                                                     -- select all
