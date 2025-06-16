@@ -110,7 +110,8 @@ cmp.setup {
         { name = "buffer" },
         { name = "path" },
         { name = "nvim_lsp" },
-        { name = "neorg" }
+        { name = "neorg" },
+        { name = "codeium" }
     },
     confirm_opts = {
         behavior = cmp.ConfirmBehavior.Replace,

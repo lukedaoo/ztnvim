@@ -42,8 +42,9 @@ lsp_config["lua_ls"].setup(config({
                 library = {
                     vim.env.VIMRUNTIME,
                     -- Depending on the usage, you might want to add additional paths here.
-                    "${3rd}/luv/library"
+                    "${3rd}/luv/library",
                     -- "${3rd}/busted/library",
+                    vim.api.nvim_get_runtime_file("", true),
                 }
             },
             telemetry = {
