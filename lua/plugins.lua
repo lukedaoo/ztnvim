@@ -218,6 +218,13 @@ return packer.setup({
         event = "VeryLazy",
     },
     {
+        'MeanderingProgrammer/render-markdown.nvim',
+        after = { 'nvim-treesitter' },
+        config = function()
+            require('render-markdown').setup({})
+        end,
+    },
+    {
         "wakatime/vim-wakatime",
         lazy = true,
         event = "VeryLazy"
@@ -229,7 +236,7 @@ return packer.setup({
         config = function() require('plug-config/image') end,
     },
     {
-       "Exafunction/windsurf.nvim",
+        "Exafunction/windsurf.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "hrsh7th/nvim-cmp",

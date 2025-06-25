@@ -52,3 +52,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.notify("Yanked " .. line_count .. " lines")
     end,
 })
+
+-- skip opening media files
+vim.api.nvim_create_autocmd("BufReadPre", {
+    pattern = { "*.gif", "*.png", "*.jpg", "*.jpeg", "*.mp4", "*.webp" },
+    callback = function()
+        print("Skipped opening media file.")
+        vim.cmd("bdelete")
+    end,
+})

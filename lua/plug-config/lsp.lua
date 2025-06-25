@@ -30,11 +30,8 @@ local config = lsp_handler.default_config
 lsp_config["lua_ls"].setup(config({
     settings = {
         Lua = {
-            runtime = {
-                version = 'LuaJIT',
-            },
             diagnostics = {
-                globals = { 'vim' },
+                globals = { "vim" },
                 disable = { "lowercase-global" }
             },
             workspace = {
