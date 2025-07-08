@@ -53,6 +53,7 @@ lsp_config["lua_ls"].setup(config({
 -- lsp_config["ltex"].setup(config())
 -- lsp_config["dartls"].setup(config())
 
+lsp_config["pyright"].setup(config())
 lsp_config["clangd"].setup(config())
 
 lsp_config["html"].setup(config({

@@ -25,7 +25,7 @@ nvim_tree.setup({
         update_cwd = true,
     },
     filters = {
-        custom = { "^\\.git$" }
+        custom = { "^\\.git$" } -- to hide
     },
     actions = {
         change_dir = { enable = false }
