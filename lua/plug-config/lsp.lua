@@ -67,7 +67,7 @@ lsp_config["html"].setup(config({
     }
 }))
 
--- lsp_config["cssls"].setup(config())
+lsp_config["cssls"].setup(config())
 
 lsp_config["ts_ls"].setup(config({
     init_options = {

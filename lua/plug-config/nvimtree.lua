@@ -3,6 +3,10 @@ if not ok then
     return
 end
 
+local to_hide = {
+    "^\\.git$" -- git folder
+}
+
 nvim_tree.setup({
     sort_by = "case_sensitive",
     view = {
@@ -25,7 +29,8 @@ nvim_tree.setup({
         update_cwd = true,
     },
     filters = {
-        custom = { "^\\.git$" } -- to hide
+        dotfiles = false, -- show dotfiles
+        custom = to_hide,
     },
     actions = {
         change_dir = { enable = false }
