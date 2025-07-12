@@ -102,7 +102,7 @@ return packer.setup({
         "nvim-telescope/telescope.nvim",
         event = "VeryLazy",
         lazy = true,
-        config = function() require("plug-config/telescope") end
+        config = function() require("plug-config/telescope_") end
     },
     {
         'kevinhwang91/nvim-bqf',

@@ -19,7 +19,7 @@ local function toggle_comment()
 
         if count > upbound then
             vim.api.nvim_feedkeys("gb", "x", true)
-            vim.notify("Commented " .. count .. " lines")
+            vim.notify("Commented out " .. count .. " lines")
         else
             vim.api.nvim_feedkeys("gcc", "x", true)
         end
@@ -38,3 +38,5 @@ local ft = require('Comment.ft')
 ft
 -- Set only line comment
     .set('conf', '#%s')
+
+vim.api.nvim_command("autocmd BufWinEnter * setlocal formatoptions-=r formatoptions-=o")

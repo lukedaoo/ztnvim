@@ -9,7 +9,7 @@ map("n", "<leader>|", ":vsplit<CR>")
 map("n", "<leader>_", ":split<CR>")
 map("n", "<leader>se", "<C-w>=")
 map("n", "<leader>sx", ":close<CR>")
-map("n", "yc", "yygccp", { remap = true })
+map("n", "yc", "yygccp", { remap = true }) -- copy current line & comment it
 map("n", "<leader><leader>", "ciw")
 
 
@@ -133,8 +133,8 @@ map("i", "jj", "<ESC><Right>")
 map("i", "jk", "<ESC><Right>")
 map("i", "kk", "<ESC><Right>")
 -- map("i", "ddd", "<ESC>")
-map("i", "AA", "<ESC>")
-map("i", "VV", "<ESC>V")
+map("i", "AA", "<ESC><Right>")
+map("i", "VV", "<ESC>V<Right>")
 
 -- easy save
 -- fixing that stupid typo when trying to [save]exit
@@ -152,7 +152,7 @@ vim.cmd [[
 -- map({ "n", "i" }, "<C-s>", "<ESC>:w<CR>")
 
 -- easy exit
-map("n", "<C-x>", ":wq<CR>")
+-- map("n", "<C-x>", ":wq<CR>")
 -- map({ "n" }, "<leader>q", ":wq<CR>")
 
 -- disable command history modes
@@ -161,7 +161,8 @@ map({ "n", "v" }, "q/", "<nop>")
 map({ "n", "v" }, "q?", "<nop>")
 map({ "n", "v" }, "qq", "<nop>");
 map({ "v" }, "Q", "<nop>");
-map('n', 'Q', 'q', { noremap = true, silent = true }) -- Q to write macro
+-- Q + a: write macro to register a
+map('n', 'Q', 'q', { noremap = true, silent = true }) -- Q to write macro;
 map('n', 'q', '', { noremap = true, silent = true })
 
 -- search by selected text
