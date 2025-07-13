@@ -12,6 +12,28 @@ end
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
+vim.diagnostic.config {
+    virtual_text = false,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.INFO] = "󰋼",
+            [vim.diagnostic.severity.HINT] = "󰌵",
+        },
+    },
+    float = {
+        border = "rounded",
+        format = function(d)
+            return ("%s (%s) [%s]"):format(d.message, d.source, d.code or d.user_data.lsp.code)
+        end,
+    },
+    underline = true,
+    jump = {
+        float = true,
+    },
+}
+
 local on_attach = function()
     map("n", "gd", function()
         require('telescope.builtin').lsp_definitions(

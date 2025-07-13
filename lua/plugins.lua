@@ -21,9 +21,9 @@ return packer.setup({
     {
         "custom",
         name = "custom",
-        dir = vim.fn.stdpath("config") .. "/lua/custom",
         lazy = true,
         event = "VeryLazy",
+        dir = vim.fn.stdpath("config") .. "/lua/custom",
         config = function() require("custom") end,
     },
     -- colorschemes
@@ -216,6 +216,9 @@ return packer.setup({
         "dhruvasagar/vim-table-mode",
         lazy = true,
         event = "VeryLazy",
+        init = function()
+            vim.g.table_mode_map_prefix = "<leader>tm"
+        end,
     },
     {
         'MeanderingProgrammer/render-markdown.nvim',

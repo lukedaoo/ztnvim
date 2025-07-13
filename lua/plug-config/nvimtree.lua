@@ -40,3 +40,13 @@ nvim_tree.setup({
 local map = require("lib").map
 
 map("n", "<leader>e", ":NvimTreeToggle<CR>")
+
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = "*",
+    callback = function()
+        if #vim.api.nvim_list_bufs() == 1 and vim.bo.filetype == "NvimTree" then
+            vim.cmd("quit")
+        end
+    end,
+})

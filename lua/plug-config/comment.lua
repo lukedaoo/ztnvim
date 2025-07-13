@@ -38,5 +38,3 @@ local ft = require('Comment.ft')
 ft
 -- Set only line comment
     .set('conf', '#%s')
-
-vim.api.nvim_command("autocmd BufWinEnter * setlocal formatoptions-=r formatoptions-=o")
