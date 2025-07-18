@@ -124,6 +124,10 @@ map({ "n", "v" }, "dj", "<Nop>")
 map({ "n", "v" }, "dk", "<Nop>")
 map({ "n", "v" }, "dl", "<Nop>")
 
+-- disable uppercase/lowercase with v mode
+map("v", "u", "<Nop>")
+map("v", "U", "<Nop>")
+
 -- delete without yank
 -- map({ "n", "v" }, "x", '"_x', { noremap = false }) -- detele without yank
 map({ "n", "v" }, "<leader>x", '"+x', { noremap = false })
