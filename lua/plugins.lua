@@ -176,9 +176,10 @@ return packer.setup({
         event = "VeryLazy",
         lazy = true,
         dependencies = {
-            { "hrsh7th/cmp-nvim-lsp", event = "VeryLazy", },
-            { "hrsh7th/cmp-buffer",   event = "VeryLazy", },
-            { "hrsh7th/cmp-path",     event = "VeryLazy", },
+            { "hrsh7th/cmp-nvim-lsp",        event = "VeryLazy", },
+            { "hrsh7th/cmp-buffer",          event = "VeryLazy", },
+            { "hrsh7th/cmp-path",            event = "VeryLazy", },
+            { "nvim-tree/nvim-web-devicons", event = "VeryLazy" },
         },
         config = function() require('plug-config/cmp') end
     },

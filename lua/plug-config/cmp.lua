@@ -13,33 +13,34 @@ local check_backspace = function()
     return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
 end
 
---   פּ ﯟ   some other good icons
+-- find more here: https://www.nerdfonts.com/cheat-sheet
 local kind_icons = {
-    Text = "",
-    Method = "m",
-    Function = "",
-    Constructor = "",
-    Field = "",
-    Variable = "",
-    Class = "",
+    Text = "󰉿",
+    Method = "󰆧",
+    Function = "󰊕",
+    Constructor = "",
+    Field = " ",
+    Variable = "󰀫",
+    Class = "󰠱",
     Interface = "",
     Module = "",
-    Property = "",
-    Unit = "",
-    Value = "",
+    Property = "󰜢",
+    Unit = "󰑭",
+    Value = "󰎠",
     Enum = "",
-    Keyword = "",
+    Keyword = "󰌋",
     Snippet = "",
-    Color = "",
-    File = "",
+    Color = "󰏘",
+    File = "󰈙",
     Reference = "",
-    Folder = "",
+    Folder = "󰉋",
     EnumMember = "",
-    Constant = "",
+    Constant = "󰏿",
     Struct = "",
     Event = "",
-    Operator = "",
-    TypeParameter = "",
+    Operator = "󰆕",
+    TypeParameter = " ",
+    Misc = " ",
 }
 
 require("luasnip.loaders.from_vscode").lazy_load()
