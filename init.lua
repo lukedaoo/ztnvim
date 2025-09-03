@@ -28,5 +28,6 @@ require("lib").load_colorscheme("gruber-darker", function()
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = bg_color })
         vim.api.nvim_set_hl(0, "SignColumn", { bg = bg_color })
         vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = bg_color })
+        vim.api.nvim_set_hl(0, "Todo", {})
     end
 end)
