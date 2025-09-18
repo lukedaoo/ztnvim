@@ -32,6 +32,11 @@ map("v", "w", "iw")               -- select exactly a word in visual mode
 map({ "n", "v", "o" }, "H", "^")  -- jump to first non-blank character of the line
 map({ "n", "v", "o" }, "L", "g_") -- jump to last non-blank character of the line
 map({ "n", "v", "o" }, "J", "<C-D>zz")
+-- Join with the line above, strip whitespace, clear search
+map("n", "gk", ":-1join! | silent! s/\\v\\S\\zs\\s+\\ze\\S//e | let @/=''<CR>", { noremap = true })
+-- Join with the line below, strip whitespace, clear search
+map("n", "gj", ":join! | silent! s/\\v\\S\\zs\\s+\\ze\\S//e | let @/=''<CR>", { noremap = true })
+
 map({ "n", "v", "o" }, "K", "<C-U>zz")
 map("n", "<", "<ESC>v<gv<ESC>")
 map("n", ">", "<ESC>v>gv<ESC>")
