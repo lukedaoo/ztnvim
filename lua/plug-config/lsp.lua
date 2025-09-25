@@ -27,23 +27,8 @@ local lsp_handler = require("lsp.default-config")
 local config = lsp_handler.default_config
 
 -- Lua LSP
-lsp_config["lua_ls"].setup(config({
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { "vim" },
-                disable = { "lowercase-global" }
-            },
-            workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
-                checkThirdParty = false,
-            },
-            telemetry = {
-                enable = false,
-            },
-        },
-    },
-}))
+lsp_config["lua_ls"].setup(config())
+
 
 -- Python
 -- lsp_config["jedi_language_server"].setup(config())
