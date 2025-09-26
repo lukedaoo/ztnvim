@@ -206,6 +206,13 @@ return packer.setup({
         dependencies = { "nvim-tree/nvim-web-devicons", event = "VeryLazy", },
         config = function() require('plug-config/trouble') end
     },
+
+    {
+        'chomosuke/typst-preview.nvim',
+        lazy = false, -- or ft = 'typst'
+        version = '1.*',
+        opts = {}, -- lazy.nvim will implicitly calls `setup {}`
+    },
     -- Notes
     {
         "nvim-neorg/neorg",

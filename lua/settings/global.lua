@@ -38,7 +38,6 @@ vim.g.maplocalleader = ","
 vim.o.shell = "sh"
 
 vim.g.hard_mode_enabled = false
-vim.g.vimtex_view_method = "zathura"
 
 vim.g.auto_format_enabled = true -- Set to true to enable, false to disable auto format
 vim.g.note_dir = "~/Notes"

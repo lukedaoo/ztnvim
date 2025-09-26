@@ -52,6 +52,9 @@ setup_lsp("ts_ls", {
 -- Go
 setup_lsp("gopls")
 
+-- Typst
+setup_lsp("tinymist")
+
 -- LaTeX (optional)
 -- setup_lsp("texlab")
 -- setup_lsp("ltex")
