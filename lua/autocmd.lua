@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     pattern = "*.pdf",
     callback = function()
         local file_path = vim.api.nvim_buf_get_name(0)
-        vim.cmd("!zathura " .. file_path .. " &")
+        vim.cmd("!zathura " .. vim.fn.shellescape(file_path) .. " &")
         vim.cmd("bdelete")
     end,
 })

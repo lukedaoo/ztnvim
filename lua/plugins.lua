@@ -51,7 +51,20 @@ return packer.setup({
         lazy = true,
         event = "VeryLazy"
     },
-    { 'RostislavArts/naysayer.nvim' },
+    {
+        "zenbones-theme/zenbones.nvim",
+        -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+        -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+        -- In Vim, compat mode is turned on as Lush only works in Neovim.
+        dependencies = "rktjmp/lush.nvim",
+        lazy = false,
+        priority = 1000,
+        -- you can set set configuration options here
+        -- config = function()
+        --     vim.g.zenbones_darken_comments = 45
+        --     vim.cmd.colorscheme('zenbones')
+        -- end
+    },
     -- utilities
     {
         "nvim-lua/plenary.nvim",
@@ -211,7 +224,7 @@ return packer.setup({
         'chomosuke/typst-preview.nvim',
         lazy = false, -- or ft = 'typst'
         version = '1.*',
-        opts = {}, -- lazy.nvim will implicitly calls `setup {}`
+        opts = {},    -- lazy.nvim will implicitly calls `setup {}`
     },
     -- Notes
     {
