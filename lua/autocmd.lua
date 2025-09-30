@@ -32,13 +32,25 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
--- open pdf files with zathura
+-- open PDFs with Zathura, handling tmux absence
 vim.api.nvim_create_autocmd("BufReadPost", {
     pattern = "*.pdf",
     callback = function()
         local file_path = vim.api.nvim_buf_get_name(0)
-        vim.cmd("!zathura " .. vim.fn.shellescape(file_path) .. " &")
-        vim.cmd("bdelete")
+
+        local function open_with(viewer)
+            vim.fn.jobstart({ viewer, file_path }, { detach = true })
+            vim.cmd("bdelete")
+            vim.notify("Opened " .. file_path .. " in " .. viewer, vim.log.levels.INFO)
+        end
+
+        if vim.fn.executable("sioyek") == 1 then
+            open_with("sioyek")
+        elseif vim.fn.executable("zathura") == 1 then
+            open_with("zathura")
+        else
+            vim.notify("No PDF viewer (sioyek/zathura) found in PATH.", vim.log.levels.ERROR)
+        end
     end,
 })
 
@@ -60,11 +72,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
 })
 
--- skip opening media files
+-- skip opening files
+local media = { "*.gif", "*.png", "*.jpg", "*.jpeg", "*.mp4", "*.webp" }
+local offices = { "*.pptx", "*.docx", "*.xlsx", ".pdf" }
+
 vim.api.nvim_create_autocmd("BufReadPre", {
-    pattern = { "*.gif", "*.png", "*.jpg", "*.jpeg", "*.mp4", "*.webp" },
+    pattern = vim.list_extend(vim.list_extend({}, media), offices),
     callback = function()
-        print("Skipped opening media file.")
+        print("Skipped opening file.")
         vim.cmd("bdelete")
     end,
 })
