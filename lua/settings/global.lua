@@ -35,7 +35,7 @@ end
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
-vim.o.shell = "sh"
+vim.o.shell = "zsh"
 
 vim.g.hard_mode_enabled = false
 

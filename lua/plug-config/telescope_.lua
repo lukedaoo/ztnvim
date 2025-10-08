@@ -27,11 +27,28 @@ telescope.setup({
         grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
         qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 
+        borderchars = { "", "", "", "", "", "", "", "" },
+
         mappings = {
             i = {
                 ["<C-x>"] = false,
                 ["<C-q>"] = require("telescope.actions").send_to_qflist,
             },
+        },
+
+        layout_strategy = "horizontal",
+        layout_config = {
+            width = 150,
+            height = 450,
+            preview_width = 0.7,
+            prompt_position = "bottom",
+            preview_cutoff = 40,
+        },
+
+    },
+    pickers = {
+        colorscheme = {
+            enable_preview = true
         },
     },
 })
