@@ -8,3 +8,4 @@ require("custom.quick-note").setup({
 require("custom.hardmode").setup()
 require("custom.commands").setup()
 require("custom.floating-ter").setup()
+require("custom.run").setup()
