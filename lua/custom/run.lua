@@ -1,8 +1,7 @@
--- https://github.com/Hubro/nvim-splitrun
-
 local M = {
     buffer_name_fmt = "[Run #%s]",
     buffer_counter = 1,
+    bookmarks = {}, -- Store command bookmarks
 }
 
 BUFFER_OPTIONS = {
@@ -22,18 +21,50 @@ local function delete_alt(buf)
     end
 end
 
-function M.setup(_)
+function M.setup(config)
+    config = config or {}
+
+    if config.bookmarks then
+        M.bookmarks = config.bookmarks
+    end
+
     M.define_commands()
 end
 
 function M.define_commands()
     local function make_run_command(name, split_type)
         vim.api.nvim_create_user_command(name, function(command)
-            M.splitrun(command.args, { force_split_type = split_type })
+            local args = command.args
+
+            local bookmark_name = args:match("^%(([^)]+)%)$")
+            if bookmark_name and M.bookmarks[bookmark_name] then
+                args = M.bookmarks[bookmark_name]
+            end
+
+            M.splitrun(args, { force_split_type = split_type })
         end, {
             nargs = "+",
+            complete = function(arg_lead, cmdline, cursor_pos)
+                local matches = {}
+                local inside_parens = arg_lead:match("^%((.*)$")
+                if inside_parens then
+                    for bookmark_name, _ in pairs(M.bookmarks) do
+                        if vim.startswith(bookmark_name, inside_parens) then
+                            table.insert(matches, "(" .. bookmark_name .. ")")
+                        end
+                    end
+                elseif arg_lead == "" or arg_lead == "(" then
+                    for bookmark_name, _ in pairs(M.bookmarks) do
+                        table.insert(matches, "(" .. bookmark_name .. ")")
+                    end
+                end
+
+                table.sort(matches)
+                return matches
+            end,
         })
     end
+
     -- Default (auto layout)
     make_run_command("Run", nil)
     -- Force vertical split
