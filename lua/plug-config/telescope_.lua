@@ -11,7 +11,12 @@ local ignores_file = {
     -- Java
     "target", ".settings", ".idea", ".m2", ".metadata", "mvnw*",
     -- Rust
-    ".lock"
+    ".lock",
+
+    "%.png$", "%.jpg$", "%.jpeg$", "%.gif$", "%.bmp$", "%.ico$",
+    "%.pdf$", "%.zip$", "%.tar$", "%.gz$", "%.7z$", "%.exe$",
+    "%.dll$", "%.so$", "%.dylib$", "%.mp3$", "%.mp4$", "%.avi$",
+    "%.mov$", "%.iso$", "%.class$", "%.jar$", "%.bin$", "%.dat$",
 }
 
 telescope.setup({
@@ -48,6 +53,11 @@ telescope.setup({
     pickers = {
         colorscheme = {
             enable_preview = true
+        },
+        live_grep = {
+            additional_args = function()
+                return { "--ignore-binary" }
+            end,
         },
     },
 })
