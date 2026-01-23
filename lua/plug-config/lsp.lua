@@ -55,6 +55,9 @@ setup_lsp("gopls")
 -- Typst
 setup_lsp("tinymist")
 
+-- Java
+setup_lsp("jdtls")
+
 -- LaTeX (optional)
 -- setup_lsp("texlab")
 -- setup_lsp("ltex")

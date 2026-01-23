@@ -24,7 +24,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
     callback = function()
         if vim.g.auto_format_enabled == false then return end
-        local ignore_files_type = { "java", "h" } -- List of file types to ignore
+        -- local ignore_files_type = { "java", "h" } -- List of file types to ignore
+        local ignore_files_type = { "h" } -- List of file types to ignore
         if vim.tbl_contains(ignore_files_type, vim.bo.filetype) then
             return
         end
