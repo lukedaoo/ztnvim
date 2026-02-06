@@ -51,20 +51,6 @@ return packer.setup({
         lazy = true,
         event = "VeryLazy"
     },
-    {
-        "zenbones-theme/zenbones.nvim",
-        -- Optionally install Lush. Allows for more configuration or extending the colorscheme
-        -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
-        -- In Vim, compat mode is turned on as Lush only works in Neovim.
-        dependencies = "rktjmp/lush.nvim",
-        lazy = false,
-        priority = 1000,
-        -- you can set set configuration options here
-        -- config = function()
-        --     vim.g.zenbones_darken_comments = 45
-        --     vim.cmd.colorscheme('zenbones')
-        -- end
-    },
     -- utilities
     {
         "nvim-lua/plenary.nvim",
@@ -95,6 +81,17 @@ return packer.setup({
             hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
             hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_tab_indent_level)
         end
+    },
+    {
+        "hedyhli/outline.nvim",
+        lazy = true,
+        cmd = { "Outline", "OutlineOpen" },
+        keys = {
+            { "<leader>o", "<cmd>Outline<CR>", desc = "Toggle outline" },
+        },
+        config = function()
+            require("plug-config/outline")
+        end,
     },
     -- folder explorer
     {
@@ -335,4 +332,75 @@ return packer.setup({
             })
         end
     },
+
+    {
+        "folke/sidekick.nvim",
+        opts = {
+        },
+        keys = {
+            {
+                "<tab>",
+                function()
+                    -- if there is a next edit, jump to it, otherwise apply it if any
+                    if not require("sidekick").nes_jump_or_apply() then
+                        return "<Tab>" -- fallback to normal tab
+                    end
+                end,
+                expr = true,
+                desc = "Goto/Apply Next Edit Suggestion",
+            },
+            {
+                "<c-.>",
+                function() require("sidekick.cli").toggle() end,
+                desc = "Sidekick Toggle",
+                mode = { "n", "t", "i", "x" },
+            },
+            {
+                "<leader>aa",
+                function() require("sidekick.cli").toggle() end,
+                desc = "Sidekick Toggle CLI",
+            },
+            {
+                "<leader>as",
+                function() require("sidekick.cli").select() end,
+                -- Or to select only installed tools:
+                -- require("sidekick.cli").select({ filter = { installed = true } })
+                desc = "Select CLI",
+            },
+            {
+                "<leader>ad",
+                function() require("sidekick.cli").close() end,
+                desc = "Detach a CLI Session",
+            },
+            {
+                "<leader>at",
+                function() require("sidekick.cli").send({ msg = "{this}" }) end,
+                mode = { "x", "n" },
+                desc = "Send This",
+            },
+            {
+                "<leader>af",
+                function() require("sidekick.cli").send({ msg = "{file}" }) end,
+                desc = "Send File",
+            },
+            {
+                "<leader>av",
+                function() require("sidekick.cli").send({ msg = "{selection}" }) end,
+                mode = { "x" },
+                desc = "Send Visual Selection",
+            },
+            {
+                "<leader>ap",
+                function() require("sidekick.cli").prompt() end,
+                mode = { "n", "x" },
+                desc = "Sidekick Select Prompt",
+            },
+            -- Example of a keybinding to open Claude directly
+            {
+                "<leader>ac",
+                function() require("sidekick.cli").toggle({ name = "claude", focus = true }) end,
+                desc = "Sidekick Toggle Claude",
+            },
+        },
+    }
 })
