@@ -21,6 +21,30 @@ local function delete_alt(buf)
     end
 end
 
+local function get_path_executables()
+    local results = {}
+    local seen = {}
+
+    local path = vim.env.PATH or ""
+    for dir in path:gmatch("[^:]+") do
+        local ok, files = pcall(vim.fn.readdir, dir)
+        if ok then
+            for _, file in ipairs(files) do
+                if not seen[file] then
+                    local full = dir .. "/" .. file
+                    if vim.fn.executable(full) == 1 then
+                        seen[file] = true
+                        table.insert(results, file)
+                    end
+                end
+            end
+        end
+    end
+
+    table.sort(results)
+    return results
+end
+
 function M.setup(config)
     config = config or {}
 
@@ -46,6 +70,8 @@ function M.define_commands()
             nargs = "+",
             complete = function(arg_lead, cmdline, cursor_pos)
                 local matches = {}
+
+                -- 1. Bookmark completion
                 local inside_parens = arg_lead:match("^%((.*)$")
                 if inside_parens then
                     for bookmark_name, _ in pairs(M.bookmarks) do
@@ -53,13 +79,23 @@ function M.define_commands()
                             table.insert(matches, "(" .. bookmark_name .. ")")
                         end
                     end
-                elseif arg_lead == "" or arg_lead == "(" then
+                    return matches
+                end
+
+                if arg_lead == "" or arg_lead == "(" then
                     for bookmark_name, _ in pairs(M.bookmarks) do
                         table.insert(matches, "(" .. bookmark_name .. ")")
                     end
                 end
 
-                table.sort(matches)
+                -- 2. PATH executable completion
+                local executables = get_path_executables()
+                for _, exe in ipairs(executables) do
+                    if vim.startswith(exe, arg_lead) then
+                        table.insert(matches, exe)
+                    end
+                end
+
                 return matches
             end,
         })
