@@ -10,7 +10,8 @@ local to_hide = {
 nvim_tree.setup({
     sort_by = "case_sensitive",
     view = {
-        adaptive_size = true,
+        -- adaptive_size = true,
+        width = 35
     },
     renderer = {
         group_empty = true,

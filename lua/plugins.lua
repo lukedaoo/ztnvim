@@ -33,6 +33,14 @@ return packer.setup({
         event = "VeryLazy",
     },
     {
+        "dgrco/deepwater.nvim",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            vim.cmd.colorscheme("deepwater")
+        end,
+    },
+    {
         'projekt0n/github-nvim-theme',
         name = 'github-theme',
         event = "VeryLazy",
@@ -137,33 +145,11 @@ return packer.setup({
 
     -- treesitter
     {
-        "nvim-treesitter/nvim-treesitter",
-        event = "VeryLazy",
-        config = function() require('plug-config/treesitter') end,
-        lazy = true,
-        run = ":TSUpdate",
-    },
-    {
-        "nvim-treesitter/nvim-treesitter-context",
-        event = "VeryLazy",
-        lazy = true,
+        "romus204/tree-sitter-manager.nvim",
+        dependencies = {}, -- tree-sitter CLI must be installed system-wide
         config = function()
-            require("treesitter-context").setup({
-                enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
-                multiwindow = false,     -- Enable multiwindow support.
-                max_lines = 0,           -- How many lines the window should span. Values <= 0 mean no limit.
-                min_window_height = 0,   -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-                line_numbers = true,
-                multiline_threshold = 5, -- Maximum number of lines to show for a single context
-                trim_scope = 'outer',    -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-                mode = 'cursor',         -- Line used to calculate context. Choices: 'cursor', 'topline'
-                -- Separator between context and content. Should be a single character string, like '-'.
-                -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-                separator = nil,
-                zindex = 20,     -- The Z-index of the context window
-                on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
-            })
-        end
+            require("tree-sitter-manager").setup()
+        end,
     },
     -- comments
     {
@@ -251,12 +237,12 @@ return packer.setup({
         lazy = true,
         event = "VeryLazy"
     },
-    {
-        "3rd/image.nvim",
-        event = "VeryLazy",
-        lazy = true,
-        config = function() require('plug-config/image') end,
-    },
+    -- {
+    --     "3rd/image.nvim",
+    --     event = "VeryLazy",
+    --     lazy = true,
+    --     config = function() require('plug-config/image') end,
+    -- },
     {
         "folke/todo-comments.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
@@ -402,5 +388,35 @@ return packer.setup({
                 desc = "Sidekick Toggle Claude",
             },
         },
+
+        {
+            "ej-shafran/compile-mode.nvim",
+            version = "^5.0.0",
+            -- you can just use the latest version:
+            -- branch = "latest",
+            -- or the most up-to-date updates:
+            -- branch = "nightly",
+            dependencies = {
+                "nvim-lua/plenary.nvim",
+                -- if you want to enable coloring of ANSI escape codes in
+                -- compilation output, add:
+                -- { "m00qek/baleia.nvim", tag = "v1.3.0" },
+            },
+            config = function()
+                ---@type CompileModeOpts
+                vim.g.compile_mode = {
+                    -- if you use something like `nvim-cmp` or `blink.cmp` for completion,
+                    -- set this to fix tab completion in command mode:
+                    -- input_word_completion = true,
+
+                    -- to add ANSI escape code support, add:
+                    -- baleia_setup = true,
+
+                    -- to make `:Compile` replace special characters (e.g. `%`) in
+                    -- the command (and behave more like `:!`), add:
+                    -- bang_expansion = true,
+                }
+            end
+        }
     }
 })
