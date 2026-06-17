@@ -130,8 +130,7 @@ function M.toggle_term()
 end
 
 function M.setup_keymaps()
-    local map = require("lib").map
-    map("n", "<leader>tt", function() M.toggle_term() end, { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>tt", function() M.toggle_term() end, { noremap = true, silent = true })
 end
 
 function M.setup()

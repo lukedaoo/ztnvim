@@ -9,12 +9,10 @@ vim.cmd [[
   let g:Tex_IgnoreLevel = 8
 ]]
 
-local map = require("lib").map;
+vim.keymap.set("n", "<leader>vc", ":VimtexCompile<cr>")
+vim.keymap.set("n", "<leader>vv", ":VimtexView<cr>")
 
-map("n", "<leader>vc", ":VimtexCompile<cr>")
-map("n", "<leader>vv", ":VimtexView<cr>")
-
-map("i", "sqrt<tab>", '\\sqrt{');
-map("i", "int<tab>", '\\int_a^b');
-map("i", "limit<tab>", '\\lim_{x\\to\\infty}');
-map("i", "frac<tab>", '\\frac{');
+vim.keymap.set("i", "sqrt<tab>", '\\sqrt{')
+vim.keymap.set("i", "int<tab>", '\\int_a^b')
+vim.keymap.set("i", "limit<tab>", '\\lim_{x\\to\\infty}')
+vim.keymap.set("i", "frac<tab>", '\\frac{')

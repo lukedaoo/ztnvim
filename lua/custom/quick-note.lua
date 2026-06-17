@@ -23,7 +23,7 @@ local function open_floating_note(opts, dir_or_file)
         floating_file.open(dir_or_file)
     else
         local cur_dir = vim.fn.getcwd()
-        local note_name = opts.note_name or "todo.norg"
+        local note_name = opts.note_name or "todo.md"
         local todo_filepath = vim.fn.resolve(cur_dir .. "/" .. note_name)
 
         if vim.fn.filereadable(todo_filepath) == 1 then
@@ -39,7 +39,7 @@ end
 
 local function new_note(opts, file_name)
     if file_name == nil or file_name == "" then
-        file_name = opts.note_name or "todo.norg"
+        file_name = opts.note_name or "todo.md"
     end
     local resolved_target_file = vim.fn.resolve(file_name)
 
@@ -80,9 +80,9 @@ end
 local function setup_keymaps()
     vim.keymap.set("n", "<leader>td", ":ToggleNote<CR>", {
         silent = true, desc = "Toggle note folder or note file" })
-    vim.keymap.set("n", "<leader>nn", ":NewNote todo.norg<CR>",
+    vim.keymap.set("n", "<leader>nn", ":NewNote todo.md<CR>",
         { silent = true, desc = "Create new note in current directory" })
-    vim.keymap.set("n", "<leader>ni", ":ToggleNote ~/Notes/ideas.norg<CR>",
+    vim.keymap.set("n", "<leader>ni", ":ToggleNote ~/Notes/ideas.md<CR>",
         { silent = true, desc = "New ideas" })
 end
 

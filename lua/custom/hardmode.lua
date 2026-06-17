@@ -1,23 +1,20 @@
 local M = {}
 
-local map = require('lib').map
-
-
 local function toggle_hard_mode()
     if vim.g.hard_mode_enabled then
-        map({ "n", "i" }, "<Up>", "<Nop>")
-        map({ "n", "i" }, "<Down>", "<Nop>")
-        map({ "n", "i" }, "<Left>", "<Nop>")
-        map({ "n", "i" }, "<Right>", "<Nop>")
-        map({ "n", "i" }, "<BS>", "<Nop>")
-        map({ "i" }, "<Del>", "<Nop>")
+        vim.keymap.set({ "n", "i" }, "<Up>", "<Nop>")
+        vim.keymap.set({ "n", "i" }, "<Down>", "<Nop>")
+        vim.keymap.set({ "n", "i" }, "<Left>", "<Nop>")
+        vim.keymap.set({ "n", "i" }, "<Right>", "<Nop>")
+        vim.keymap.set({ "n", "i" }, "<BS>", "<Nop>")
+        vim.keymap.set({ "i" }, "<Del>", "<Nop>")
     else
-        map({ "n", "i" }, "<Up>", "<Up>")
-        map({ "n", "i" }, "<Down>", "<Down>")
-        map({ "n", "i" }, "<Left>", "<Left>")
-        map({ "n", "i" }, "<Right>", "<Right>")
-        map({ "n", "i" }, "<BS>", "<BS>")
-        map({ "i" }, "<Del>", "<Del>")
+        vim.keymap.set({ "n", "i" }, "<Up>", "<Up>")
+        vim.keymap.set({ "n", "i" }, "<Down>", "<Down>")
+        vim.keymap.set({ "n", "i" }, "<Left>", "<Left>")
+        vim.keymap.set({ "n", "i" }, "<Right>", "<Right>")
+        vim.keymap.set({ "n", "i" }, "<BS>", "<BS>")
+        vim.keymap.set({ "i" }, "<Del>", "<Del>")
     end
 end
 
