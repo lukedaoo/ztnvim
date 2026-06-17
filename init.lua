@@ -37,7 +37,11 @@ end
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
-vim.o.shell = "zsh"
+if vim.fn.has("win32") == 1 then
+    vim.o.shell = "bash"
+else
+    vim.o.shell = "zsh"
+end
 
 vim.g.hard_mode_enabled = false
 
@@ -61,7 +65,6 @@ local options = {
 
     backup = false,
     swapfile = false,
-    undodir = os.getenv("HOME") .. "/.vim/undodir",
     undofile = true,
     -- clipboard = "unnamedplus",
     cmdheight = 2,
@@ -95,6 +98,12 @@ local options = {
 
 for k, v in pairs(options) do
     vim.opt[k] = v
+end
+
+if vim.fn.has("win32") == 1 then
+    vim.opt.undodir = os.getenv("USERPROFILE") .. "\\.vim\\undodir"
+else
+    vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 end
 
 -- show invisible
@@ -254,7 +263,7 @@ end, { expr = true, silent = true })
 
 -- window resize
 local terminal = get_terminal()
-if string.find(terminal, 'kitty') then
+if terminal and string.find(terminal, 'kitty') then
     map("n", "<S-Up>", "<cmd>resize +2<CR>")
     map("n", "<S-Down>", "<cmd>resize -2<CR>")
     map("n", "<S-Left>", "<cmd>vertical resize -2<CR>")
@@ -1518,3 +1527,5 @@ load_colorscheme("gruber-darker", function()
         vim.api.nvim_set_hl(0, "Todo", {})
     end
 end)
+
+
