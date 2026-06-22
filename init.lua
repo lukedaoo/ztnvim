@@ -4,6 +4,7 @@
 
 vim.g.do_filetype_lua = 1
 vim.g.python_host_skip_check = 1
+vim.g.python3_host_prog = ""
 
 -- Disable some builtin vim plugins
 local disabled_built_ins = {
@@ -24,6 +25,7 @@ local disabled_built_ins = {
     "matchparen",
     "tar",
     "tarPlugin",
+    "tutor_mode_plugin",
     "rrhelper",
     "vimball",
     "vimballPlugin",
@@ -48,7 +50,7 @@ vim.g.hard_mode_enabled = false
 vim.g.auto_format_enabled = true -- Set to true to enable, false to disable auto format
 vim.g.note_dir = "~/Notes"
 vim.g.block_comment_lines = 25   -- When selected block has more than x lines, use block comment syntax
-
+vim.opt.iskeyword:remove("_")    -- Remove the underscore (_) from the list of keyword characters
 
 -- ==============================================================================
 -- SECTION 2: OPTIONS
@@ -154,36 +156,6 @@ local function map(mode, lhs, rhs, opts, bufnr)
     vim.keymap.set(mode, lhs, rhs, o)
 end
 
--- get username ($USER)
-local function get_username()
-    return os.getenv('USER')
-end
-
--- get home dir ($HOME)
-local function get_homedir()
-    return os.getenv('HOME')
-end
-
--- get default terminal
-local function get_terminal()
-    local terminal = os.getenv('TERMINAL');
-    if terminal == nil or terminal == '' then
-        terminal = os.getenv('TERM')
-    end
-    return terminal
-end
-
--- get operating system name
-local function get_os()
-    if vim.fn.has "mac" == 1 then
-        return "mac"
-    elseif vim.fn.has "unix" == 1 then
-        return "unix"
-    else
-        return nil
-    end
-end
-
 local function load_colorscheme(colorscheme, post)
     local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
     if not status_ok then
@@ -262,8 +234,14 @@ map("n", "<C-l>", function()
 end, { expr = true, silent = true })
 
 -- window resize
-local terminal = get_terminal()
-if terminal and string.find(terminal, 'kitty') then
+local terminal = (function()
+    local ter_emu = os.getenv('TERMINAL')
+    if ter_emu == nil or ter_emu == '' then
+        ter_emu = os.getenv('TERM')
+    end
+    return ter_emu
+end)()
+if string.find(terminal, 'kitty') then
     map("n", "<S-Up>", "<cmd>resize +2<CR>")
     map("n", "<S-Down>", "<cmd>resize -2<CR>")
     map("n", "<S-Left>", "<cmd>vertical resize -2<CR>")
@@ -291,6 +269,12 @@ map("n", "<leader>]", function()
         .find_files(require('telescope.themes').get_dropdown({
             previewer = false
         }))
+end)
+
+map("n", "]]", function()
+    local buf = vim.api.nvim_get_current_buf()
+    vim.cmd("vnew")
+    vim.api.nvim_set_current_buf(buf)
 end)
 -- term
 
@@ -356,7 +340,10 @@ vim.cmd [[
     cnoreabbrev <expr> Wq    ((getcmdtype()  is# ':' && getcmdline() is# 'Wq')?('wq'):('wq'))
     cnoreabbrev <expr> qwa    ((getcmdtype()  is# ':' && getcmdline() is# 'qwa')?('wqa'):('wqa'))
     cnoreabbrev <expr> qw    ((getcmdtype()  is# ':' && getcmdline() is# 'qw')?('wq'):('wq'))
+
 ]]
+
+
 -- map({ "n", "i" }, "<C-s>", "<ESC>:w<CR>")
 
 -- easy exit
@@ -690,7 +677,12 @@ if status_ok then
                         custom = to_hide,
                     },
                     actions = {
-                        change_dir = { enable = false }
+                        change_dir = { enable = false },
+                        open_file = {
+                            window_picker = {
+                                enable = false
+                            }
+                        }
                     }
                 })
 
@@ -840,15 +832,12 @@ if status_ok then
         },
         -- comments
         {
-            "numToStr/Comment.nvim",
+            "folke/ts-comments.nvim",
             event = "VeryLazy",
             lazy = true,
-            config = function()
-                local status_ok2, comment = pcall(require, "Comment")
-                if not status_ok2 then
-                    return
-                end
-                comment.setup({})
+            opts = {},
+            config = function(_, opts)
+                require("ts-comments").setup(opts)
 
                 local function toggle_comment()
                     local mode = vim.api.nvim_get_mode().mode
@@ -874,14 +863,6 @@ if status_ok then
 
                 map("n", "<leader>/", toggle_comment, { noremap = true, silent = true })
                 map("v", "<leader>/", toggle_comment, { noremap = true, silent = true })
-
-                local ft = require('Comment.ft')
-
-                -- 1. Using set function
-
-                ft
-                -- Set only line comment
-                    .set('conf', '#%s')
             end
         },
         -- harpoon - bookmark file tool
@@ -1298,13 +1279,13 @@ if status_ok then
             opts = {},    -- lazy.nvim will implicitly calls `setup {}`
         },
         -- Notes
-        {
-            'MeanderingProgrammer/render-markdown.nvim',
-            after = { 'nvim-treesitter' },
-            config = function()
-                require('render-markdown').setup({})
-            end,
-        },
+        -- {
+        --     'MeanderingProgrammer/render-markdown.nvim',
+        --     after = { 'nvim-treesitter' },
+        --     config = function()
+        --         require('render-markdown').setup({})
+        --     end,
+        -- },
         {
             "wakatime/vim-wakatime",
             lazy = true,
