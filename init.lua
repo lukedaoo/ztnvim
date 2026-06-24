@@ -50,7 +50,7 @@ vim.g.hard_mode_enabled = false
 vim.g.auto_format_enabled = true -- Set to true to enable, false to disable auto format
 vim.g.note_dir = "~/Notes"
 vim.g.block_comment_lines = 25   -- When selected block has more than x lines, use block comment syntax
-vim.opt.iskeyword:remove("_")    -- Remove the underscore (_) from the list of keyword characters
+-- vim.opt.iskeyword:remove("_")    -- Remove the underscore (_) from the list of keyword characters
 
 -- ==============================================================================
 -- SECTION 2: OPTIONS
@@ -1303,22 +1303,40 @@ if status_ok then
             opts = {
                 keywords = {
                     FIX = {
-                        icon = " ",                                                                                  -- icon used for the sign, and in search results
-                        color = "error",                                                                             -- can be a hex color, or a named color (see below)
+                        icon = "F",                                                                                  -- icon used for the sign, and in search results
                         alt = { "FIXME", "BUG", "FIXIT", "ISSUE", "fix", "DEPEND", "depend", "DEPENDS", "depends" }, -- a set of other keywords that all map to this FIX keywords
-                        -- signs = false, -- configure signs for some keywords individually
                     },
-                    TODO = { icon = " ", color = "info" },
-                    HACK = { icon = " ", color = "warning" },
-                    WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
-                    PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE", "speed", "SPEED" } },
-                    NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
-                    TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+                    TODO = { icon = "T", alt = { "TODO", "todo", "Todo" } },
+                    HACK = { icon = "H", alt = { "HACK", "hack", "Hack" } },
+                    WARN = { icon = "W", alt = { "WARNING", "warn", "Warn" } },
+                    PERF = { icon = "P", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE", "speed", "SPEED", "perf", "Perf" } },
+                    NOTE = { icon = "N", alt = { "INFO", "note", "Note", "Info", "info" } },
+                    TEST = { icon = "t", alt = { "TESTING", "PASSED", "FAILED", "test", "Test" } },
+                    CLEANUP = { icon = "C", alt = { "CLEAN", "CLEANUP_NEEDED", "Cleanup", "cleanup" } },
+                    INCOMPLETE = { icon = "I", alt = { "INCOMPLETE_FEATURE", "INCOMPLETE_TASK", "Incomplete", "incomplete" } },
+                    REFACTOR = { icon = "R", alt = { "REFACTOR_NEEDED", "REFACTORING", "Refactor", "refactor", "ref" } },
                 },
                 highlight = {
-                    after = "fg", -- Text color of the text after the icon are the same as fg
+                    before = "",                                                     -- comment chars: no styling
+                    keyword = "fg",                                                  -- keyword text colored, no bg fill
+                    after = "fg",                                                    -- rest of comment colored, no bg fill
+                    pattern = { [[\c.*<(KEYWORDS)\s*:]], [[\c.*\@(KEYWORDS)\s*:]] }, -- "todo:"/"TODO:"/"@todo:"/"@TODO:" etc, case-insensitive
                 },
-            }
+                search = {
+                    pattern = [[(?i)\b@?(KEYWORDS):]], -- case-insensitive, optional "@" before keyword
+                },
+            },
+            config = function(_, opts)
+                require("todo-comments").setup(opts)
+
+                vim.keymap.set("n", "]t", function()
+                    require("todo-comments").jump_next()
+                end, { desc = "Next todo comment" })
+
+                vim.keymap.set("n", "[t", function()
+                    require("todo-comments").jump_prev()
+                end, { desc = "Previous todo comment" })
+            end
         },
         -- AI
         {
@@ -1508,5 +1526,3 @@ load_colorscheme("gruber-darker", function()
         vim.api.nvim_set_hl(0, "Todo", {})
     end
 end)
-
-
