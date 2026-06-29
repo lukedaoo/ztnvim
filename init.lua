@@ -1302,28 +1302,25 @@ if status_ok then
             dependencies = { "nvim-lua/plenary.nvim" },
             opts = {
                 keywords = {
-                    FIX = {
-                        icon = "F",                                                                                  -- icon used for the sign, and in search results
-                        alt = { "FIXME", "BUG", "FIXIT", "ISSUE", "fix", "DEPEND", "depend", "DEPENDS", "depends" }, -- a set of other keywords that all map to this FIX keywords
-                    },
-                    TODO = { icon = "T", alt = { "TODO", "todo", "Todo" } },
-                    HACK = { icon = "H", alt = { "HACK", "hack", "Hack" } },
-                    WARN = { icon = "W", alt = { "WARNING", "warn", "Warn" } },
-                    PERF = { icon = "P", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE", "speed", "SPEED", "perf", "Perf" } },
-                    NOTE = { icon = "N", alt = { "INFO", "note", "Note", "Info", "info" } },
-                    TEST = { icon = "t", alt = { "TESTING", "PASSED", "FAILED", "test", "Test" } },
-                    CLEANUP = { icon = "C", alt = { "CLEAN", "CLEANUP_NEEDED", "Cleanup", "cleanup" } },
-                    INCOMPLETE = { icon = "I", alt = { "INCOMPLETE_FEATURE", "INCOMPLETE_TASK", "Incomplete", "incomplete" } },
-                    REFACTOR = { icon = "R", alt = { "REFACTOR_NEEDED", "REFACTORING", "Refactor", "refactor", "ref" } },
+                    FIX        = { icon = "F", alt = { "Fix", "fix", "FIXME", "BUG", "FIXIT", "ISSUE" } },
+                    TODO       = { icon = "T", alt = { "Todo", "todo" } },
+                    HACK       = { icon = "H", alt = { "Hack", "hack" } },
+                    WARN       = { icon = "W", alt = { "Warn", "warn", "WARNING" } },
+                    PERF       = { icon = "P", alt = { "Perf", "perf", "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+                    NOTE       = { icon = "N", alt = { "Note", "note", "INFO", "Info", "info" } },
+                    TEST       = { icon = "t", alt = { "Test", "test", "TESTING", "PASSED", "FAILED" } },
+                    CLEANUP    = { icon = "C", alt = { "Cleanup", "cleanup", "CLEAN", "CLEANUP_NEEDED" } },
+                    INCOMPLETE = { icon = "I", alt = { "Incomplete", "incomplete", "INCOMPLETE_FEATURE", "INCOMPLETE_TASK" } },
+                    REFACTOR   = { icon = "R", alt = { "Refactor", "refactor", "REFACTOR_NEEDED", "REFACTORING" } },
                 },
                 highlight = {
-                    before = "",                                                     -- comment chars: no styling
-                    keyword = "fg",                                                  -- keyword text colored, no bg fill
-                    after = "fg",                                                    -- rest of comment colored, no bg fill
-                    pattern = { [[\c.*<(KEYWORDS)\s*:]], [[\c.*\@(KEYWORDS)\s*:]] }, -- "todo:"/"TODO:"/"@todo:"/"@TODO:" etc, case-insensitive
+                    before = "",
+                    keyword = "",
+                    after = "",
+                    pattern = { [[\c.*\zs<(KEYWORDS)\s*:]], [[\c.*\zs\@(KEYWORDS)\s*:]], [[\c.*\zs\@(KEYWORDS)\s*\(.*\)]] },
                 },
                 search = {
-                    pattern = [[(?i)\b@?(KEYWORDS):]], -- case-insensitive, optional "@" before keyword
+                    pattern = [=[(?i)@(KEYWORDS)[:(]]=],
                 },
             },
             config = function(_, opts)
