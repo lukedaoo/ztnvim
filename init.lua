@@ -793,6 +793,24 @@ if status_ok then
                     require('telescope.builtin').grep_string({ search = vim.fn.expand('<cword>') })
                 end)
 
+                map("n", "<leader>fd", function() -- git diff: staged + unstaged
+                    require('telescope.builtin').git_status()
+                end)
+
+                map("n", "<leader>fds", function() -- git diff: staged only
+                    local make_entry = require('telescope.make_entry')
+                    local default_maker = make_entry.gen_from_git_status({})
+                    require('telescope.builtin').git_status({
+                        entry_maker = function(line)
+                            local entry = default_maker(line)
+                            if entry and entry.status:sub(1, 1) ~= " " and entry.status:sub(1, 1) ~= "?" then
+                                return entry
+                            end
+                            return nil
+                        end,
+                    })
+                end)
+
                 map("n", "<leader>gf", function()
                     require('telescope.builtin').git_files()
                 end)
