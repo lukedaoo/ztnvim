@@ -408,6 +408,48 @@ vim.api.nvim_create_user_command(
     { nargs = 0 }
 )
 
+-- Web filetypes are formatted by prettier (honors .prettierrc), not by the
+-- ts_ls / html / cssls LSP formatters, which use a different style.
+local PRETTIER_FILETYPES = {
+    javascript = true,
+    javascriptreact = true,
+    typescript = true,
+    typescriptreact = true,
+    css = true,
+    html = true,
+    json = true,
+    jsonc = true,
+}
+
+-- Returns true when prettier handled the buffer (even if nothing changed).
+local function format_with_prettier(buf)
+    if vim.fn.executable("prettier") == 0 then
+        return false
+    end
+
+    local name = vim.api.nvim_buf_get_name(buf)
+    local input = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n") .. "\n"
+    local res = vim.system(
+        { "prettier", "--stdin-filepath", name },
+        { stdin = input, cwd = vim.fs.dirname(name) }
+    ):wait()
+
+    if res.code ~= 0 then
+        vim.notify("prettier: " .. (res.stderr or ""), vim.log.levels.WARN)
+        return false
+    end
+
+    local out = vim.split(res.stdout, "\n", { plain = true })
+    if out[#out] == "" then
+        table.remove(out)
+    end
+
+    local view = vim.fn.winsaveview()
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, out)
+    vim.fn.winrestview(view)
+    return true
+end
+
 vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("AutoSave", { clear = true }),
     pattern = "*",
@@ -416,6 +458,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         -- local ignore_files_type = { "java", "h" } -- List of file types to ignore
         local ignore_files_type = { "h" } -- List of file types to ignore
         if vim.tbl_contains(ignore_files_type, vim.bo.filetype) then
+            return
+        end
+        if PRETTIER_FILETYPES[vim.bo.filetype] and format_with_prettier(0) then
             return
         end
         vim.lsp.buf.format({ async = true })
@@ -799,7 +844,7 @@ if status_ok then
 
                 map("n", "<leader>fds", function() -- git diff: staged only
                     local make_entry = require('telescope.make_entry')
-                    local default_maker = make_entry.gen_from_git_status({})
+                    local default_maker = make_entry.gen_from_git_status({ cwd = vim.loop.cwd() })
                     require('telescope.builtin').git_status({
                         entry_maker = function(line)
                             local entry = default_maker(line)
@@ -1202,7 +1247,7 @@ if status_ok then
                 setup_lsp("html", {
                     init_options = {
                         configurationSection = { "html", "css", "javascript" },
-                        embeddedLanguages = { css = true, javascript = false },
+                        embeddedLanguages = { css = true, javascript = true },
                         provideFormatter = true,
                     },
                 })
