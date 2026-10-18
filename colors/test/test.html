@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Color test</title>
+    <style>
+      :root {
+        --accent: #b794f6;
+      }
+      .card > h1 {
+        color: var(--accent);
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body class="card" data-id="42">
+    <!-- header -->
+    <h1 id="title">Hello &amp; welcome</h1>
+    <a href="https://example.com" target="_blank">link</a>
+    <ul>
+      <li>one</li>
+      <li>two</li>
+    </ul>
+    <input type="text" placeholder="name" disabled />
+    <script>
+      const el = document.getElementById("title");
+      el.addEventListener("click", () => {
+        console.log("clicked", 42);
+      });
+    </script>
+  </body>
+</html>

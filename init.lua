@@ -455,8 +455,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
     callback = function()
         if vim.g.auto_format_enabled == false then return end
-        -- local ignore_files_type = { "java", "h" } -- List of file types to ignore
-        local ignore_files_type = { "h" } -- List of file types to ignore
+        local ignore_files_type = { "java", "h" } -- List of file types to ignore
+        -- local ignore_files_type = { "h" } -- List of file types to ignore
         if vim.tbl_contains(ignore_files_type, vim.bo.filetype) then
             return
         end
@@ -507,8 +507,21 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
 })
 
+-- `nvim <dir>` should cd into the directory
+vim.api.nvim_create_autocmd("VimEnter", {
+    group = vim.api.nvim_create_augroup("CdIntoDirArg", { clear = true }),
+    callback = function()
+        local arg = vim.fn.argv(0)
+        if arg == "" or vim.fn.isdirectory(arg) == 0 then
+            return
+        end
+
+        vim.cmd.cd(vim.fn.fnameescape(arg))
+    end,
+})
+
 -- skip opening files
-local media = { "*.gif", "*.png", "*.jpg", "*.jpeg", "*.mp4", "*.webp" }
+local media ={ "*.gif", "*.png", "*.jpg", "*.jpeg", "*.mp4", "*.webp" }
 local offices = { "*.pptx", "*.docx", "*.xlsx", ".pdf" }
 
 vim.api.nvim_create_autocmd("BufReadPre", {
@@ -1558,6 +1571,7 @@ end
 -- SECTION 7: COLORSCHEME
 -- ==============================================================================
 
+-- load_colorscheme("zod", function() end);
 load_colorscheme("gruber-darker", function()
     if vim.g.colors_name == "gruber-darker" then
         local palette = require("gruber-darker.palette")
