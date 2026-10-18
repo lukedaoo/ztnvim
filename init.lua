@@ -181,6 +181,41 @@ map("n", "<leader>sx", ":close<CR>")
 map("n", "yc", "yygccp", { remap = true }) -- copy current line & comment it
 map("n", "<leader><leader>", "ciw")
 
+-- align on the first "=": selected lines (visual) or the paragraph (normal)
+do
+    local function align_eq(first, last)
+        local lines = vim.api.nvim_buf_get_lines(0, first - 1, last, false)
+        local keys, vals, width = {}, {}, 0
+
+        for i, line in ipairs(lines) do
+            local eq = line:find("=", 1, true)
+            if eq and not line:match("^%s*#") then
+                keys[i] = line:sub(1, eq - 1):gsub("%s+$", "")
+                vals[i] = line:sub(eq + 1):gsub("^%s+", "")
+                width = math.max(width, #keys[i])
+            end
+        end
+
+        for i, key in pairs(keys) do
+            lines[i] = key .. string.rep(" ", width - #key) .. " = " .. vals[i]
+        end
+        vim.api.nvim_buf_set_lines(0, first - 1, last, false, lines)
+    end
+
+    map("x", "<leader>aa", function()
+        local first, last = vim.fn.line("v"), vim.fn.line(".")
+        if first > last then first, last = last, first end
+        vim.cmd("normal! \27")
+        align_eq(first, last)
+    end)
+
+    map("n", "<leader>aa", function()
+        local first = vim.fn.search("^\\s*$", "bnW") + 1
+        local stop = vim.fn.search("^\\s*$", "nW")
+        align_eq(first, stop == 0 and vim.fn.line("$") or stop - 1)
+    end)
+end
+
 
 -- copy & paste
 map({ "n", "v", "x" }, "$", 'g_');     -- go to the end line but not trailling char . THE BEST
@@ -521,7 +556,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 
 -- skip opening files
-local media ={ "*.gif", "*.png", "*.jpg", "*.jpeg", "*.mp4", "*.webp" }
+local media = { "*.gif", "*.png", "*.jpg", "*.jpeg", "*.mp4", "*.webp" }
 local offices = { "*.pptx", "*.docx", "*.xlsx", ".pdf" }
 
 vim.api.nvim_create_autocmd("BufReadPre", {
@@ -1463,77 +1498,6 @@ if status_ok then
                 })
             end
         },
-
-        {
-            "folke/sidekick.nvim",
-            opts = {
-            },
-            keys = {
-                {
-                    "<tab>",
-                    function()
-                        -- if there is a next edit, jump to it, otherwise apply it if any
-                        if not require("sidekick").nes_jump_or_apply() then
-                            return "<Tab>" -- fallback to normal tab
-                        end
-                    end,
-                    expr = true,
-                    desc = "Goto/Apply Next Edit Suggestion",
-                },
-                {
-                    "<c-.>",
-                    function() require("sidekick.cli").toggle() end,
-                    desc = "Sidekick Toggle",
-                    mode = { "n", "t", "i", "x" },
-                },
-                {
-                    "<leader>aa",
-                    function() require("sidekick.cli").toggle() end,
-                    desc = "Sidekick Toggle CLI",
-                },
-                {
-                    "<leader>as",
-                    function() require("sidekick.cli").select() end,
-                    -- Or to select only installed tools:
-                    -- require("sidekick.cli").select({ filter = { installed = true } })
-                    desc = "Select CLI",
-                },
-                {
-                    "<leader>ad",
-                    function() require("sidekick.cli").close() end,
-                    desc = "Detach a CLI Session",
-                },
-                {
-                    "<leader>at",
-                    function() require("sidekick.cli").send({ msg = "{this}" }) end,
-                    mode = { "x", "n" },
-                    desc = "Send This",
-                },
-                {
-                    "<leader>af",
-                    function() require("sidekick.cli").send({ msg = "{file}" }) end,
-                    desc = "Send File",
-                },
-                {
-                    "<leader>av",
-                    function() require("sidekick.cli").send({ msg = "{selection}" }) end,
-                    mode = { "x" },
-                    desc = "Send Visual Selection",
-                },
-                {
-                    "<leader>ap",
-                    function() require("sidekick.cli").prompt() end,
-                    mode = { "n", "x" },
-                    desc = "Sidekick Select Prompt",
-                },
-                -- Example of a keybinding to open Claude directly
-                {
-                    "<leader>ac",
-                    function() require("sidekick.cli").toggle({ name = "claude", focus = true }) end,
-                    desc = "Sidekick Toggle Claude",
-                },
-            },
-        },
         {
             "ej-shafran/compile-mode.nvim",
             version = "^5.0.0",
@@ -1595,7 +1559,7 @@ load_colorscheme("gruber-darker", function()
 
         -- Optional: other UI elements
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = bg_color })
-        vim.api.nvim_set_hl(0, "SignColumn", { bg = bg_color })
+        vim.api.nvim_set_hl(0, "SignColumn", { bg  = bg_color })
         vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = bg_color })
         vim.api.nvim_set_hl(0, "Todo", {})
     end
