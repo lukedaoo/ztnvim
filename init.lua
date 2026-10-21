@@ -783,6 +783,10 @@ if status_ok then
                     map("n", "<leader>e", ":NvimTreeToggle<CR>")
                 end
 
+                vim.api.nvim_create_user_command("NvimTreeGitChanges", function()
+                    require("nvim-tree.api").tree.toggle_git_clean_filter()
+                end, {})
+
                 vim.api.nvim_create_autocmd("BufEnter", {
                     pattern = "*",
                     callback = function()
@@ -912,6 +916,26 @@ if status_ok then
                     require('telescope.builtin').git_branches()
                 end)
             end
+        },
+        {
+            "sindrets/diffview.nvim",
+            cmd = { "DiffviewOpen", "DiffviewClose" },
+            keys = {
+                {
+                    "<leader>gd",
+                    function()
+                        if require("diffview.lib").get_current_view() then
+                            vim.cmd("DiffviewClose")
+                            return
+                        end
+                        vim.cmd("DiffviewOpen")
+                    end,
+                    desc = "Toggle git diff panel",
+                },
+            },
+            opts = {
+                watch_index = true, -- refresh panel on git index changes
+            },
         },
         {
             'kevinhwang91/nvim-bqf',

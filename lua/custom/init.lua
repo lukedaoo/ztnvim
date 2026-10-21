@@ -7,6 +7,7 @@ require("custom.quick-note").setup({
 
 require("custom.hardmode").setup()
 require("custom.floating-ter").setup()
+require("custom.fmt-markers").setup()
 -- require("custom.run").setup({
 --     bookmarks = {
 --         cpp = "g++ *.cpp -o main && ./main",
