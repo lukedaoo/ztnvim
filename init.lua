@@ -1258,7 +1258,7 @@ function plugins.setup()
 
                     mason.setup()
                     mason_lsp_config.setup({
-                        ensure_installed = { "lua_ls" }
+                        ensure_installed = { "lua_ls", "pyright", "clangd", "htmt", "cssls", "ts_ls", "tinymist" }
                     })
 
                     local capabilities = vim.lsp.protocol.make_client_capabilities();
