@@ -288,7 +288,7 @@ function mapping.setup()
         if ter_emu == nil or ter_emu == '' then
             ter_emu = os.getenv('TERM')
         end
-        return ter_emu
+        return ter_emu or ''
     end)()
     if string.find(terminal, 'kitty') then
         map("n", "<S-Up>", "<cmd>resize +2<CR>")
@@ -790,8 +790,11 @@ function plugins.setup()
                             special_files = { ".gitignore", ".env" },
                         },
                         update_focused_file = {
-                            enable = true,
+                            enable = false, -- caused window-switch lag on Windows
                             update_cwd = true,
+                        },
+                        git = {
+                            enable = true,
                         },
                         filters = {
                             dotfiles = false, -- show dotfiles
@@ -1355,7 +1358,51 @@ function plugins.setup()
                     setup_lsp("ruff")
 
                     -- C / C++
-                    setup_lsp("clangd")
+                    -- Resolve clangd relative to the actual `clang` toolchain on PATH
+                    -- (not just whichever clangd is first), since a separately
+                    -- installed clangd (e.g. via mason) won't know that toolchain's
+                    -- header layout and will fail to find stdlib.h.
+                    do
+                        local clang_bin = vim.fn.exepath("clang")
+                        local toolchain_dir = clang_bin ~= "" and vim.fn.fnamemodify(clang_bin, ":h") or nil
+                        local sep = (vim.fn.has("win32") == 1) and ";" or ":"
+                        -- Launch the clangd that ships next to that clang (mason's
+                        -- clangd comes first on nvim's PATH and doesn't know e.g. the
+                        -- msys2/MinGW header layout), and let it ask the compile
+                        -- database's compiler (gcc/g++) for its system include paths.
+                        local toolchain_clangd = toolchain_dir and toolchain_dir .. "/clangd" or nil
+                        if toolchain_clangd and vim.fn.executable(toolchain_clangd) ~= 1 then
+                            toolchain_clangd = nil
+                        end
+                        setup_lsp("clangd", {
+                            cmd = toolchain_clangd and {
+                                toolchain_clangd,
+                                "--query-driver=" .. toolchain_dir .. "/*",
+                            } or nil,
+                            cmd_env = toolchain_dir and {
+                                PATH = toolchain_dir .. sep .. vim.env.PATH,
+                            } or nil,
+                            -- Meson writes compile_commands.json into its build dir
+                            -- (e.g. build-meson, builddir), which clangd doesn't search.
+                            -- If the project has meson.build and no .clangd, point
+                            -- clangd at the first meson build dir that has one.
+                            before_init = function(_, config)
+                                local root = config.root_dir
+                                if not root
+                                    or vim.uv.fs_stat(root .. "/.clangd")
+                                    or not vim.uv.fs_stat(root .. "/meson.build") then
+                                    return
+                                end
+                                for _, info in ipairs(vim.fn.glob(root .. "/*/meson-info", false, true)) do
+                                    local dir = vim.fn.fnamemodify(info, ":h")
+                                    if vim.uv.fs_stat(dir .. "/compile_commands.json") then
+                                        table.insert(config.cmd, "--compile-commands-dir=" .. dir)
+                                        return
+                                    end
+                                end
+                            end,
+                        })
+                    end
 
                     -- HTML
                     setup_lsp("html", {
@@ -1468,7 +1515,8 @@ function plugins.setup()
             {
                 "wakatime/vim-wakatime",
                 lazy = true,
-                event = "VeryLazy"
+                event = "VeryLazy",
+                enabled = false, -- caused window-switch lag on Windows (subprocess spawn per heartbeat)
             },
             -- {
             --     "3rd/image.nvim",
